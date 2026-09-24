@@ -84,3 +84,11 @@ elitism) + bounded Nelder-Mead refinement. Tests: 51 passed (cumulative).
   alone less precise on a smooth bowl (sphere: 1.6e-4 instead of < 1e-4).
   This is the intended division of labour: the GA locates the basin and
   `local_refine` polishes it (sphere: < 1e-8). Tested explicitly.
+
+## Stage 7 - `feature/07-pipeline-go-benchmark`
+Audit records, pipeline, CLI, benchmark. Tests: 56 passed (cumulative).
+* Operational finding: background processes are killed when the controlling
+  session ends; the first two benchmark attempts were interrupted (at
+  generation 3 and 20). The third run completed. Their partial histories
+  matched the completed run value-for-value, an unplanned reproducibility check.
+* Benchmark results and interpretation: `docs/results_go_recovery.md`.
