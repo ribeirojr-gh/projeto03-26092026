@@ -1,0 +1,35 @@
+graphene lattice constant (reference ffield): a = 2.5023 A
+relaxed GO model (37 atoms) in 11.3 s
+start: train loss 4.848e+04 | E-RMSE 144.996 kcal/mol | F-RMSE 165.694 kcal/mol/A
+gen    0  best 551.9  mean 2.193e+05  diversity 0.285  calls 40
+gen    4  best 194.3  mean 2121  diversity 0.154  calls 188
+gen    8  best 112.3  mean 776.6  diversity 0.057  calls 336
+gen   12  best 57.91  mean 1582  diversity 0.049  calls 477
+gen   16  best 48.28  mean 3302  diversity 0.072  calls 620
+gen   20  best 40.55  mean 577.9  diversity 0.058  calls 763
+gen   24  best 35.68  mean 2362  diversity 0.068  calls 909
+gen   28  best 35.68  mean 527.5  diversity 0.056  calls 1054
+gen   32  best 32.71  mean 516.5  diversity 0.060  calls 1196
+gen   36  best 32.02  mean 1652  diversity 0.062  calls 1343
+gen   40  best 31.6  mean 1219  diversity 0.047  calls 1487
+final: train loss 14.97 | E-RMSE 2.133 | F-RMSE 3.228 | validation loss 13.82
+run: runs/go_recovery
+mode: synthetic
+
+parameter                              start       final       truth  err0 %   err %
+bond:C-O:De_sigma                   141.5606    154.4415    160.4802   11.79    3.76
+bond:C-O:p_be1                       -0.4441     -0.5325     -0.3873   14.67   37.49
+bond:C-O:p_bo1                       -0.1664     -0.1917     -0.1463   13.71   31.04
+bond:C-O:p_bo2                        4.3439      5.3052      5.2913   17.91    0.26
+offdiag:C-O:r_s                       1.5209      1.3473      1.2775   19.05    5.46
+offdiag:C-O:D                         0.0944      0.1266      0.1131   16.53   11.96
+offdiag:C-O:r_vdw                     1.6118      1.4436      1.8523   12.98   22.06
+offdiag:C-O:alpha                    11.7341     11.3872      9.8442   19.20   15.67
+angle:C-O-C:theta_00                 86.5702     70.7691     74.3994   16.36    4.88
+angle:C-O-C:p_val1                   51.5303     39.0887     44.7500   15.15   12.65
+angle:C-C-O:theta_00                 58.6045     50.5014     49.5561   18.26    1.91
+angle:C-O-H:theta_00                 61.9290     69.1467     71.5018   13.39    3.29
+
+train      loss 4.848e+04 -> 14.97 | E-RMSE 144.996 -> 2.133 kcal/mol | F-RMSE 165.694 -> 3.228 kcal/mol/A
+validation loss 5.057e+04 -> 13.82 | E-RMSE 132.075 -> 1.665 kcal/mol | F-RMSE 182.012 -> 3.323 kcal/mol/A
+objective calls 2060, failed 4, total time 625 s
