@@ -1,0 +1,21 @@
+name: tests
+
+on:
+  push:
+    branches: [main, develop, "feature/**"]
+  pull_request:
+
+jobs:
+  pytest:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: MPI runtime required by the LAMMPS wheel
+        run: sudo apt-get update && sudo apt-get install -y libmpich12
+      - name: Install package
+        run: pip install -e ".[dev,lammps]"
+      - name: Run tests
+        run: pytest -v
