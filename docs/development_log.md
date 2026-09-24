@@ -60,3 +60,27 @@ Relative-energy + force objective, penalty, caching. Tests: 39 passed (cumulativ
   synthetic data (< 1e-6), loss grows monotonically along a parameter line,
   per-family constant energy shifts are invisible (relative energies), and
   crashing parameter sets return the penalty without breaking later calls.
+
+## Stage 6 - `feature/06-genetic-algorithm`
+Real-coded GA (LHS init, tournament, SBX, bounded polynomial mutation,
+elitism) + bounded Nelder-Mead refinement. Tests: 51 passed (cumulative).
+* **Premature convergence caught by the tests.** With the textbook default
+  `eta_m = 20` the GA got trapped in a local minimum of a 5-D Rastrigin
+  function (loss 1.99). Operator tuning over 12 seeds (100-111), pop 60,
+  120 generations (script: `scripts/tune_ga_operators.py`):
+
+  | tournament k | eta_m | p_mut | success (loss < 0.1) | median best |
+  |---|---|---|---|---|
+  | 3 | 5  | 1/d | **12/12** | 0.001 |
+  | 3 | 10 | 1/d | 9/12 | 0.004 |
+  | 3 | 20 | 1/d | 0/12 | 2.985 |
+  | 2 | 5  | 1/d | 9/12 | 0.027 |
+  | 3 | 5  | 0.4 | 3/12 | 0.382 |
+
+  New default: `eta_m = 5`, `k = 3`, `p_mut = 1/d`. The Rastrigin test is now
+  statistical (>= 5/6 successes) on seeds 200-205, disjoint from the tuning
+  seeds (out-of-sample).
+* **Exploration/exploitation trade-off.** The wider mutation makes the GA
+  alone less precise on a smooth bowl (sphere: 1.6e-4 instead of < 1e-4).
+  This is the intended division of labour: the GA locates the basin and
+  `local_refine` polishes it (sphere: < 1e-8). Tested explicitly.
