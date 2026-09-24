@@ -92,3 +92,31 @@ Audit records, pipeline, CLI, benchmark. Tests: 56 passed (cumulative).
   generation 3 and 20). The third run completed. Their partial histories
   matched the completed run value-for-value, an unplanned reproducibility check.
 * Benchmark results and interpretation: `docs/results_go_recovery.md`.
+
+## Stage 8 - `feature/08-figures`
+Figure script (`scripts/make_figures.py`) and four figures in `docs/figures/`.
+* The script regenerates the unversioned training/validation sets; both
+  matched the SHA-256 recorded in the run manifest (reproducibility check).
+* **Finding: the reference force field has a cusp at the graphene lattice
+  constant.** Pristine graphene, uniform in-plane strain, reference ffield:
+
+  | strain | dE per atom (kcal/mol), C32 | C128 |
+  |---|---|---|
+  | +0.25 % | 0.590 | 0.590 |
+  | +0.50 % | 1.079 | 1.079 |
+  | +1.00 % | 1.726 | 1.726 |
+
+  Doubling the strain multiplies dE by ~1.6-1.8 instead of 4 (harmonic): E(eps)
+  is non-analytic (a kink) at a_eq, and ~10x stiffer than the harmonic estimate
+  from graphene's biaxial modulus (Y = 340 N/m, nu = 0.17 -> ~0.16 kcal/mol per
+  atom at +1 %). Identical per-atom values in C32 and C128 rule out a cell-size
+  artifact. Under compression the sheet buckles (0.6-0.9 A) and the energy
+  drops by ~6x once positions are relaxed.
+* **Methodological consequence.** The `strain` family uses rigidly scaled
+  (unrelaxed) configurations, so under compression it measures a physically
+  irrelevant flat-sheet energy. It must be rebuilt with internal relaxation at
+  each strain before DFT data are generated.
+* **Correlated parameters seen directly.** In fig. 2b, `p_be1` stays near the
+  truth until generation ~29 and then drifts to 37 % error, and `offdiag D`
+  moves from ~2 % to 12 % during Nelder-Mead, while the loss keeps decreasing:
+  flat directions of the loss in parameter space.
