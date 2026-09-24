@@ -1,0 +1,243 @@
+{
+  "created": "2026-09-24T12:05:54+0000",
+  "git_commit": "7d584f769c4fa6a25b6ba671067e1e301d914ad0",
+  "software": {
+    "ga_reaxff": "0.1.0",
+    "python": "3.12.3",
+    "numpy": "2.4.4",
+    "scipy": "1.17.1",
+    "ase": "3.29.0",
+    "platform": "Linux-6.18.44-fc-v40-x86_64-with-glibc2.39",
+    "lammps": "20250722"
+  },
+  "config": {
+    "forcefield": {
+      "reference": "data/ffield.reax.cho"
+    },
+    "reference": {
+      "mode": "synthetic",
+      "perturb_rel": 0.2,
+      "perturb_seed": 2026
+    },
+    "parameters": {
+      "rel": 0.3,
+      "min_width": 0.05,
+      "keys": [
+        "bond:C-O:De_sigma",
+        "bond:C-O:p_be1",
+        "bond:C-O:p_bo1",
+        "bond:C-O:p_bo2",
+        "offdiag:C-O:r_s",
+        "offdiag:C-O:D",
+        "offdiag:C-O:r_vdw",
+        "offdiag:C-O:alpha",
+        "angle:C-O-C:theta_00",
+        "angle:C-O-C:p_val1",
+        "angle:C-C-O:theta_00",
+        "angle:C-O-H:theta_00"
+      ]
+    },
+    "fitness": {
+      "sigma_e": 1.0,
+      "sigma_f": 1.0,
+      "force_weight": 1.0
+    },
+    "ga": {
+      "pop_size": 40,
+      "n_generations": 40,
+      "tournament_k": 3,
+      "p_crossover": 0.9,
+      "eta_c": 15.0,
+      "eta_m": 5.0,
+      "n_elite": 2,
+      "seed": 12345,
+      "patience": 15
+    },
+    "local": {
+      "enabled": true,
+      "maxiter": 400
+    },
+    "training_set": {
+      "seed": 7,
+      "relax_ftol": 0.001,
+      "train": {
+        "strains": [
+          -0.03,
+          -0.02,
+          -0.01,
+          0.0,
+          0.01,
+          0.02,
+          0.03
+        ],
+        "epoxide_z": [
+          -0.15,
+          -0.1,
+          -0.05,
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.45
+        ],
+        "hydroxyl_stretch": [
+          -0.1,
+          -0.05,
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4
+        ],
+        "hydroxyl_bend": [
+          -0.3,
+          -0.15,
+          0.0,
+          0.15,
+          0.3
+        ],
+        "n_rattle": 8,
+        "rattle_stdev": 0.04
+      },
+      "validation": {
+        "strains": [
+          -0.025,
+          0.0,
+          0.015
+        ],
+        "epoxide_z": [
+          -0.12,
+          0.0,
+          0.25
+        ],
+        "hydroxyl_stretch": [
+          -0.07,
+          0.0,
+          0.25
+        ],
+        "hydroxyl_bend": [
+          -0.2,
+          0.0,
+          0.2
+        ],
+        "n_rattle": 4,
+        "rattle_stdev": 0.04
+      }
+    },
+    "_config_path": "configs/go_recovery.toml"
+  },
+  "inputs": {
+    "reference_ffield": {
+      "path": "/home/claude/ga-reaxff/data/ffield.reax.cho",
+      "sha256": "c5240c07e664dde5626fcdb740be1bdbe5e7e34d919902603db0bf962fea9aee"
+    },
+    "start_ffield": {
+      "path": "runs/go_recovery/ffield.start",
+      "sha256": "dd62fb57e8fe1ba994015bb0bf16da89774bb68eadc5ca0aa84b95e21322adcc"
+    },
+    "training_set": {
+      "path": "runs/go_recovery/training_set.extxyz",
+      "sha256": "557fc70baf88e522795751325d86e499edea1db7e7de50fb97bc6eb223c9b7ec"
+    },
+    "validation_set": {
+      "path": "runs/go_recovery/validation_set.extxyz",
+      "sha256": "07604d7d016531181c5213b3a2b02572c03f2cc49936926194d7791a74535c44"
+    }
+  },
+  "parameter_space": [
+    {
+      "key": "bond:C-O:De_sigma",
+      "lower": 99.09244137200824,
+      "upper": 184.0288196908724
+    },
+    {
+      "key": "bond:C-O:p_be1",
+      "lower": -0.5773654967291733,
+      "upper": -0.310889113623401
+    },
+    {
+      "key": "bond:C-O:p_bo1",
+      "lower": -0.21635042271159077,
+      "upper": -0.11635042271159075
+    },
+    {
+      "key": "bond:C-O:p_bo2",
+      "lower": 3.040718156400163,
+      "upper": 5.6470480047431595
+    },
+    {
+      "key": "offdiag:C-O:r_s",
+      "lower": 1.0646174875948564,
+      "upper": 1.9771467626761619
+    },
+    {
+      "key": "offdiag:C-O:D",
+      "lower": 0.04440700388163116,
+      "upper": 0.14440700388163116
+    },
+    {
+      "key": "offdiag:C-O:r_vdw",
+      "lower": 1.1282707648819097,
+      "upper": 2.0953599919235466
+    },
+    {
+      "key": "offdiag:C-O:alpha",
+      "lower": 8.213897226525276,
+      "upper": 15.254380563546938
+    },
+    {
+      "key": "angle:C-O-C:theta_00",
+      "lower": 60.599126441411556,
+      "upper": 112.54123481976433
+    },
+    {
+      "key": "angle:C-O-C:p_val1",
+      "lower": 36.07121895372976,
+      "upper": 66.98940662835527
+    },
+    {
+      "key": "angle:C-C-O:theta_00",
+      "lower": 41.02316736095099,
+      "upper": 76.18588224176612
+    },
+    {
+      "key": "angle:C-O-H:theta_00",
+      "lower": 43.3503349807955,
+      "upper": 80.50776496433451
+    }
+  ],
+  "ga_config": {
+    "pop_size": 40,
+    "n_generations": 40,
+    "tournament_k": 3,
+    "p_crossover": 0.9,
+    "eta_c": 15.0,
+    "p_mutation": null,
+    "eta_m": 5.0,
+    "n_elite": 2,
+    "seed": 12345,
+    "init": "lhs",
+    "inject": [
+      [
+        0.5,
+        0.5,
+        0.5000000000000001,
+        0.5,
+        0.5,
+        0.5,
+        0.4999999999999999,
+        0.5,
+        0.5,
+        0.5000000000000001,
+        0.5,
+        0.4999999999999999
+      ]
+    ],
+    "patience": 15,
+    "tol": 1e-12
+  },
+  "n_train_configs": 36,
+  "n_valid_configs": 17,
+  "graphene_a_eq": 2.502338203005982,
+  "truth_in_bounds": true
+}
