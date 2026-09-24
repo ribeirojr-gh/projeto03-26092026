@@ -49,3 +49,14 @@ Findings recorded here because they affect the physics, not just the code:
    and later evaluations are unaffected. Some absurd parameters (e.g.
    `atom:O:eta = -100`) do not crash but give nonsensical energies; these
    are handled by the fitness function, not the engine.
+
+## Stage 5 - `feature/05-fitness`
+Relative-energy + force objective, penalty, caching. Tests: 39 passed (cumulative).
+* The hand-computed reference value in `test_hand_computed_loss` was wrong
+  (the test author counted 5 configurations; the rattle family also contains
+  its unrattled reference, giving 6). The implementation was correct; the
+  test now asserts the configuration count explicitly.
+* Verified: reference parameters are an exact global zero of the loss on
+  synthetic data (< 1e-6), loss grows monotonically along a parameter line,
+  per-family constant energy shifts are invisible (relative energies), and
+  crashing parameter sets return the penalty without breaking later calls.
