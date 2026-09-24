@@ -59,14 +59,16 @@ def add_hydroxyl(atoms: Atoms, i: int, side: int = +1, d_co: float = 1.45,
     return atoms
 
 
-def graphene_oxide_model(nx: int = 4, ny: int = 2, vacuum: float = 20.0) -> Atoms:
+def graphene_oxide_model(nx: int = 4, ny: int = 2, vacuum: float = 20.0,
+                         a: float = A_GRAPHENE) -> Atoms:
     """Small GO model: C32 sheet with one epoxide (top), one OH (top), one OH (bottom).
 
     Composition C32 O3 H2 -> C/O ~ 10.7, in the range of mildly oxidized GO.
     Sites are fixed (deterministic), well separated from each other and from
-    their periodic images.
+    their periodic images. Use `a` = the equilibrium lattice constant of the
+    force field (or DFT functional) the model will be relaxed with.
     """
-    g = graphene_sheet(nx, ny, vacuum)
+    g = graphene_sheet(nx, ny, vacuum, a=a)
     # epoxide on a C-C bond near the cell origin
     i = 0
     j = carbon_neighbors(g, i)[0]
