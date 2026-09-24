@@ -1,0 +1,198 @@
+{
+  "mode": "synthetic",
+  "parameters": [
+    {
+      "key": "bond:C-O:De_sigma",
+      "lower": 99.09244137200824,
+      "upper": 184.0288196908724,
+      "start": 141.56063053144032,
+      "final": 154.44146956006455,
+      "truth": 160.4802,
+      "start_rel_error": 0.11789348136754361,
+      "final_rel_error": 0.03762913082072087
+    },
+    {
+      "key": "bond:C-O:p_be1",
+      "lower": -0.5773654967291733,
+      "upper": -0.310889113623401,
+      "start": -0.4441273051762871,
+      "final": -0.5325143366638591,
+      "truth": -0.3873,
+      "start_rel_error": 0.14672684011434844,
+      "final_rel_error": 0.37494019278042623
+    },
+    {
+      "key": "bond:C-O:p_bo1",
+      "lower": -0.21635042271159077,
+      "upper": -0.11635042271159075,
+      "start": -0.16635042271159076,
+      "final": -0.19170725617529713,
+      "truth": -0.1463,
+      "start_rel_error": 0.13705005271080478,
+      "final_rel_error": 0.31037085560695227
+    },
+    {
+      "key": "bond:C-O:p_bo2",
+      "lower": 3.040718156400163,
+      "upper": 5.6470480047431595,
+      "start": 4.343883080571661,
+      "final": 5.305213477137897,
+      "truth": 5.2913,
+      "start_rel_error": 0.17905182458532656,
+      "final_rel_error": 0.0026295007158727915
+    },
+    {
+      "key": "offdiag:C-O:r_s",
+      "lower": 1.0646174875948564,
+      "upper": 1.9771467626761619,
+      "start": 1.5208821251355091,
+      "final": 1.3472667353568302,
+      "truth": 1.2775,
+      "start_rel_error": 0.19051438366771745,
+      "final_rel_error": 0.054611925915326875
+    },
+    {
+      "key": "offdiag:C-O:D",
+      "lower": 0.04440700388163116,
+      "upper": 0.14440700388163116,
+      "start": 0.09440700388163116,
+      "final": 0.126626425649071,
+      "truth": 0.1131,
+      "start_rel_error": 0.16527848026851322,
+      "final_rel_error": 0.11959704375836427
+    },
+    {
+      "key": "offdiag:C-O:r_vdw",
+      "lower": 1.1282707648819097,
+      "upper": 2.0953599919235466,
+      "start": 1.611815378402728,
+      "final": 1.4435905079181544,
+      "truth": 1.8523,
+      "start_rel_error": 0.1298302767355569,
+      "final_rel_error": 0.2206497284899021
+    },
+    {
+      "key": "offdiag:C-O:alpha",
+      "lower": 8.213897226525276,
+      "upper": 15.254380563546938,
+      "start": 11.734138895036107,
+      "final": 11.387187611270978,
+      "truth": 9.8442,
+      "start_rel_error": 0.1919850160537277,
+      "final_rel_error": 0.15674078251873966
+    },
+    {
+      "key": "angle:C-O-C:theta_00",
+      "lower": 60.599126441411556,
+      "upper": 112.54123481976433,
+      "start": 86.57018063058794,
+      "final": 70.76907567782291,
+      "truth": 74.3994,
+      "start_rel_error": 0.16358708041446493,
+      "final_rel_error": 0.04879507525836349
+    },
+    {
+      "key": "angle:C-O-C:p_val1",
+      "lower": 36.07121895372976,
+      "upper": 66.98940662835527,
+      "start": 51.53031279104252,
+      "final": 39.08872573846305,
+      "truth": 44.75,
+      "start_rel_error": 0.15151536963223505,
+      "final_rel_error": 0.1265089220455185
+    },
+    {
+      "key": "angle:C-C-O:theta_00",
+      "lower": 41.02316736095099,
+      "upper": 76.18588224176612,
+      "start": 58.60452480135856,
+      "final": 50.501358827136,
+      "truth": 49.5561,
+      "start_rel_error": 0.18258952583755697,
+      "final_rel_error": 0.01907452013245597
+    },
+    {
+      "key": "angle:C-O-H:theta_00",
+      "lower": 43.3503349807955,
+      "upper": 80.50776496433451,
+      "start": 61.929049972565004,
+      "final": 69.14671493402591,
+      "truth": 71.5018,
+      "start_rel_error": 0.13388124533137627,
+      "final_rel_error": 0.03293742347708861
+    }
+  ],
+  "train": {
+    "start": {
+      "loss": 48478.25365365512,
+      "energy_rmse": 144.9961511656339,
+      "force_rmse": 165.69360217222558,
+      "family_energy_rmse": {
+        "strain": 94.94595492947349,
+        "epoxide_z": 252.92294463730127,
+        "hydroxyl_stretch": 144.0508735475017,
+        "hydroxyl_bend": 10.779725964321983,
+        "rattle": 55.78210604572658
+      },
+      "failed": false
+    },
+    "final": {
+      "loss": 14.967416501675714,
+      "energy_rmse": 2.132722350490954,
+      "force_rmse": 3.2278339296488063,
+      "family_energy_rmse": {
+        "strain": 2.582620115603183,
+        "epoxide_z": 1.425751909312064,
+        "hydroxyl_stretch": 3.5505499154471174,
+        "hydroxyl_bend": 0.1280628861339802,
+        "rattle": 1.175301834191232
+      },
+      "failed": false
+    }
+  },
+  "validation": {
+    "start": {
+      "loss": 50572.06488036323,
+      "energy_rmse": 132.07460238423292,
+      "force_rmse": 182.01198940017662,
+      "family_energy_rmse": {
+        "strain_val": 96.40401421855269,
+        "epoxide_z_val": 228.90998221626643,
+        "hydroxyl_stretch_val": 112.63236956201047,
+        "hydroxyl_bend_val": 7.738414560179066,
+        "rattle_val": 122.92834482119763
+      },
+      "failed": false
+    },
+    "final": {
+      "loss": 13.815137220128474,
+      "energy_rmse": 1.6650058987050151,
+      "force_rmse": 3.323084798407344,
+      "family_energy_rmse": {
+        "strain_val": 2.2425950534721153,
+        "epoxide_z_val": 0.5593972608102908,
+        "hydroxyl_stretch_val": 2.9484738181931722,
+        "hydroxyl_bend_val": 0.10648675903538685,
+        "rattle_val": 1.1372055004823955
+      },
+      "failed": false
+    }
+  },
+  "ga": {
+    "best_loss": 31.597079612092518,
+    "generations": 40,
+    "time_s": 441.2764024734497
+  },
+  "local_refinement": {
+    "nit": 400,
+    "nfev": 574,
+    "success": false,
+    "message": "Maximum number of iterations has been exceeded.",
+    "f_start": 31.597079612092518,
+    "f_end": 14.967416501675714,
+    "time_s": 170.202241897583
+  },
+  "objective_calls": 2060,
+  "failed_evaluations": 4,
+  "total_time_s": 625.1030874252319
+}

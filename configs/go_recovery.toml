@@ -1,0 +1,62 @@
+# Graphene-oxide recovery benchmark (synthetic reference, Chenoweth 2008 C/H/O).
+# The reference force field generates the "true" energies/forces; 12 C-O
+# parameters are perturbed by 10-20 % and the GA must recover a force field
+# that reproduces the reference data, checked on a held-out validation set.
+
+[forcefield]
+reference = "data/ffield.reax.cho"
+
+[reference]
+mode = "synthetic"
+perturb_rel = 0.20          # |u| in [0.10, 0.20]  (see parameters.perturb)
+perturb_seed = 2026
+
+[parameters]
+rel = 0.30                  # bounds: start +/- 30 %  (contain the truth for |u| <= 0.2)
+min_width = 0.05
+keys = [
+  "bond:C-O:De_sigma", "bond:C-O:p_be1", "bond:C-O:p_bo1", "bond:C-O:p_bo2",
+  "offdiag:C-O:r_s", "offdiag:C-O:D", "offdiag:C-O:r_vdw", "offdiag:C-O:alpha",
+  "angle:C-O-C:theta_00", "angle:C-O-C:p_val1",
+  "angle:C-C-O:theta_00", "angle:C-O-H:theta_00",
+]
+
+[fitness]
+sigma_e = 1.0               # kcal/mol
+sigma_f = 1.0               # kcal/mol/A
+force_weight = 1.0
+
+[ga]
+pop_size = 40
+n_generations = 40
+tournament_k = 3
+p_crossover = 0.9
+eta_c = 15.0
+eta_m = 5.0
+n_elite = 2
+seed = 12345
+patience = 15
+
+[local]
+enabled = true
+maxiter = 400
+
+[training_set]
+seed = 7
+relax_ftol = 1e-3
+
+[training_set.train]
+strains = [-0.03, -0.02, -0.01, 0.0, 0.01, 0.02, 0.03]
+epoxide_z = [-0.15, -0.10, -0.05, 0.0, 0.10, 0.20, 0.30, 0.45]
+hydroxyl_stretch = [-0.10, -0.05, 0.0, 0.10, 0.20, 0.30, 0.40]
+hydroxyl_bend = [-0.30, -0.15, 0.0, 0.15, 0.30]
+n_rattle = 8
+rattle_stdev = 0.04
+
+[training_set.validation]      # different amplitudes and rattle seed: held-out data
+strains = [-0.025, 0.0, 0.015]
+epoxide_z = [-0.12, 0.0, 0.25]
+hydroxyl_stretch = [-0.07, 0.0, 0.25]
+hydroxyl_bend = [-0.2, 0.0, 0.2]
+n_rattle = 4
+rattle_stdev = 0.04
