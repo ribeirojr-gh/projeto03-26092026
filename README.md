@@ -39,6 +39,8 @@ ga-reaxff report runs/go_recovery
 
 ## Results of the GO recovery benchmark
 
+![convergence](docs/figures/fig1_convergence.png)
+
 See [`docs/results_go_recovery.md`](docs/results_go_recovery.md); the complete
 run (manifest, per-generation history, final force field) is committed in
 `runs/go_recovery/`.
