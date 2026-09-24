@@ -1,0 +1,26 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /usr/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/claude/ga-reaxff
+configfile: pyproject.toml
+testpaths: tests
+collecting ... collected 16 items
+
+tests/test_ffield.py::test_reference_file_integrity PASSED               [  6%]
+tests/test_ffield.py::test_block_sizes PASSED                            [ 12%]
+tests/test_ffield.py::test_known_values PASSED                           [ 18%]
+tests/test_ffield.py::test_symmetric_addressing PASSED                   [ 25%]
+tests/test_ffield.py::test_bad_keys PASSED                               [ 31%]
+tests/test_ffield.py::test_set_and_with_values_do_not_alias PASSED       [ 37%]
+tests/test_ffield.py::test_exact_round_trip PASSED                       [ 43%]
+tests/test_ffield.py::test_all_keys_count PASSED                         [ 50%]
+tests/test_parameters.py::test_relative_bounds PASSED                    [ 56%]
+tests/test_parameters.py::test_initial_is_center PASSED                  [ 62%]
+tests/test_parameters.py::test_encode_decode_inverse PASSED              [ 68%]
+tests/test_parameters.py::test_decode_clips PASSED                       [ 75%]
+tests/test_parameters.py::test_apply_changes_only_selected PASSED        [ 81%]
+tests/test_parameters.py::test_from_config_overrides PASSED              [ 87%]
+tests/test_parameters.py::test_validation PASSED                         [ 93%]
+tests/test_parameters.py::test_perturb_moves_every_parameter_within_range PASSED [100%]
+
+============================== 16 passed in 0.14s ==============================
