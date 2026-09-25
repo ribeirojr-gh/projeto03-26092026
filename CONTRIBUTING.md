@@ -27,15 +27,22 @@ Stage branches are kept after merging; they are part of the audit trail.
    and every failure found and how it was resolved, including physics findings.
 5. Open a pull request into `develop` (the template lists the checklist) and
    merge it with a merge commit (`--no-ff`), never squash or rebase, so the
-   stage stays visible in `git log --graph`. The committed test log is the
-   merge evidence; CI is manual-trigger only (see below).
+   stage stays visible in `git log --graph`. CI must pass; the committed test
+   log remains the permanent record (CI artifacts expire).
 
 ## Where things run
 
-- **GitHub** (free plan): storage and structure of the project — branches,
-  pull requests, tags, releases. Actions are not used automatically.
+- **GitHub** (Pro plan): storage and structure (branches, pull requests,
+  tags, releases), CI on every push and pull request, and light batch jobs
+  on Actions runners (Linux, 2 vCPU for private repositories, no GPU,
+  6 h per job, monthly minutes quota). Suited to many small independent
+  runs, e.g. relaxations split with a job matrix.
 - **Cloud sandbox** (Claude): development, tests and light runs.
-- **Local workstation**: heavy simulations (LAMMPS with MPI/KOKKOS-CUDA).
+- **Local workstation** (32 threads, RTX 4070 8 GB): heavy simulations
+  (LAMMPS with MPI/KOKKOS-CUDA) and GPU inference.
+
+`main` and `develop` are protected: changes arrive only through pull
+requests with a passing `pytest` check.
 
 Every run's `manifest.json` records software versions and input hashes, so
 results from different machines stay comparable.
