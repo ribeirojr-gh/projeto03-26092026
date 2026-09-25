@@ -108,4 +108,4 @@ tests/test_structures_dataset.py: 29 warnings
     a.shape = (-1,) + shape
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
-====================== 59 passed, 2948 warnings in 15.06s ======================
+====================== 59 passed, 2948 warnings in 16.82s ======================
