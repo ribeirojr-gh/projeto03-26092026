@@ -1,0 +1,121 @@
+{
+ "initial_ffield": "data/ffields/init/ffield.Zn-FC.init",
+ "initial_ffield_sha256": "35669cb738ecb7046f6a9d43526f6d9d8e9201c17cdfcfb9c88dabeeef692d14",
+ "placeholders": [
+  "bond:C-Zn",
+  "bond:N-Zn",
+  "offdiag:C-Zn",
+  "offdiag:N-Zn"
+ ],
+ "structures_sha256": "9c0d017144ac95407a29227473343e4c5cf706b2e17569836f601f64912c2685",
+ "thresholds": {
+  "max_volume_change": 0.05,
+  "max_displacement_rms_A": 0.3,
+  "coordination_cutoff_A": 2.6
+ },
+ "n": 228,
+ "n_failed_lammps": 0,
+ "n_passed": 96,
+ "n_ligands_lost_any": 7,
+ "volume_change_median": 0.05511710038942219,
+ "volume_change_abs_median": 0.05511710038942219,
+ "volume_change_p10_p90": [
+  0.006503727927970693,
+  0.12298412453534319
+ ],
+ "displacement_rms_median": 0.0387077876182818,
+ "by_group": {
+  "Zn-N bonded": {
+   "n": 182,
+   "n_passed": 94,
+   "volume_change_median": 0.04681910291042268,
+   "bond_change_median": {
+    "C-C": {
+     "n_mofs": 181,
+     "ref_median_A": 1.4243149919231424,
+     "relative_change_median": 0.017024820861482937
+    },
+    "C-H": {
+     "n_mofs": 179,
+     "ref_median_A": 1.0913448993283017,
+     "relative_change_median": -0.020871029505479477
+    },
+    "C-N": {
+     "n_mofs": 181,
+     "ref_median_A": 1.349949887925582,
+     "relative_change_median": 0.010804867244188943
+    },
+    "C-O": {
+     "n_mofs": 161,
+     "ref_median_A": 1.2757182082618432,
+     "relative_change_median": 0.062028063403186895
+    },
+    "N-H": {
+     "n_mofs": 42,
+     "ref_median_A": 1.0264421739555503,
+     "relative_change_median": 0.13372022373655956
+    },
+    "O-H": {
+     "n_mofs": 52,
+     "ref_median_A": 0.9970322283188563,
+     "relative_change_median": 0.029542807650638547
+    },
+    "Zn-N": {
+     "n_mofs": 182,
+     "ref_median_A": 2.056668842482868,
+     "relative_change_median": -0.018271390948486566
+    },
+    "Zn-O": {
+     "n_mofs": 166,
+     "ref_median_A": 2.065597823429178,
+     "relative_change_median": 0.028218036635190624
+    }
+   }
+  },
+  "Zn-O only": {
+   "n": 46,
+   "n_passed": 2,
+   "volume_change_median": 0.11057660391533086,
+   "bond_change_median": {
+    "C-C": {
+     "n_mofs": 46,
+     "ref_median_A": 1.4294404885686651,
+     "relative_change_median": 0.01873087747393043
+    },
+    "C-H": {
+     "n_mofs": 42,
+     "ref_median_A": 1.0917636186010502,
+     "relative_change_median": -0.006108006938826627
+    },
+    "C-N": {
+     "n_mofs": 19,
+     "ref_median_A": 1.40195381270346,
+     "relative_change_median": 0.027430389522880017
+    },
+    "C-O": {
+     "n_mofs": 46,
+     "ref_median_A": 1.2787715402108324,
+     "relative_change_median": 0.06318644077886293
+    },
+    "N-H": {
+     "n_mofs": 3,
+     "ref_median_A": 1.0269195894490195,
+     "relative_change_median": 0.1418831134722649
+    },
+    "O-H": {
+     "n_mofs": 22,
+     "ref_median_A": 0.9962452507671515,
+     "relative_change_median": 0.03342611845259502
+    },
+    "Zn-O": {
+     "n_mofs": 46,
+     "ref_median_A": 2.0019613101839306,
+     "relative_change_median": 0.04004739701791249
+    }
+   }
+  }
+ },
+ "wall_time_s": 620.6880242824554,
+ "procs": 12,
+ "cpu_seconds_per_mof_median": 4.7116230726242065
+}
