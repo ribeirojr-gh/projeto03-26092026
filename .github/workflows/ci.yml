@@ -23,7 +23,7 @@ jobs:
       - name: MPI runtime required by the LAMMPS wheel
         run: sudo apt-get update && sudo apt-get install -y libmpich12
       - name: Install package
-        run: pip install -e ".[dev,lammps]"
+        run: pip install -e ".[dev,lammps,mof]"
       - name: Record environment
         run: pip freeze | tee pip-freeze.txt
       - name: Run tests
