@@ -244,3 +244,29 @@ Structures of the Zn family and check of MLIP teachers. Tests: 88 passed
   after relaxation. Good for cells and energy differences, not accurate
   enough as the only force reference: own DFT is needed for fine-tuning and
   for reaction paths.
+
+## Stage 14 - `feature/14-triclinic-engine`
+ReaxFF on real MOF cells and per-MOF validation of the initial force field.
+Tests: 98 passed (cumulative; 10 new). Developed in a separate git worktree
+while the stage-13 teacher check occupied the GPU; rebased on stage 13.
+* **Triclinic cells.** 94 % of the Zn MOFs are triclinic and the engine only
+  accepted orthogonal boxes. Structures are rotated into ASE's standard
+  (lower-triangular) form for LAMMPS and forces, positions and cells rotated
+  back. Verified: rigid rotation of a MOF (same energy, rotated forces to
+  1e-5) and an equivalent sheared basis (identical energy and forces). The
+  80 earlier tests, including the graphene-oxide pipeline, pass unchanged.
+* **Found: NaN forces with a finite energy.** The stage-12 base (no C-Zn
+  bond entry) gives a finite energy (+77 kcal/mol) but NaN forces on a Zn
+  carboxylate MOF. An isolated Zn...CH4 pair at 1.8-3.6 A does not trigger
+  it, so the bonded environment does. Adding a C-Zn bond entry fixes it
+  (off-diagonal alone does not). `single_point` returned the NaN silently;
+  it now raises EvaluationError. `add_placeholder_pairs` copies O-Zn
+  entries to C-Zn and N-Zn as starting values.
+* **Measurement fix.** The displacement metric now removes a rigid
+  translation of the crystal (same fix as in stage 13).
+* **Result** (`docs/results_baseline_validation.md`): 228 MOFs relaxed in
+  10 min on 12 cores, no LAMMPS failure; 96 pass (42 %). Failures are volume
+  expansions (129 of 132) caused by bond lengths, not by missing dispersion:
+  carboxylate C-O +6.2 %, Zn-O +3-4 %, N-H +13 %, consistent with the gas
+  molecules of stage 12 (CO2 C=O +8 %, NH3 N-H +13 %). Zn-O-only frameworks
+  expand most (+11 %, 2 of 46 pass).

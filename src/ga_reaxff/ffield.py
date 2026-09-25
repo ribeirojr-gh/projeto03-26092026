@@ -375,3 +375,29 @@ def missing_interactions(ff: ForceField, focus: list[str]) -> dict[str, list[tup
                 if set(t) & set(focus) and not present("angle", t):
                     out["angle"].append(t)
     return out
+
+
+def add_placeholder_pairs(ff: ForceField, pairs: list[tuple[str, str]], template: tuple[str, str],
+                          blocks: tuple[str, ...] = ("bond", "offdiag")
+                          ) -> tuple[ForceField, list[tuple[str, tuple[str, str]]]]:
+    """Give pairs without parameters a copy of the `template` pair's entries.
+
+    Found in stage 14: when a structure contains an element pair with no
+    *bond* entry (e.g. C-Zn after merging a Zn/O/H donor into an organic
+    base), LAMMPS ReaxFF returns NaN forces. Every pair present in the
+    training structures therefore needs an entry before fitting. The copies
+    are starting points for the optimizer, not physical parameters, and are
+    returned so they can be listed in the run records.
+    """
+    ff = ff.copy()
+    added = []
+    for block in blocks:
+        tmpl = next((e for e in ff.blocks[block] if _same_labels(block, e.labels, template)), None)
+        if tmpl is None:
+            raise ValueError(f"template {template} has no {block} entry")
+        for pair in pairs:
+            if any(_same_labels(block, e.labels, pair) for e in ff.blocks[block]):
+                continue
+            ff.blocks[block].append(Entry(tuple(pair), tmpl.values.copy()))
+            added.append((block, tuple(pair)))
+    return ff, added

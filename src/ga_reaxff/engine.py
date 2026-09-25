@@ -20,6 +20,14 @@ Both are converted into EvaluationError; the instance is rebuilt so the next
 candidate starts from a clean state. The fitness layer turns the error into a
 penalty, so the GA simply discards such individuals.
 
+Cells
+-----
+Any cell is accepted. LAMMPS needs a *restricted* triclinic box (a along x,
+b in the xy plane), so the structure is rotated into ASE's standard form,
+rcell = cell @ Q.T, before it is handed to LAMMPS; positions follow the same
+rotation and forces (and relaxed positions and cells) are rotated back with Q.
+Energies are rotation invariant. Orthogonal cells give Q = identity.
+
 Units: LAMMPS "real" -> energies kcal/mol, forces kcal/mol/Angstrom.
 """
 from __future__ import annotations
@@ -64,9 +72,12 @@ class _Instance:
     """One LAMMPS instance bound to one fixed geometry."""
 
     def __init__(self, atoms: Atoms, elements: list[str], ffield_path: str, qeq_tol: float):
-        cell = atoms.cell.array
-        if not np.allclose(cell, np.diag(np.diag(cell))):
-            raise ValueError("only orthogonal cells are supported")
+        if not all(atoms.pbc):
+            raise ValueError("fully periodic cells are required")
+        rcell, Q = atoms.cell.standard_form()
+        # standard_form is lower triangular; snap round-off in the zero entries
+        self.rcell = np.tril(rcell)
+        self.Q = np.asarray(Q)
         self.atoms = atoms
         self.elements = elements
         self.qeq_tol = qeq_tol
@@ -76,16 +87,22 @@ class _Instance:
         lammps = _import_lammps()
         L = lammps.lammps(cmdargs=["-log", "none", "-screen", "none", "-nocite"])
         a = self.atoms
-        lx, ly, lz = (float(v) for v in np.diag(a.cell.array))
+        r = self.rcell
+        lx, ly, lz = float(r[0, 0]), float(r[1, 1]), float(r[2, 2])
+        xy, xz, yz = float(r[1, 0]), float(r[2, 0]), float(r[2, 1])
+        if max(abs(xy), abs(xz), abs(yz)) < 1e-10:
+            region = f"region box block 0 {lx!r} 0 {ly!r} 0 {lz!r}"
+        else:
+            region = f"region box prism 0 {lx!r} 0 {ly!r} 0 {lz!r} {xy!r} {xz!r} {yz!r}"
         cmds = ["units real", "atom_style charge", "atom_modify map array sort 0 0",
-                "boundary p p p", f"region box block 0 {lx!r} 0 {ly!r} 0 {lz!r}",
-                f"create_box {len(self.elements)} box"]
+                "boundary p p p", region, f"create_box {len(self.elements)} box"]
         cmds += [f"mass {i + 1} {_mass(el)}" for i, el in enumerate(self.elements)]
         L.commands_list(cmds)
         types = [self.elements.index(s) + 1 for s in a.get_chemical_symbols()]
         wrapped = a.copy()
         wrapped.wrap()   # LAMMPS needs atoms inside the periodic box; forces are unaffected
-        L.create_atoms(len(a), None, types, wrapped.positions.flatten().tolist())
+        x = wrapped.positions @ self.Q.T
+        L.create_atoms(len(a), None, types, x.flatten().tolist())
         if L.get_natoms() != len(a):
             raise RuntimeError("LAMMPS dropped atoms during creation")
         L.commands_list(["pair_style reaxff NULL checkqeq yes safezone 3.0 mincap 200",
@@ -100,7 +117,19 @@ class _Instance:
         L.command("run 0 post no")
         e = float(L.get_thermo("pe"))
         f = np.array(L.gather_atoms("f", 1, 3), dtype=float).reshape(-1, 3)
-        return e, f
+        return e, f @ self.Q
+
+    def positions(self) -> np.ndarray:
+        """Current LAMMPS positions in the original (unrotated) frame."""
+        x = np.array(self.L.gather_atoms("x", 1, 3), dtype=float).reshape(-1, 3)
+        return x @ self.Q
+
+    def cell(self) -> np.ndarray:
+        """Current LAMMPS box as cell vectors in the original frame."""
+        lo, hi, xy, yz, xz, _, _ = self.L.extract_box()
+        lx, ly, lz = (h - l for h, l in zip(hi, lo))
+        rcell = np.array([[lx, 0, 0], [xy, ly, 0], [xz, yz, lz]])
+        return rcell @ self.Q
 
     def close(self):
         try:
@@ -163,19 +192,30 @@ class LammpsEngine:
 
 # ---------------------------------------------------------------- utilities
 def single_point(atoms: Atoms, ff: ForceField, qeq_tol: float = 1e-6) -> tuple[float, np.ndarray]:
-    """Energy/forces with a fresh LAMMPS instance (slow, used for cross-checks)."""
+    """Energy/forces with a fresh LAMMPS instance (slow, used for cross-checks).
+
+    Raises EvaluationError on non-finite results: LAMMPS can return a finite
+    energy with NaN forces (e.g. an element pair without a bond entry).
+    """
     with tempfile.TemporaryDirectory() as d:
         p = ff.write(Path(d) / "ffield")
         inst = _Instance(atoms, list(ff.elements), str(p), qeq_tol)
         try:
-            return inst.compute(str(p))
+            e, f = inst.compute(str(p))
         finally:
             inst.close()
+    if not (np.isfinite(e) and np.all(np.isfinite(f))):
+        raise EvaluationError("non-finite energy/forces")
+    return e, f
 
 
 def relax(atoms: Atoms, ff: ForceField, ftol: float = 1e-3, maxiter: int = 2000,
-          qeq_tol: float = 1e-8) -> Atoms:
-    """Fixed-cell conjugate-gradient minimization; returns a relaxed copy.
+          qeq_tol: float = 1e-8, cell: bool = False, pressure: float = 0.0) -> Atoms:
+    """Conjugate-gradient minimization; returns a relaxed copy.
+
+    With `cell=True` the cell relaxes too (``fix box/relax``, all six
+    components for triclinic boxes, target `pressure` in atm), so the result
+    can be compared with a DFT-relaxed structure.
 
     Notes
     -----
@@ -188,12 +228,20 @@ def relax(atoms: Atoms, ff: ForceField, ftol: float = 1e-3, maxiter: int = 2000,
         p = ff.write(Path(d) / "ffield")
         inst = _Instance(atoms, list(ff.elements), str(p), qeq_tol)
         try:
-            inst.L.commands_list(["min_style cg", "min_modify line quadratic",
-                                  f"minimize 0.0 {ftol} {maxiter} {10 * maxiter}"])
-            x = np.array(inst.L.gather_atoms("x", 1, 3), dtype=float).reshape(-1, 3)
+            cmds = []
+            if cell:
+                tri = np.any(np.abs(inst.rcell[np.tril_indices(3, -1)]) > 1e-10)
+                cmds.append(f"fix relax all box/relax {'tri' if tri else 'aniso'} {pressure} "
+                            "vmax 0.001")
+            cmds += ["min_style cg", "min_modify line quadratic",
+                     f"minimize 0.0 {ftol} {maxiter} {10 * maxiter}"]
+            inst.L.commands_list(cmds)
+            x = inst.positions()
+            new_cell = inst.cell() if cell else atoms.cell.array
         finally:
             inst.close()
     out = atoms.copy()
+    out.set_cell(new_cell, scale_atoms=False)
     out.positions = x
     return out
 

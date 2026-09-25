@@ -80,6 +80,16 @@ by 0.15 eV/A (mostly on C and N). The teacher labels far-from-equilibrium
 configurations; a small set of own DFT calculations fine-tunes it and covers
 the reaction paths. See [`docs/results_teacher_check.md`](docs/results_teacher_check.md).
 
+## Per-MOF validation (stage 14)
+
+ReaxFF now runs on triclinic MOF cells with cell relaxation. Every force
+field is scored MOF by MOF against the DFT structure. The initial Zn force
+field keeps 42 % of 228 Zn MOFs within 5 % of the DFT volume; the rest expand
+because carboxylate C-O bonds are 6 % too long - the first fit target. See
+[`docs/results_baseline_validation.md`](docs/results_baseline_validation.md).
+
+![baseline](docs/baseline_validation/fig_baseline.png)
+
 ## Auditability
 
 * **Branches**: every development stage lives on its own `feature/*` branch,

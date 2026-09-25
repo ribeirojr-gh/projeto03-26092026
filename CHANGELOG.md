@@ -7,6 +7,14 @@ the stage-by-stage audit trail is in [`docs/development_log.md`](docs/developmen
 
 ## [Unreleased]
 ### Added
+- LAMMPS engine: triclinic cells (rotation to LAMMPS's restricted form and
+  back) and cell relaxation (`relax(cell=True)`).
+- `ffield.add_placeholder_pairs`: starting entries for element pairs that
+  have none (a missing bond entry gives NaN forces in LAMMPS).
+- `validate.py`: per-MOF scorecard against the DFT structure (volume, cell,
+  displacements, metal coordination, bond lengths per element pair).
+- `scripts/baseline_validation.py`, `docs/results_baseline_validation.md`:
+  the initial Zn force field on 228 Zn MOFs (42 % pass).
 - Relaxed structures of the Zn + C/H/N/O family (2 958 MOFs) with per-atom
   DDEC6/CM5 charges and bond-order sums (`qmof.fetch_structures`,
   `data/qmof/structures_Zn-CHNO.extxyz.gz`).
@@ -26,6 +34,7 @@ the stage-by-stage audit trail is in [`docs/development_log.md`](docs/developmen
   H2, ...) and a Zn aqua-hydroxo cluster; FC + Zn selected.
 
 ### Changed
+- `engine.single_point` raises on non-finite energies or forces.
 - `engine`: masses for any element (ASE table), dummy atom types get mass 1.
 - `ffield.write` refuses a literal "X" label outside torsions (ambiguous with
   the torsion wildcard).
