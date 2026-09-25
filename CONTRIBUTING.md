@@ -66,7 +66,8 @@ The body explains *why*, not only *what*.
    git tag -a vX.Y.Z -m "vX.Y.Z: summary"
    git push origin vX.Y.Z
    ```
-4. Back-merge `main` into `develop`, so that `develop` always contains `main`.
+4. Back-merge `main` into `develop` through a pull request `main` → `develop`
+   (merge commit), so that `develop` always contains `main`.
 
 ## Provenance rules
 
