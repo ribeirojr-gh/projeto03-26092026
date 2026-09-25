@@ -5,6 +5,14 @@ All notable changes to this project are documented here. The format follows
 [Semantic Versioning](https://semver.org/). Each release is a tag on `main`;
 the stage-by-stage audit trail is in [`docs/development_log.md`](docs/development_log.md).
 
+## [Unreleased]
+### Changed
+- CI runs automatically again on every push and pull request (GitHub Pro);
+  actions updated to Node 24 versions (checkout v5, setup-python v6,
+  upload-artifact v7).
+- `main` and `develop` protected: pull request with a passing `pytest`
+  check required.
+
 ## [0.1.2] - 2026-09-25
 Repository infrastructure; no change to the scientific code or results.
 

@@ -146,3 +146,17 @@ scientific code or to the committed results. Tests: 59 passed (cumulative).
 * Environment note: without root access, the MPI runtime required by the
   LAMMPS wheel can be installed from PyPI (`pip install mpich`, then
   `LD_LIBRARY_PATH=$VIRTUAL_ENV/lib`).
+
+## Stage 10 - `chore/10-github-pro-ci`
+Account moved to GitHub Pro. Tests: 59 passed (cumulative; no code change).
+* First automatic CI run on this branch succeeded (all steps green), which
+  confirms that the stage-9 failures were only the free-plan spending limit.
+* GitHub warned that checkout v4, setup-python v5 and upload-artifact v4
+  target the deprecated Node 20 runtime; updated to checkout v5 and
+  setup-python v6. upload-artifact v5 still triggered the warning (Node 20);
+  v7 runs on Node 24.
+* Branch protection enabled on `main` and `develop` (pull request with a
+  passing `pytest` check required), now available on private repositories.
+* Actions runners are used for CI and light batch jobs only: private
+  repositories get 2-vCPU Linux runners without GPU; heavy LAMMPS and GPU
+  work stays on the local workstation.

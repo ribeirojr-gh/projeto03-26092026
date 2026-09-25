@@ -1,5 +1,7 @@
 # ga-reaxff
 
+[![tests](https://github.com/ribeirojr-gh/ga-reaxff/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ribeirojr-gh/ga-reaxff/actions/workflows/ci.yml)
+
 **Genetic-algorithm parametrization of ReaxFF force fields, with LAMMPS as the evaluation engine.**
 
 First test case: graphene oxide (C/H/O) with the Chenoweth–van Duin–Goddard (2008)
@@ -52,10 +54,11 @@ run (manifest, per-generation history, final force field) is committed in
   holds the tagged releases (see [`CHANGELOG.md`](CHANGELOG.md)). Inspect with
   `git log --graph --oneline --all`. The rules are in
   [`CONTRIBUTING.md`](CONTRIBUTING.md).
-* **Where things run**: tests and light runs on a cloud sandbox or locally,
-  heavy simulations on a local workstation. The committed `pytest -v` log of
-  each stage is the test evidence; a CI workflow (manual trigger) is kept in
-  `.github/workflows/ci.yml`.
+* **Continuous integration**: every push and pull request runs the full suite
+  on GitHub Actions; the `pytest -v` log and `pip freeze` of each run are kept
+  as artifacts, and each stage also commits its own log. `main` and `develop`
+  are protected (pull requests with a passing check only).
+* **Where things run**: see [`CONTRIBUTING.md`](CONTRIBUTING.md#where-things-run).
 * **Test logs**: the full `pytest -v` output of every stage is committed in
   `docs/test_logs/` together with the code it tested.
 * **Development log**: [`docs/development_log.md`](docs/development_log.md)
@@ -82,7 +85,7 @@ runs/               committed benchmark run(s)
 scripts/            figures, operator tuning, GitHub publishing helper
 src/ga_reaxff/      package (one module per pipeline stage)
 tests/              pytest suite (one file per stage)
-.github/            CI (manual trigger), PR/issue templates, CODEOWNERS
+.github/            CI (pytest on every push), PR/issue templates, CODEOWNERS
 ```
 
 ## Citation
