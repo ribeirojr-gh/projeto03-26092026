@@ -16,5 +16,5 @@ git remote remove origin 2>/dev/null || true
 git remote add origin "$remote"
 git push -u origin main
 git push origin --all          # develop + every feature/* branch
-git push origin --tags         # v0.1.0
+git push origin --tags         # every release tag
 echo "Done: https://github.com/${user}/ga-reaxff"

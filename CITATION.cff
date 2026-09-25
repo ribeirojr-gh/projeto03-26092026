@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "ga-reaxff: genetic-algorithm parametrization of ReaxFF force fields"
+version: "0.1.2"
+date-released: "2026-09-25"
+license: MIT
+repository-code: "https://github.com/ribeirojr-gh/ga-reaxff"
+authors:
+  - given-names: Luiz
+    affiliation: Spectrum.Lab3D
+references:
+  - type: article
+    title: "ReaxFF reactive force field for molecular dynamics simulations of hydrocarbon oxidation"
+    authors:
+      - family-names: Chenoweth
+        given-names: Kimberly
+      - family-names: van Duin
+        given-names: Adri C. T.
+      - family-names: Goddard
+        given-names: William A.
+    journal: "The Journal of Physical Chemistry A"
+    volume: 112
+    start: 1040
+    end: 1053
+    year: 2008
+    doi: "10.1021/jp709896w"

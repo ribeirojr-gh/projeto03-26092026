@@ -10,4 +10,4 @@ Pipeline (one module per stage):
     ga          -> real-coded genetic algorithm + local refinement
     audit       -> provenance records (hashes, seeds, versions, history)
 """
-__version__ = "0.1.0"
+__version__ = "0.1.2"
