@@ -161,6 +161,14 @@ class ForceField:
         """Write the force field in LAMMPS-readable ffield format."""
         idx = {el: i + 1 for i, el in enumerate(self.elements)}
         idx[WILDCARD] = 0
+        # Some published files carry a dummy atom type literally named "X".
+        # Index 0 (wildcard) and that type share the label, which is only
+        # unambiguous if "X" appears in torsions alone.
+        for name in ("bond", "offdiag", "angle", "hbond"):
+            for e in self.blocks[name]:
+                if WILDCARD in e.labels:
+                    raise ValueError(f"{name} entry {e.labels} uses the label {WILDCARD!r}, "
+                                     "ambiguous with the torsion wildcard")
 
         def fmt(vals) -> str:
             return "".join(f"{v:12.6f}" for v in vals)
@@ -266,3 +274,104 @@ def _same_labels(block: str, a: tuple, b: tuple) -> bool:
 def _replace_count(line: str, n: int) -> str:
     _, _, rest = line.partition("!")
     return f"{n:3d}    !{rest}" if rest else f"{n:3d}"
+
+
+# ---------------------------------------------------------------------------
+# Combining force fields
+# ---------------------------------------------------------------------------
+@dataclass
+class MergeReport:
+    """What `merge_elements` did, for the audit trail.
+
+    added : (block, labels) of every entry copied from the donor.
+    general_differences : general parameters that differ (base value kept).
+    shared_atom_differences : for elements present in both files, atom
+        parameters that differ (base value kept). The donor's cross terms
+        (e.g. Zn-O) were fitted together with the *donor's* O parameters, so
+        large differences here flag cross terms that must be re-optimized.
+    """
+    added: list[tuple[str, tuple[str, ...]]]
+    general_differences: dict[int, tuple[float, float]]
+    shared_atom_differences: dict[str, dict[str, tuple[float, float]]]
+
+
+def merge_elements(base: ForceField, donor: ForceField, new_elements: list[str],
+                   header: str | None = None, rtol: float = 0.01) -> tuple[ForceField, MergeReport]:
+    """Add `new_elements` from `donor` to `base`.
+
+    * atom parameters of the new elements are copied from the donor;
+    * every donor entry (bond, off-diagonal, angle, torsion, h-bond) whose
+      labels contain at least one new element and otherwise only elements of
+      the merged file (or the torsion wildcard) is copied;
+    * general parameters and the parameters of shared elements stay those of
+      the base; differences are reported, not silently resolved.
+
+    Interactions between a new element and base-only elements (e.g. Zn-N when
+    the donor has no N) do not exist in either file; `missing_interactions`
+    lists them.
+    """
+    for el in new_elements:
+        if el not in donor.elements:
+            raise ValueError(f"{el} is not in the donor force field")
+        if el in base.elements:
+            raise ValueError(f"{el} is already in the base force field")
+    ff = base.copy()
+    if header is not None:
+        ff.header = header
+    new = set(new_elements)
+    for el in new_elements:
+        entry = next(e for e in donor.blocks["atom"] if e.labels[0] == el)
+        ff.blocks["atom"].append(copy.deepcopy(entry))
+        ff.elements.append(el)
+    allowed = set(ff.elements) | {WILDCARD}
+    added = []
+    for block in ("bond", "offdiag", "angle", "torsion", "hbond"):
+        for e in donor.blocks[block]:
+            labs = set(e.labels)
+            if labs & new and labs <= allowed:
+                ff.blocks[block].append(copy.deepcopy(e))
+                added.append((block, e.labels))
+    gen = {i: (float(a), float(b)) for i, (a, b) in enumerate(zip(base.general, donor.general))
+           if not np.isclose(a, b, rtol=rtol, atol=1e-12)}
+    shared = {}
+    for el in sorted((set(base.elements) & set(donor.elements)) - {WILDCARD}):
+        a = next(e for e in base.blocks["atom"] if e.labels[0] == el).values
+        b = next(e for e in donor.blocks["atom"] if e.labels[0] == el).values
+        d = {n: (float(x), float(y)) for n, x, y in zip(ATOM_NAMES, a, b)
+             if not n.startswith("nu") and not np.isclose(x, y, rtol=rtol, atol=1e-12)}
+        if d:
+            shared[el] = d
+    return ff, MergeReport(added, gen, shared)
+
+
+def missing_interactions(ff: ForceField, focus: list[str]) -> dict[str, list[tuple[str, ...]]]:
+    """Two- and three-body terms involving `focus` elements that have no entry.
+
+    bond / offdiag : every pair (f, X) with f in `focus`, X any element.
+    angle : every triplet A-B-C (A <= C) containing a focus element; ReaxFF
+        gives no valence-angle energy to a triplet without an entry.
+    Torsions and h-bonds are not listed: most combinations are legitimately
+    absent.
+    """
+    els = sorted(el for el in ff.elements if el != WILDCARD)
+    have = {b: {tuple(e.labels) for e in ff.blocks[b]} for b in ("bond", "offdiag", "angle")}
+
+    def present(block, labs):
+        return labs in have[block] or tuple(reversed(labs)) in have[block]
+
+    out = {"bond": [], "offdiag": [], "angle": []}
+    for f in sorted(focus):
+        for x in els:
+            pair = tuple(sorted((f, x)))
+            for block in ("bond", "offdiag"):
+                if block == "offdiag" and f == x:
+                    continue  # same-element pairs never need an off-diagonal entry
+                if not present(block, pair) and pair not in out[block]:
+                    out[block].append(pair)
+    for b in els:
+        for i, a in enumerate(els):
+            for c in els[i:]:
+                t = (a, b, c)
+                if set(t) & set(focus) and not present("angle", t):
+                    out["angle"].append(t)
+    return out

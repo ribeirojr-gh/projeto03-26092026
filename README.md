@@ -63,6 +63,14 @@ pip install -e ".[dev,lammps,mof]"
 python scripts/survey_qmof.py            # uses the committed, hash-verified snapshot
 ```
 
+## Base force field for Zn MOFs (stage 12)
+
+Zn + C/H/N/O base built from published ReaxFF sets (FC organic base + Zn
+block of the ZnOH force field), screened on the molecules of the target
+applications (water splitting, CO2/CH4). Zn-N and Zn-C terms do not exist in
+any source and are the first fit targets, with the C-O terms for CO2. See
+[`docs/results_base_ffield.md`](docs/results_base_ffield.md).
+
 ## Auditability
 
 * **Branches**: every development stage lives on its own `feature/*` branch,
