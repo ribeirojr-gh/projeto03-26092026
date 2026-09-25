@@ -36,6 +36,18 @@ from .ffield import ForceField
 MASSES = {"C": 12.011, "H": 1.008, "O": 15.999, "N": 14.007, "S": 32.06}
 
 
+def _mass(el: str) -> float:
+    """Atomic mass (amu); ASE's table for elements not listed in MASSES.
+
+    Dummy atom types of some published force fields (e.g. "X") never occur in
+    a structure; they get mass 1 so that LAMMPS accepts the type.
+    """
+    if el in MASSES:
+        return MASSES[el]
+    from ase.data import atomic_masses, chemical_symbols
+    return float(atomic_masses[chemical_symbols.index(el)]) if el in chemical_symbols else 1.0
+
+
 class EvaluationError(RuntimeError):
     """Raised when LAMMPS fails or returns non-finite results for a force field."""
 
@@ -68,7 +80,7 @@ class _Instance:
         cmds = ["units real", "atom_style charge", "atom_modify map array sort 0 0",
                 "boundary p p p", f"region box block 0 {lx!r} 0 {ly!r} 0 {lz!r}",
                 f"create_box {len(self.elements)} box"]
-        cmds += [f"mass {i + 1} {MASSES[el]}" for i, el in enumerate(self.elements)]
+        cmds += [f"mass {i + 1} {_mass(el)}" for i, el in enumerate(self.elements)]
         L.commands_list(cmds)
         types = [self.elements.index(s) + 1 for s in a.get_chemical_symbols()]
         wrapped = a.copy()
