@@ -47,6 +47,22 @@ See [`docs/results_go_recovery.md`](docs/results_go_recovery.md); the complete
 run (manifest, per-generation history, final force field) is committed in
 `runs/go_recovery/`.
 
+## MOF database survey (stage 11)
+
+Toward force fields for the ~20k MOFs of the QMOF database (Materials Project
+MOF Explorer): MOFs are grouped by the chemistry a ReaxFF must describe, and
+force fields are ranked by how much of the database they cover. Eight
+metal + C/H/N/O force fields cover 40 % of the database; the pilot family is
+Zn + C/H/N/O (2 958 MOFs, closed shell). See
+[`docs/results_qmof_survey.md`](docs/results_qmof_survey.md).
+
+![coverage](docs/qmof_survey/fig_coverage.png)
+
+```bash
+pip install -e ".[dev,lammps,mof]"
+python scripts/survey_qmof.py            # uses the committed, hash-verified snapshot
+```
+
 ## Auditability
 
 * **Branches**: every development stage lives on its own `feature/*` branch,
@@ -79,7 +95,7 @@ run (manifest, per-generation history, final force field) is committed in
 
 ```
 configs/            TOML run configurations
-data/               reference force field + provenance/hash
+data/               reference force field, QMOF snapshot (+ provenance/hashes)
 docs/               methodology, development log, results, test logs
 runs/               committed benchmark run(s)
 scripts/            figures, operator tuning, GitHub publishing helper
