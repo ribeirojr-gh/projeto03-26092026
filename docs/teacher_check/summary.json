@@ -1,0 +1,141 @@
+{
+ "structures_sha256": "9c0d017144ac95407a29227473343e4c5cf706b2e17569836f601f64912c2685",
+ "seed": 2026,
+ "n_single_point": 300,
+ "n_relax": 30,
+ "relax_max_atoms": 150,
+ "models": {
+  "medium-mpa-0": {
+   "force_rms_median": 0.15213815531503883,
+   "force_rms_p90": 0.2205141988870469,
+   "force_rms_max": 0.3643968761868323,
+   "force_rms_median_by_element": {
+    "C": 0.1846134779400938,
+    "H": 0.0615457541358556,
+    "N": 0.19518880531360255,
+    "O": 0.1205385247717218,
+    "Zn": 0.11553089365502148
+   },
+   "pressure_GPa_median": 0.036708011966692954,
+   "pressure_GPa_abs_p90": 0.8753102023702493,
+   "energy": {
+    "offsets_eV": {
+     "C": 0.06157831547124239,
+     "H": -0.040552593602590614,
+     "N": 0.1070241576581207,
+     "O": -0.10473491918542671,
+     "Zn": 0.3784856810040032
+    },
+    "raw_mean_per_atom": 0.018058797655218686,
+    "raw_std_per_atom": 0.02168396974282552,
+    "residual_mae_per_atom": 0.013250507648298552,
+    "residual_rmse_per_atom": 0.017211653012431962
+   },
+   "seconds_per_structure": 0.4686039090156555,
+   "n_cpu_fallback": 0,
+   "relax": {
+    "converged": 15,
+    "volume_change_median": 0.003217226320828881,
+    "volume_change_abs_median": 0.006500983615022493,
+    "volume_change_abs_max": 0.052683197790671654,
+    "length_change_max_median": 0.006506647293558321,
+    "displacement_rms_median": 0.15444599230597605
+   }
+  },
+  "medium-0b3": {
+   "force_rms_median": 0.15536750539341937,
+   "force_rms_p90": 0.24822875183969398,
+   "force_rms_max": 0.3640418269525767,
+   "force_rms_median_by_element": {
+    "C": 0.18651498526620885,
+    "H": 0.05313581671990589,
+    "N": 0.2449278421574865,
+    "O": 0.12645350680821915,
+    "Zn": 0.10368109321108138
+   },
+   "pressure_GPa_median": -0.18698238149934926,
+   "pressure_GPa_abs_p90": 0.6637292864948825,
+   "energy": {
+    "offsets_eV": {
+     "C": 0.09946331637592848,
+     "H": -0.03922767168581896,
+     "N": 0.22222847864075665,
+     "O": -0.11751929150189588,
+     "Zn": 0.2522503183817197
+    },
+    "raw_mean_per_atom": 0.03768163593883069,
+    "raw_std_per_atom": 0.027897150186089067,
+    "residual_mae_per_atom": 0.0144900859359184,
+    "residual_rmse_per_atom": 0.019842605769963592
+   },
+   "seconds_per_structure": 0.5432842254638672,
+   "n_cpu_fallback": 0,
+   "relax": {
+    "converged": 20,
+    "volume_change_median": -0.006472915515225552,
+    "volume_change_abs_median": 0.007195142319910086,
+    "volume_change_abs_max": 0.056684651414960596,
+    "length_change_max_median": 0.004624206016739241,
+    "displacement_rms_median": 0.10795355715975173
+   }
+  },
+  "mace-matpes-pbe-0": {
+   "force_rms_median": 0.18745315162035608,
+   "force_rms_p90": 0.25271150338818005,
+   "force_rms_max": 0.5057185636581004,
+   "force_rms_median_by_element": {
+    "C": 0.2302046135599305,
+    "H": 0.06952417706294989,
+    "N": 0.22188745425325554,
+    "O": 0.14069623075939233,
+    "Zn": 0.1288114473444085
+   },
+   "pressure_GPa_median": 0.025437978839160463,
+   "pressure_GPa_abs_p90": 0.8274629329855249,
+   "energy": {
+    "offsets_eV": {
+     "C": 0.16994164001446166,
+     "H": -0.07077534666807324,
+     "N": 0.2463389026043971,
+     "O": -0.1461596438780477,
+     "Zn": 0.454780055641694
+    },
+    "raw_mean_per_atom": 0.06099216853643192,
+    "raw_std_per_atom": 0.03205233904903593,
+    "residual_mae_per_atom": 0.014129979523936763,
+    "residual_rmse_per_atom": 0.01925639324998918
+   },
+   "seconds_per_structure": 0.5053253451983134,
+   "n_cpu_fallback": 0
+  },
+  "medium-omat-0": {
+   "force_rms_median": 0.2153241475153835,
+   "force_rms_p90": 0.33559422341416534,
+   "force_rms_max": 0.7540432049473109,
+   "force_rms_median_by_element": {
+    "C": 0.2638031134508279,
+    "H": 0.08991623672486951,
+    "N": 0.26749170223557595,
+    "O": 0.15811514941948088,
+    "Zn": 0.11241619913911433
+   },
+   "pressure_GPa_median": -0.2294665814125727,
+   "pressure_GPa_abs_p90": 0.788704985876936,
+   "energy": {
+    "offsets_eV": {
+     "C": 0.26545041800119906,
+     "H": -0.023739814224016043,
+     "N": 0.09471018261397819,
+     "O": -0.13510355286752496,
+     "Zn": 0.3833455504395677
+    },
+    "raw_mean_per_atom": 0.10478755322411812,
+    "raw_std_per_atom": 0.026086404431755295,
+    "residual_mae_per_atom": 0.013394397726496112,
+    "residual_rmse_per_atom": 0.017911647877420812
+   },
+   "seconds_per_structure": 0.46472924391428627,
+   "n_cpu_fallback": 0
+  }
+ }
+}
