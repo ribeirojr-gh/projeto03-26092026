@@ -1,0 +1,111 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.3, pytest-9.1.1, pluggy-1.6.0 -- /home/luiz/SIMULACOES/ga-reaxff/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/luiz/SIMULACOES/ga-reaxff
+configfile: pyproject.toml
+testpaths: tests
+collecting ... collected 59 items
+
+tests/test_audit.py::test_manifest_and_history PASSED                    [  1%]
+tests/test_audit.py::test_software_versions_has_lammps PASSED            [  3%]
+tests/test_engine.py::test_written_file_equals_original_file PASSED      [  5%]
+tests/test_engine.py::test_persistent_reload_matches_fresh_instance PASSED [  6%]
+tests/test_engine.py::test_forces_are_negative_energy_gradient PASSED    [  8%]
+tests/test_engine.py::test_newton_third_law PASSED                       [ 10%]
+tests/test_engine.py::test_failure_is_contained PASSED                   [ 11%]
+tests/test_engine.py::test_graphene_lattice_constant PASSED              [ 13%]
+tests/test_engine.py::test_relax_lowers_energy_and_forces PASSED         [ 15%]
+tests/test_engine.py::test_label_with_forcefield PASSED                  [ 16%]
+tests/test_ffield.py::test_reference_file_integrity PASSED               [ 18%]
+tests/test_ffield.py::test_block_sizes PASSED                            [ 20%]
+tests/test_ffield.py::test_known_values PASSED                           [ 22%]
+tests/test_ffield.py::test_symmetric_addressing PASSED                   [ 23%]
+tests/test_ffield.py::test_bad_keys PASSED                               [ 25%]
+tests/test_ffield.py::test_set_and_with_values_do_not_alias PASSED       [ 27%]
+tests/test_ffield.py::test_exact_round_trip PASSED                       [ 28%]
+tests/test_ffield.py::test_all_keys_count PASSED                         [ 30%]
+tests/test_fitness.py::test_perfect_prediction_gives_zero PASSED         [ 32%]
+tests/test_fitness.py::test_constant_energy_shift_per_family_is_invisible PASSED [ 33%]
+tests/test_fitness.py::test_hand_computed_loss PASSED                    [ 35%]
+tests/test_fitness.py::test_weights_scale_contributions PASSED           [ 37%]
+tests/test_fitness.py::test_reference_parameters_are_a_global_zero PASSED [ 38%]
+tests/test_fitness.py::test_loss_grows_away_from_reference PASSED        [ 40%]
+tests/test_fitness.py::test_cache_avoids_reevaluation PASSED             [ 42%]
+tests/test_fitness.py::test_crashing_parameters_get_penalty PASSED       [ 44%]
+tests/test_ga.py::test_lhs_stratification PASSED                         [ 45%]
+tests/test_ga.py::test_tournament_prefers_better PASSED                  [ 47%]
+tests/test_ga.py::test_sbx_preserves_mean_and_bounds PASSED              [ 49%]
+tests/test_ga.py::test_polynomial_mutation_rate_and_bounds PASSED        [ 50%]
+tests/test_ga.py::test_ga_then_local_refine_solves_sphere PASSED         [ 52%]
+tests/test_ga.py::test_ga_finds_global_minimum_of_rastrigin PASSED       [ 54%]
+tests/test_ga.py::test_elitism_monotonic_best PASSED                     [ 55%]
+tests/test_ga.py::test_reproducible_with_seed_and_sensitive_to_seed PASSED [ 57%]
+tests/test_ga.py::test_injected_individual_bounds_the_result PASSED      [ 59%]
+tests/test_ga.py::test_patience_stops_early PASSED                       [ 61%]
+tests/test_ga.py::test_invalid_config PASSED                             [ 62%]
+tests/test_ga.py::test_local_refine_improves_and_respects_bounds PASSED  [ 64%]
+tests/test_metadata.py::test_package_version_matches_pyproject PASSED    [ 66%]
+tests/test_metadata.py::test_changelog_documents_current_version PASSED  [ 67%]
+tests/test_metadata.py::test_citation_version_matches_pyproject PASSED   [ 69%]
+tests/test_parameters.py::test_relative_bounds PASSED                    [ 71%]
+tests/test_parameters.py::test_initial_is_center PASSED                  [ 72%]
+tests/test_parameters.py::test_encode_decode_inverse PASSED              [ 74%]
+tests/test_parameters.py::test_decode_clips PASSED                       [ 76%]
+tests/test_parameters.py::test_apply_changes_only_selected PASSED        [ 77%]
+tests/test_parameters.py::test_from_config_overrides PASSED              [ 79%]
+tests/test_parameters.py::test_validation PASSED                         [ 81%]
+tests/test_parameters.py::test_perturb_moves_every_parameter_within_range PASSED [ 83%]
+tests/test_pipeline.py::test_outputs_exist_and_are_consistent PASSED     [ 84%]
+tests/test_pipeline.py::test_never_worse_than_start PASSED               [ 86%]
+tests/test_pipeline.py::test_cli_report PASSED                           [ 88%]
+tests/test_structures_dataset.py::test_graphene_geometry PASSED          [ 89%]
+tests/test_structures_dataset.py::test_go_model_composition_and_sanity PASSED [ 91%]
+tests/test_structures_dataset.py::test_strain_series PASSED              [ 93%]
+tests/test_structures_dataset.py::test_displacement_scan_moves_only_selected PASSED [ 94%]
+tests/test_structures_dataset.py::test_rattle_reproducible PASSED        [ 96%]
+tests/test_structures_dataset.py::test_dataset_roundtrip_and_validation PASSED [ 98%]
+tests/test_structures_dataset.py::test_dataset_rejects_duplicate_names_and_double_references PASSED [100%]
+
+=============================== warnings summary ===============================
+tests/test_engine.py: 122 warnings
+tests/test_fitness.py: 305 warnings
+tests/test_pipeline.py: 65 warnings
+tests/test_structures_dataset.py: 398 warnings
+  /home/luiz/SIMULACOES/ga-reaxff/.venv/lib/python3.12/site-packages/ase/geometry/geometry.py:403: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    D.shape = (-1, len(p2), 3)
+
+tests/test_engine.py: 122 warnings
+tests/test_fitness.py: 305 warnings
+tests/test_pipeline.py: 65 warnings
+tests/test_structures_dataset.py: 398 warnings
+  /home/luiz/SIMULACOES/ga-reaxff/.venv/lib/python3.12/site-packages/ase/geometry/geometry.py:404: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    D_len.shape = (-1, len(p2))
+
+tests/test_engine.py: 120 warnings
+tests/test_fitness.py: 300 warnings
+tests/test_pipeline.py: 62 warnings
+tests/test_structures_dataset.py: 392 warnings
+  /home/luiz/SIMULACOES/ga-reaxff/.venv/lib/python3.12/site-packages/ase/atoms.py:1551: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    D_len.shape = (-1,)
+
+tests/test_engine.py: 2 warnings
+tests/test_fitness.py: 5 warnings
+tests/test_pipeline.py: 3 warnings
+tests/test_structures_dataset.py: 6 warnings
+  /home/luiz/SIMULACOES/ga-reaxff/.venv/lib/python3.12/site-packages/ase/atoms.py:1548: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    D.shape = (-1, 3)
+
+tests/test_engine.py: 72 warnings
+tests/test_fitness.py: 52 warnings
+tests/test_pipeline.py: 125 warnings
+tests/test_structures_dataset.py: 29 warnings
+  /home/luiz/SIMULACOES/ga-reaxff/.venv/lib/python3.12/site-packages/ase/atoms.py:432: DeprecationWarning: Setting the shape on a NumPy array has been deprecated in NumPy 2.5.
+  As an alternative, you can create a new view using np.reshape (with copy=False if needed).
+    a.shape = (-1,) + shape
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+====================== 59 passed, 2948 warnings in 16.82s ======================
