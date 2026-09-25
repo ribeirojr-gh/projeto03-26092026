@@ -6,6 +6,17 @@ All notable changes to this project are documented here. The format follows
 the stage-by-stage audit trail is in [`docs/development_log.md`](docs/development_log.md).
 
 ## [Unreleased]
+### Added
+- `qmof.py`: download of the Materials Project MOF Explorer / QMOF metadata
+  (MPContribs `mofexplorer`) into a deterministic, hash-verified snapshot;
+  snapshot of 20 375 MOFs committed in `data/qmof/`.
+- `families.py`: MOF chemical families (metal set + non-metal set), force-field
+  coverage and greedy maximum-coverage selection.
+- `scripts/survey_qmof.py` and `docs/results_qmof_survey.md`: database survey,
+  coverage of the database vs. number of force fields, pilot-family choice
+  (Zn + C/H/N/O).
+- Optional dependency group `mof` (pymatgen, mpcontribs-client, matplotlib).
+
 ### Changed
 - CI runs automatically again on every push and pull request (GitHub Pro);
   actions updated to Node 24 versions (checkout v5, setup-python v6,

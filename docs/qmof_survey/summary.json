@@ -1,0 +1,1439 @@
+{
+ "snapshot_sha256": "d29024dc5ff6692c4ee2e792efd6cbd707b5fc5eee1e2dece56a19dae06fd387",
+ "n_structures": 20375,
+ "n_metals_per_structure": {
+  "0": 19,
+  "1": 19005,
+  "2": 1335,
+  "3": 16
+ },
+ "n_distinct_single_metals": 59,
+ "nonmetal_frequency": {
+  "C": 20375,
+  "H": 20331,
+  "O": 17331,
+  "N": 16202,
+  "S": 3264,
+  "Cl": 2160,
+  "F": 1288,
+  "Br": 1034,
+  "I": 846,
+  "P": 789,
+  "Si": 132,
+  "B": 116,
+  "Se": 55,
+  "Sb": 23,
+  "As": 22,
+  "Te": 16,
+  "Ge": 7
+ },
+ "family_keys_top30": [
+  [
+   "Zn|C-H-N-O",
+   2453
+  ],
+  [
+   "Cd|C-H-N-O",
+   1251
+  ],
+  [
+   "Cu|C-H-N-O",
+   947
+  ],
+  [
+   "Co|C-H-N-O",
+   527
+  ],
+  [
+   "Ag|C-H-N-O",
+   392
+  ],
+  [
+   "Mn|C-H-N-O",
+   347
+  ],
+  [
+   "Zn|C-H-O",
+   345
+  ],
+  [
+   "Ni|C-H-N-O",
+   342
+  ],
+  [
+   "Zn|C-H-N-O-S",
+   305
+  ],
+  [
+   "Cd|C-H-N-O-S",
+   287
+  ],
+  [
+   "Al|C-H-N-O",
+   264
+  ],
+  [
+   "Al|C-H-O",
+   244
+  ],
+  [
+   "Cu|C-H-N",
+   244
+  ],
+  [
+   "Zn|C-Cl-H-N-O",
+   224
+  ],
+  [
+   "Zn|C-F-H-N-O",
+   187
+  ],
+  [
+   "Cu|C-H-I-N",
+   161
+  ],
+  [
+   "Ag|C-H-N-O-S",
+   159
+  ],
+  [
+   "Zn|C-H-N",
+   158
+  ],
+  [
+   "Cu|C-Cl-H-N",
+   151
+  ],
+  [
+   "Cu|C-H-N-O-S",
+   151
+  ],
+  [
+   "Cd|C-Cl-H-N-O",
+   145
+  ],
+  [
+   "Zn|Br-C-H-N-O",
+   143
+  ],
+  [
+   "Cu|C-Cl-H-N-O",
+   121
+  ],
+  [
+   "Cd|C-H-N-S",
+   120
+  ],
+  [
+   "Cd|C-H-O",
+   117
+  ],
+  [
+   "Cd|C-Cl-H-N",
+   113
+  ],
+  [
+   "Cd|C-H-N",
+   105
+  ],
+  [
+   "Al|C-F-H-O",
+   102
+  ],
+  [
+   "Tb|C-H-N-O",
+   100
+  ],
+  [
+   "Zn|C-H-I-N-O",
+   99
+  ]
+ ],
+ "natoms_percentiles": {
+  "p10": 50.0,
+  "p50": 96.0,
+  "p90": 200.0,
+  "max": 500.0
+ },
+ "source": {
+  "CSD": 16042,
+  "BoydWoo": 1806,
+  "GMOF": 1366,
+  "CoRE": 824,
+  "Anderson": 92,
+  "Haranczyk_MOF5": 89,
+  "ToBaCCo": 80,
+  "Haranczyk_MOF74": 58,
+  "Pyrene": 18
+ },
+ "synthesized": {
+  "Yes": 16884,
+  "No": 3491
+ },
+ "spin_polarized": {
+  "Yes": 4417,
+  "No": 15958
+ },
+ "missing_mofid_nodes": 2695,
+ "per_metal": [
+  {
+   "metal": "Zn",
+   "n_mofs": 4796,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 0.5923686405337781,
+   "natoms_median": 113.0,
+   "natoms_p90": 228.0,
+   "chno_only": 2958,
+   "top_node": "[Zn]",
+   "top_node_count": 2014
+  },
+  {
+   "metal": "Cu",
+   "n_mofs": 2619,
+   "spin_polarized_frac": 0.6376479572355861,
+   "synthesized_frac": 0.9595265368461244,
+   "natoms_median": 84.0,
+   "natoms_p90": 183.0,
+   "chno_only": 1271,
+   "top_node": "[Cu]",
+   "top_node_count": 1184
+  },
+  {
+   "metal": "Cd",
+   "n_mofs": 2574,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 98.0,
+   "natoms_p90": 205.70000000000027,
+   "chno_only": 1473,
+   "top_node": "[Cd]",
+   "top_node_count": 1404
+  },
+  {
+   "metal": "Al",
+   "n_mofs": 1092,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 0.02564102564102564,
+   "natoms_median": 86.0,
+   "natoms_p90": 182.0,
+   "chno_only": 512,
+   "top_node": "[Al]",
+   "top_node_count": 956
+  },
+  {
+   "metal": "Ag",
+   "n_mofs": 1003,
+   "spin_polarized_frac": 0.006979062811565304,
+   "synthesized_frac": 1.0,
+   "natoms_median": 84.0,
+   "natoms_p90": 145.60000000000014,
+   "chno_only": 494,
+   "top_node": "[Ag]",
+   "top_node_count": 499
+  },
+  {
+   "metal": "Co",
+   "n_mofs": 885,
+   "spin_polarized_frac": 0.9875706214689266,
+   "synthesized_frac": 1.0,
+   "natoms_median": 94.0,
+   "natoms_p90": 260.0,
+   "chno_only": 647,
+   "top_node": "[Co]",
+   "top_node_count": 544
+  },
+  {
+   "metal": "Mn",
+   "n_mofs": 656,
+   "spin_polarized_frac": 1.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 87.0,
+   "natoms_p90": 205.0,
+   "chno_only": 478,
+   "top_node": "[Mn]",
+   "top_node_count": 362
+  },
+  {
+   "metal": "Ni",
+   "n_mofs": 520,
+   "spin_polarized_frac": 0.9,
+   "synthesized_frac": 1.0,
+   "natoms_median": 100.0,
+   "natoms_p90": 256.0,
+   "chno_only": 407,
+   "top_node": "[Ni]",
+   "top_node_count": 282
+  },
+  {
+   "metal": "Hg",
+   "n_mofs": 375,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 88.0,
+   "natoms_p90": 136.0,
+   "chno_only": 29,
+   "top_node": "Cl[Hg]Cl",
+   "top_node_count": 28
+  },
+  {
+   "metal": "Zr",
+   "n_mofs": 273,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 0.03296703296703297,
+   "natoms_median": 142.0,
+   "natoms_p90": 221.60000000000002,
+   "chno_only": 112,
+   "top_node": "[O]12[Zr]34[OH]5[Zr]62[OH]2[Zr]71[OH]4[Zr]14[O]3[Zr]35[O]6[Zr]2([O]71)[OH]43",
+   "top_node_count": 236
+  },
+  {
+   "metal": "Pb",
+   "n_mofs": 260,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 76.0,
+   "natoms_p90": 128.0,
+   "chno_only": 123,
+   "top_node": "[Pb]",
+   "top_node_count": 63
+  },
+  {
+   "metal": "Na",
+   "n_mofs": 256,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 77.0,
+   "natoms_p90": 126.0,
+   "chno_only": 130,
+   "top_node": "[Na]",
+   "top_node_count": 138
+  },
+  {
+   "metal": "K",
+   "n_mofs": 236,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 80.0,
+   "natoms_p90": 132.0,
+   "chno_only": 129,
+   "top_node": "[K]",
+   "top_node_count": 142
+  },
+  {
+   "metal": "Li",
+   "n_mofs": 233,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 76.0,
+   "natoms_p90": 132.0,
+   "chno_only": 147,
+   "top_node": "[Li]",
+   "top_node_count": 101
+  },
+  {
+   "metal": "Ca",
+   "n_mofs": 215,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 76.0,
+   "natoms_p90": 130.0,
+   "chno_only": 154,
+   "top_node": "[Ca]",
+   "top_node_count": 77
+  },
+  {
+   "metal": "Tb",
+   "n_mofs": 212,
+   "spin_polarized_frac": 0.018867924528301886,
+   "synthesized_frac": 1.0,
+   "natoms_median": 104.0,
+   "natoms_p90": 233.8,
+   "chno_only": 163,
+   "top_node": "[OH2][Tb][OH2]",
+   "top_node_count": 73
+  },
+  {
+   "metal": "Gd",
+   "n_mofs": 192,
+   "spin_polarized_frac": 0.03125,
+   "synthesized_frac": 1.0,
+   "natoms_median": 100.0,
+   "natoms_p90": 200.0,
+   "chno_only": 134,
+   "top_node": "[OH2][Gd][OH2]",
+   "top_node_count": 66
+  },
+  {
+   "metal": "Mg",
+   "n_mofs": 184,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 0.6847826086956522,
+   "natoms_median": 104.0,
+   "natoms_p90": 198.0,
+   "chno_only": 152,
+   "top_node": "[Mg]",
+   "top_node_count": 56
+  },
+  {
+   "metal": "Nd",
+   "n_mofs": 169,
+   "spin_polarized_frac": 0.011834319526627219,
+   "synthesized_frac": 1.0,
+   "natoms_median": 100.0,
+   "natoms_p90": 196.80000000000007,
+   "chno_only": 118,
+   "top_node": "[OH2][Nd]",
+   "top_node_count": 56
+  },
+  {
+   "metal": "Fe",
+   "n_mofs": 165,
+   "spin_polarized_frac": 0.6303030303030303,
+   "synthesized_frac": 1.0,
+   "natoms_median": 80.0,
+   "natoms_p90": 197.99999999999997,
+   "chno_only": 98,
+   "top_node": "[Fe]",
+   "top_node_count": 106
+  },
+  {
+   "metal": "La",
+   "n_mofs": 155,
+   "spin_polarized_frac": 0.012903225806451613,
+   "synthesized_frac": 1.0,
+   "natoms_median": 94.0,
+   "natoms_p90": 174.39999999999998,
+   "chno_only": 110,
+   "top_node": "[OH2][La]",
+   "top_node_count": 54
+  },
+  {
+   "metal": "Sm",
+   "n_mofs": 154,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 100.0,
+   "natoms_p90": 176.0,
+   "chno_only": 108,
+   "top_node": "[OH2][Sm]",
+   "top_node_count": 48
+  },
+  {
+   "metal": "Dy",
+   "n_mofs": 144,
+   "spin_polarized_frac": 0.013888888888888888,
+   "synthesized_frac": 1.0,
+   "natoms_median": 103.0,
+   "natoms_p90": 208.0,
+   "chno_only": 105,
+   "top_node": "[OH2][Dy][OH2]",
+   "top_node_count": 52
+  },
+  {
+   "metal": "Sn",
+   "n_mofs": 139,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 100.0,
+   "natoms_p90": 148.0,
+   "chno_only": 74,
+   "top_node": "[Sn]",
+   "top_node_count": 94
+  },
+  {
+   "metal": "Ba",
+   "n_mofs": 133,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 78.0,
+   "natoms_p90": 129.6,
+   "chno_only": 99,
+   "top_node": "[Ba]",
+   "top_node_count": 46
+  },
+  {
+   "metal": "Pr",
+   "n_mofs": 129,
+   "spin_polarized_frac": 0.023255813953488372,
+   "synthesized_frac": 1.0,
+   "natoms_median": 100.0,
+   "natoms_p90": 200.8,
+   "chno_only": 88,
+   "top_node": "[OH2][Pr]",
+   "top_node_count": 45
+  },
+  {
+   "metal": "U",
+   "n_mofs": 119,
+   "spin_polarized_frac": 0.058823529411764705,
+   "synthesized_frac": 1.0,
+   "natoms_median": 80.0,
+   "natoms_p90": 144.8,
+   "chno_only": 93,
+   "top_node": "[O][U][O]",
+   "top_node_count": 67
+  },
+  {
+   "metal": "Er",
+   "n_mofs": 117,
+   "spin_polarized_frac": 0.008547008547008548,
+   "synthesized_frac": 1.0,
+   "natoms_median": 92.0,
+   "natoms_p90": 159.20000000000016,
+   "chno_only": 89,
+   "top_node": "[OH2][Er][OH2]",
+   "top_node_count": 37
+  },
+  {
+   "metal": "Sr",
+   "n_mofs": 115,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 76.0,
+   "natoms_p90": 140.0,
+   "chno_only": 90,
+   "top_node": "[Sr]",
+   "top_node_count": 44
+  },
+  {
+   "metal": "Cs",
+   "n_mofs": 79,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 76.0,
+   "natoms_p90": 104.0,
+   "chno_only": 43,
+   "top_node": "[Cs]",
+   "top_node_count": 47
+  },
+  {
+   "metal": "Ho",
+   "n_mofs": 76,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 92.0,
+   "natoms_p90": 174.0,
+   "chno_only": 54,
+   "top_node": "[OH2][Ho][OH2]",
+   "top_node_count": 27
+  },
+  {
+   "metal": "Rb",
+   "n_mofs": 62,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 80.0,
+   "natoms_p90": 123.6,
+   "chno_only": 42,
+   "top_node": "[Rb]",
+   "top_node_count": 37
+  },
+  {
+   "metal": "Tl",
+   "n_mofs": 59,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 76.0,
+   "natoms_p90": 114.4,
+   "chno_only": 38,
+   "top_node": "[Tl]",
+   "top_node_count": 2
+  },
+  {
+   "metal": "Y",
+   "n_mofs": 57,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 94.0,
+   "natoms_p90": 172.0,
+   "chno_only": 42,
+   "top_node": "[Y]",
+   "top_node_count": 17
+  },
+  {
+   "metal": "In",
+   "n_mofs": 54,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 113.0,
+   "natoms_p90": 272.40000000000003,
+   "chno_only": 36,
+   "top_node": "[In]",
+   "top_node_count": 42
+  },
+  {
+   "metal": "Bi",
+   "n_mofs": 53,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 88.0,
+   "natoms_p90": 143.20000000000002,
+   "chno_only": 20,
+   "top_node": "[Bi]",
+   "top_node_count": 15
+  },
+  {
+   "metal": "Yb",
+   "n_mofs": 52,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 84.0,
+   "natoms_p90": 148.0,
+   "chno_only": 37,
+   "top_node": "[OH2][Yb]",
+   "top_node_count": 15
+  },
+  {
+   "metal": "Hf",
+   "n_mofs": 44,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 0.0,
+   "natoms_median": 182.0,
+   "natoms_p90": 256.8,
+   "chno_only": 35,
+   "top_node": "O[Hf]123([OH2])[OH]4[Hf]56[O]3[Hf]37([OH]2[Hf]28[O]1[Hf]14([O]6[Hf]([OH]53)([OH]21)([O]78)([OH2])O)([OH2])O)([OH2])O",
+   "top_node_count": 17
+  },
+  {
+   "metal": "V",
+   "n_mofs": 42,
+   "spin_polarized_frac": 0.7619047619047619,
+   "synthesized_frac": 1.0,
+   "natoms_median": 84.0,
+   "natoms_p90": 128.0,
+   "chno_only": 20,
+   "top_node": "[V]",
+   "top_node_count": 20
+  },
+  {
+   "metal": "Mo",
+   "n_mofs": 41,
+   "spin_polarized_frac": 0.024390243902439025,
+   "synthesized_frac": 1.0,
+   "natoms_median": 76.0,
+   "natoms_p90": 140.0,
+   "chno_only": 33,
+   "top_node": "[Mo]",
+   "top_node_count": 22
+  },
+  {
+   "metal": "Eu",
+   "n_mofs": 33,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 192.0,
+   "natoms_p90": 264.0,
+   "chno_only": 26,
+   "top_node": "[Eu]",
+   "top_node_count": 17
+  },
+  {
+   "metal": "Ga",
+   "n_mofs": 33,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 68.0,
+   "natoms_p90": 144.0,
+   "chno_only": 14,
+   "top_node": "[Ga]",
+   "top_node_count": 23
+  },
+  {
+   "metal": "Tm",
+   "n_mofs": 31,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 92.0,
+   "natoms_p90": 144.0,
+   "chno_only": 27,
+   "top_node": "[OH2][Tm][OH2]",
+   "top_node_count": 9
+  },
+  {
+   "metal": "Rh",
+   "n_mofs": 26,
+   "spin_polarized_frac": 0.07692307692307693,
+   "synthesized_frac": 1.0,
+   "natoms_median": 95.0,
+   "natoms_p90": 148.0,
+   "chno_only": 15,
+   "top_node": "[Rh][Rh]",
+   "top_node_count": 25
+  },
+  {
+   "metal": "Lu",
+   "n_mofs": 21,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 92.0,
+   "natoms_p90": 220.0,
+   "chno_only": 16,
+   "top_node": "[Lu]",
+   "top_node_count": 8
+  },
+  {
+   "metal": "Ru",
+   "n_mofs": 21,
+   "spin_polarized_frac": 0.9523809523809523,
+   "synthesized_frac": 1.0,
+   "natoms_median": 96.0,
+   "natoms_p90": 160.0,
+   "chno_only": 5,
+   "top_node": "[Ru][Ru]",
+   "top_node_count": 19
+  },
+  {
+   "metal": "Au",
+   "n_mofs": 20,
+   "spin_polarized_frac": 0.05,
+   "synthesized_frac": 1.0,
+   "natoms_median": 114.0,
+   "natoms_p90": 196.40000000000006,
+   "chno_only": 2,
+   "top_node": "Cl[Au][Au]Cl",
+   "top_node_count": 4
+  },
+  {
+   "metal": "Sc",
+   "n_mofs": 18,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 100.0,
+   "natoms_p90": 227.60000000000002,
+   "chno_only": 18,
+   "top_node": "[Sc]",
+   "top_node_count": 13
+  },
+  {
+   "metal": "Ce",
+   "n_mofs": 14,
+   "spin_polarized_frac": 0.8571428571428571,
+   "synthesized_frac": 1.0,
+   "natoms_median": 97.0,
+   "natoms_p90": 166.00000000000006,
+   "chno_only": 10,
+   "top_node": "[Ce]",
+   "top_node_count": 7
+  },
+  {
+   "metal": "Ti",
+   "n_mofs": 13,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 134.0,
+   "natoms_p90": 254.4,
+   "chno_only": 10,
+   "top_node": "[Ti]",
+   "top_node_count": 12
+  },
+  {
+   "metal": "Th",
+   "n_mofs": 10,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 100.0,
+   "natoms_p90": 188.09999999999997,
+   "chno_only": 8,
+   "top_node": "[Th]",
+   "top_node_count": 5
+  },
+  {
+   "metal": "Cr",
+   "n_mofs": 8,
+   "spin_polarized_frac": 0.75,
+   "synthesized_frac": 1.0,
+   "natoms_median": 42.0,
+   "natoms_p90": 147.6,
+   "chno_only": 5,
+   "top_node": "[Cr]",
+   "top_node_count": 3
+  },
+  {
+   "metal": "Pd",
+   "n_mofs": 8,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 84.5,
+   "natoms_p90": 252.0,
+   "chno_only": 4,
+   "top_node": "[Pd]",
+   "top_node_count": 3
+  },
+  {
+   "metal": "W",
+   "n_mofs": 3,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 64.0,
+   "natoms_p90": 89.6,
+   "chno_only": 3,
+   "top_node": "[O]",
+   "top_node_count": 3
+  },
+  {
+   "metal": "Np",
+   "n_mofs": 2,
+   "spin_polarized_frac": 1.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 75.0,
+   "natoms_p90": 106.2,
+   "chno_only": 1,
+   "top_node": "[Np]",
+   "top_node_count": 1
+  },
+  {
+   "metal": "Pu",
+   "n_mofs": 2,
+   "spin_polarized_frac": 1.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 68.0,
+   "natoms_p90": 74.4,
+   "chno_only": 1,
+   "top_node": "[OH2][Pu]",
+   "top_node_count": 1
+  },
+  {
+   "metal": "Pt",
+   "n_mofs": 1,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 100.0,
+   "natoms_p90": 100.0,
+   "chno_only": 0,
+   "top_node": "[Pt]",
+   "top_node_count": 1
+  },
+  {
+   "metal": "Re",
+   "n_mofs": 1,
+   "spin_polarized_frac": 0.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 160.0,
+   "natoms_p90": 160.0,
+   "chno_only": 0,
+   "top_node": "Cl[Re]([Re](Cl)Cl)Cl",
+   "top_node_count": 1
+  },
+  {
+   "metal": "Tc",
+   "n_mofs": 1,
+   "spin_polarized_frac": 1.0,
+   "synthesized_frac": 1.0,
+   "natoms_median": 31.0,
+   "natoms_p90": 31.0,
+   "chno_only": 0,
+   "top_node": null,
+   "top_node_count": 0
+  }
+ ],
+ "coverage": {
+  "C-H-O": [
+   {
+    "elements": "C-H-O-Zn",
+    "new": 346,
+    "cumulative": 346
+   },
+   {
+    "elements": "Al-C-H-O",
+    "new": 245,
+    "cumulative": 591
+   },
+   {
+    "elements": "C-Cd-H-O",
+    "new": 117,
+    "cumulative": 708
+   },
+   {
+    "elements": "C-H-Mn-O",
+    "new": 85,
+    "cumulative": 793
+   },
+   {
+    "elements": "C-Cu-H-O",
+    "new": 80,
+    "cumulative": 873
+   },
+   {
+    "elements": "C-H-Mg-O",
+    "new": 77,
+    "cumulative": 950
+   },
+   {
+    "elements": "C-Co-H-O",
+    "new": 73,
+    "cumulative": 1023
+   },
+   {
+    "elements": "C-Ca-H-O",
+    "new": 61,
+    "cumulative": 1084
+   },
+   {
+    "elements": "C-H-O-Tb",
+    "new": 61,
+    "cumulative": 1145
+   },
+   {
+    "elements": "C-H-Li-O",
+    "new": 57,
+    "cumulative": 1202
+   },
+   {
+    "elements": "C-H-O-Zr",
+    "new": 57,
+    "cumulative": 1259
+   },
+   {
+    "elements": "C-Gd-H-O",
+    "new": 55,
+    "cumulative": 1314
+   },
+   {
+    "elements": "C-H-La-O",
+    "new": 47,
+    "cumulative": 1361
+   },
+   {
+    "elements": "C-H-Nd-O",
+    "new": 45,
+    "cumulative": 1406
+   },
+   {
+    "elements": "C-H-Ni-O",
+    "new": 44,
+    "cumulative": 1450
+   },
+   {
+    "elements": "C-H-Na-O",
+    "new": 43,
+    "cumulative": 1493
+   },
+   {
+    "elements": "C-H-O-Sm",
+    "new": 40,
+    "cumulative": 1533
+   },
+   {
+    "elements": "C-H-O-Sn",
+    "new": 40,
+    "cumulative": 1573
+   },
+   {
+    "elements": "C-Dy-H-O",
+    "new": 39,
+    "cumulative": 1612
+   },
+   {
+    "elements": "C-H-K-O",
+    "new": 38,
+    "cumulative": 1650
+   },
+   {
+    "elements": "C-H-O-Pb",
+    "new": 37,
+    "cumulative": 1687
+   },
+   {
+    "elements": "C-Fe-H-O",
+    "new": 36,
+    "cumulative": 1723
+   },
+   {
+    "elements": "C-H-O-Pr",
+    "new": 36,
+    "cumulative": 1759
+   },
+   {
+    "elements": "Ag-C-H-O",
+    "new": 35,
+    "cumulative": 1794
+   },
+   {
+    "elements": "C-Er-H-O",
+    "new": 35,
+    "cumulative": 1829
+   },
+   {
+    "elements": "C-H-O-U",
+    "new": 32,
+    "cumulative": 1861
+   },
+   {
+    "elements": "Ba-C-H-O",
+    "new": 30,
+    "cumulative": 1891
+   },
+   {
+    "elements": "C-H-O-Sr",
+    "new": 29,
+    "cumulative": 1920
+   },
+   {
+    "elements": "C-H-Ho-O",
+    "new": 27,
+    "cumulative": 1947
+   },
+   {
+    "elements": "C-H-In-O",
+    "new": 24,
+    "cumulative": 1971
+   }
+  ],
+  "C-H-N-O": [
+   {
+    "elements": "C-H-N-O-Zn",
+    "new": 2958,
+    "cumulative": 2958
+   },
+   {
+    "elements": "C-Cd-H-N-O",
+    "new": 1473,
+    "cumulative": 4431
+   },
+   {
+    "elements": "C-Cu-H-N-O",
+    "new": 1271,
+    "cumulative": 5702
+   },
+   {
+    "elements": "C-Co-H-N-O",
+    "new": 647,
+    "cumulative": 6349
+   },
+   {
+    "elements": "Al-C-H-N-O",
+    "new": 512,
+    "cumulative": 6861
+   },
+   {
+    "elements": "Ag-C-H-N-O",
+    "new": 494,
+    "cumulative": 7355
+   },
+   {
+    "elements": "C-H-Mn-N-O",
+    "new": 478,
+    "cumulative": 7833
+   },
+   {
+    "elements": "C-H-N-Ni-O",
+    "new": 407,
+    "cumulative": 8240
+   },
+   {
+    "elements": "C-H-N-O-Tb",
+    "new": 163,
+    "cumulative": 8403
+   },
+   {
+    "elements": "C-Ca-H-N-O",
+    "new": 154,
+    "cumulative": 8557
+   },
+   {
+    "elements": "C-H-Mg-N-O",
+    "new": 152,
+    "cumulative": 8709
+   },
+   {
+    "elements": "C-H-Li-N-O",
+    "new": 147,
+    "cumulative": 8856
+   },
+   {
+    "elements": "C-Gd-H-N-O",
+    "new": 134,
+    "cumulative": 8990
+   },
+   {
+    "elements": "C-H-N-Na-O",
+    "new": 130,
+    "cumulative": 9120
+   },
+   {
+    "elements": "C-H-K-N-O",
+    "new": 129,
+    "cumulative": 9249
+   },
+   {
+    "elements": "C-H-N-O-Pb",
+    "new": 123,
+    "cumulative": 9372
+   },
+   {
+    "elements": "C-H-N-Nd-O",
+    "new": 118,
+    "cumulative": 9490
+   },
+   {
+    "elements": "C-H-N-O-Zr",
+    "new": 112,
+    "cumulative": 9602
+   },
+   {
+    "elements": "C-H-La-N-O",
+    "new": 110,
+    "cumulative": 9712
+   },
+   {
+    "elements": "C-H-N-O-Sm",
+    "new": 108,
+    "cumulative": 9820
+   },
+   {
+    "elements": "C-Dy-H-N-O",
+    "new": 105,
+    "cumulative": 9925
+   },
+   {
+    "elements": "Ba-C-H-N-O",
+    "new": 99,
+    "cumulative": 10024
+   },
+   {
+    "elements": "C-Fe-H-N-O",
+    "new": 98,
+    "cumulative": 10122
+   },
+   {
+    "elements": "C-H-N-O-U",
+    "new": 93,
+    "cumulative": 10215
+   },
+   {
+    "elements": "C-H-N-O-Sr",
+    "new": 90,
+    "cumulative": 10305
+   },
+   {
+    "elements": "C-Er-H-N-O",
+    "new": 89,
+    "cumulative": 10394
+   },
+   {
+    "elements": "C-H-N-O-Pr",
+    "new": 88,
+    "cumulative": 10482
+   },
+   {
+    "elements": "C-H-N-O-Sn",
+    "new": 74,
+    "cumulative": 10556
+   },
+   {
+    "elements": "C-H-Ho-N-O",
+    "new": 54,
+    "cumulative": 10610
+   },
+   {
+    "elements": "C-Cs-H-N-O",
+    "new": 43,
+    "cumulative": 10653
+   }
+  ],
+  "C-H-N-O-S": [
+   {
+    "elements": "C-H-N-O-S-Zn",
+    "new": 3358,
+    "cumulative": 3358
+   },
+   {
+    "elements": "C-Cd-H-N-O-S",
+    "new": 1891,
+    "cumulative": 5249
+   },
+   {
+    "elements": "C-Cu-H-N-O-S",
+    "new": 1517,
+    "cumulative": 6766
+   },
+   {
+    "elements": "C-Co-H-N-O-S",
+    "new": 733,
+    "cumulative": 7499
+   },
+   {
+    "elements": "Ag-C-H-N-O-S",
+    "new": 704,
+    "cumulative": 8203
+   },
+   {
+    "elements": "Al-C-H-N-O-S",
+    "new": 606,
+    "cumulative": 8809
+   },
+   {
+    "elements": "C-H-Mn-N-O-S",
+    "new": 547,
+    "cumulative": 9356
+   },
+   {
+    "elements": "C-H-N-Ni-O-S",
+    "new": 459,
+    "cumulative": 9815
+   },
+   {
+    "elements": "C-H-N-Na-O-S",
+    "new": 194,
+    "cumulative": 10009
+   },
+   {
+    "elements": "C-H-N-O-S-Tb",
+    "new": 186,
+    "cumulative": 10195
+   },
+   {
+    "elements": "C-H-K-N-O-S",
+    "new": 177,
+    "cumulative": 10372
+   },
+   {
+    "elements": "C-H-Li-N-O-S",
+    "new": 177,
+    "cumulative": 10549
+   },
+   {
+    "elements": "C-Ca-H-N-O-S",
+    "new": 174,
+    "cumulative": 10723
+   },
+   {
+    "elements": "C-H-Mg-N-O-S",
+    "new": 168,
+    "cumulative": 10891
+   },
+   {
+    "elements": "C-H-N-O-Pb-S",
+    "new": 166,
+    "cumulative": 11057
+   },
+   {
+    "elements": "C-Gd-H-N-O-S",
+    "new": 162,
+    "cumulative": 11219
+   },
+   {
+    "elements": "C-H-N-Nd-O-S",
+    "new": 144,
+    "cumulative": 11363
+   },
+   {
+    "elements": "C-Fe-H-N-O-S",
+    "new": 138,
+    "cumulative": 11501
+   },
+   {
+    "elements": "C-H-N-O-S-Zr",
+    "new": 134,
+    "cumulative": 11635
+   },
+   {
+    "elements": "C-H-La-N-O-S",
+    "new": 129,
+    "cumulative": 11764
+   },
+   {
+    "elements": "C-H-N-O-S-Sm",
+    "new": 128,
+    "cumulative": 11892
+   },
+   {
+    "elements": "C-Dy-H-N-O-S",
+    "new": 126,
+    "cumulative": 12018
+   },
+   {
+    "elements": "Ba-C-H-N-O-S",
+    "new": 115,
+    "cumulative": 12133
+   },
+   {
+    "elements": "C-H-N-O-S-U",
+    "new": 104,
+    "cumulative": 12237
+   },
+   {
+    "elements": "C-H-N-O-Pr-S",
+    "new": 103,
+    "cumulative": 12340
+   },
+   {
+    "elements": "C-Er-H-N-O-S",
+    "new": 100,
+    "cumulative": 12440
+   },
+   {
+    "elements": "C-H-N-O-S-Sr",
+    "new": 100,
+    "cumulative": 12540
+   },
+   {
+    "elements": "C-H-N-O-S-Sn",
+    "new": 92,
+    "cumulative": 12632
+   },
+   {
+    "elements": "C-H-Hg-N-O-S",
+    "new": 68,
+    "cumulative": 12700
+   },
+   {
+    "elements": "C-H-Ho-N-O-S",
+    "new": 62,
+    "cumulative": 12762
+   }
+  ],
+  "C-H-N-O-S + halogens": [
+   {
+    "elements": "Br-C-Cl-F-H-I-N-O-S-Zn",
+    "new": 4588,
+    "cumulative": 4588
+   },
+   {
+    "elements": "Br-C-Cd-Cl-F-H-I-N-O-S",
+    "new": 2475,
+    "cumulative": 7063
+   },
+   {
+    "elements": "Br-C-Cl-Cu-F-H-I-N-O-S",
+    "new": 2434,
+    "cumulative": 9497
+   },
+   {
+    "elements": "Al-Br-C-Cl-F-H-I-N-O-S",
+    "new": 1086,
+    "cumulative": 10583
+   },
+   {
+    "elements": "Ag-Br-C-Cl-F-H-I-N-O-S",
+    "new": 932,
+    "cumulative": 11515
+   },
+   {
+    "elements": "Br-C-Cl-Co-F-H-I-N-O-S",
+    "new": 833,
+    "cumulative": 12348
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-Mn-N-O-S",
+    "new": 625,
+    "cumulative": 12973
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-N-Ni-O-S",
+    "new": 495,
+    "cumulative": 13468
+   },
+   {
+    "elements": "Br-C-Cl-F-H-Hg-I-N-O-S",
+    "new": 364,
+    "cumulative": 13832
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-N-O-S-Zr",
+    "new": 271,
+    "cumulative": 14103
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-N-O-Pb-S",
+    "new": 247,
+    "cumulative": 14350
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-N-Na-O-S",
+    "new": 222,
+    "cumulative": 14572
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-K-N-O-S",
+    "new": 213,
+    "cumulative": 14785
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-Li-N-O-S",
+    "new": 205,
+    "cumulative": 14990
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-N-O-S-Tb",
+    "new": 200,
+    "cumulative": 15190
+   },
+   {
+    "elements": "Br-C-Ca-Cl-F-H-I-N-O-S",
+    "new": 199,
+    "cumulative": 15389
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-Mg-N-O-S",
+    "new": 180,
+    "cumulative": 15569
+   },
+   {
+    "elements": "Br-C-Cl-F-Gd-H-I-N-O-S",
+    "new": 176,
+    "cumulative": 15745
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-N-Nd-O-S",
+    "new": 157,
+    "cumulative": 15902
+   },
+   {
+    "elements": "Br-C-Cl-F-Fe-H-I-N-O-S",
+    "new": 151,
+    "cumulative": 16053
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-La-N-O-S",
+    "new": 145,
+    "cumulative": 16198
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-N-O-S-Sm",
+    "new": 139,
+    "cumulative": 16337
+   },
+   {
+    "elements": "Br-C-Cl-Dy-F-H-I-N-O-S",
+    "new": 133,
+    "cumulative": 16470
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-N-O-S-Sn",
+    "new": 125,
+    "cumulative": 16595
+   },
+   {
+    "elements": "Ba-Br-C-Cl-F-H-I-N-O-S",
+    "new": 123,
+    "cumulative": 16718
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-N-O-Pr-S",
+    "new": 117,
+    "cumulative": 16835
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-N-O-S-U",
+    "new": 113,
+    "cumulative": 16948
+   },
+   {
+    "elements": "Br-C-Cl-Er-F-H-I-N-O-S",
+    "new": 109,
+    "cumulative": 17057
+   },
+   {
+    "elements": "Br-C-Cl-F-H-I-N-O-S-Sr",
+    "new": 104,
+    "cumulative": 17161
+   },
+   {
+    "elements": "Br-C-Cl-Cs-F-H-I-N-O-S",
+    "new": 71,
+    "cumulative": 17232
+   }
+  ]
+ }
+}
