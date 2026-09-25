@@ -15,11 +15,11 @@ Repository infrastructure; no change to the scientific code or results.
   issue templates.
 - `tests/test_metadata.py`: version consistency between the package,
   `pyproject.toml`, this changelog and `CITATION.cff` (59 tests in total).
-- CI uploads the full `pytest -v` log of every run as a build artifact.
+- CI workflow keeps the `pytest -v` log and `pip freeze` as artifacts.
 
 ### Changed
-- CI runs on every branch of the branching model (`feature/**`, `fix/**`,
-  `chore/**`, `release/**`) and on pull requests.
+- CI runs on manual trigger only (GitHub free plan, used for storage); the
+  committed `docs/test_logs/` remain the test evidence.
 - `develop` back-merged from `main`; it was missing the v0.1.0/v0.1.1
   release commits.
 

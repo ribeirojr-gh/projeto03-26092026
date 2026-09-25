@@ -25,9 +25,20 @@ Stage branches are kept after merging; they are part of the audit trail.
    ```
 4. Add a section to `docs/development_log.md`: what was built, the test count,
    and every failure found and how it was resolved, including physics findings.
-5. Open a pull request into `develop` (the template lists the checklist). CI
-   must pass; merge with a merge commit (`--no-ff`), never squash or rebase,
-   so the stage stays visible in `git log --graph`.
+5. Open a pull request into `develop` (the template lists the checklist) and
+   merge it with a merge commit (`--no-ff`), never squash or rebase, so the
+   stage stays visible in `git log --graph`. The committed test log is the
+   merge evidence; CI is manual-trigger only (see below).
+
+## Where things run
+
+- **GitHub** (free plan): storage and structure of the project — branches,
+  pull requests, tags, releases. Actions are not used automatically.
+- **Cloud sandbox** (Claude): development, tests and light runs.
+- **Local workstation**: heavy simulations (LAMMPS with MPI/KOKKOS-CUDA).
+
+Every run's `manifest.json` records software versions and input hashes, so
+results from different machines stay comparable.
 
 ## Commit messages
 

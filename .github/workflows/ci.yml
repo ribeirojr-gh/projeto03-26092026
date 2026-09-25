@@ -1,10 +1,11 @@
 name: tests
 
+# Manual trigger only. The project runs on a GitHub free plan used for
+# storage; the audit evidence is the pytest log committed with each stage
+# (docs/test_logs/). Re-enable push/pull_request triggers if Actions minutes
+# become available.
 on:
-  push:
-    branches: [main, develop, "feature/**", "fix/**", "chore/**", "release/**"]
-    tags: ["v*"]
-  pull_request:
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
