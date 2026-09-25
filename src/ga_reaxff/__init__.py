@@ -12,4 +12,4 @@ Pipeline (one module per stage):
     qmof        -> QMOF database snapshot (Materials Project MOF Explorer)
     families    -> MOF chemical families and force-field coverage
 """
-__version__ = "0.1.2"
+__version__ = "0.2.0"

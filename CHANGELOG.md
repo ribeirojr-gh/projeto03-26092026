@@ -6,6 +6,11 @@ All notable changes to this project are documented here. The format follows
 the stage-by-stage audit trail is in [`docs/development_log.md`](docs/development_log.md).
 
 ## [Unreleased]
+
+## [0.2.0] - 2026-09-25
+First step toward ReaxFF force fields for the MOFs of the QMOF database;
+GitHub Pro CI and branch protection.
+
 ### Added
 - `qmof.py`: download of the Materials Project MOF Explorer / QMOF metadata
   (MPContribs `mofexplorer`) into a deterministic, hash-verified snapshot;
@@ -66,6 +71,8 @@ Repository infrastructure; no change to the scientific code or results.
 - Real-coded GA with bounded Nelder-Mead refinement (stage 6).
 - End-to-end pipeline, audit records, CLI and GO recovery benchmark (stage 7).
 
+[Unreleased]: https://github.com/ribeirojr-gh/ga-reaxff/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/ribeirojr-gh/ga-reaxff/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/ribeirojr-gh/ga-reaxff/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/ribeirojr-gh/ga-reaxff/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/ribeirojr-gh/ga-reaxff/releases/tag/v0.1.0

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ga-reaxff"
-version = "0.1.2"
+version = "0.2.0"
 description = "Genetic-algorithm parametrization of ReaxFF force fields, with LAMMPS as the evaluation engine."
 readme = "README.md"
 license = { text = "MIT" }
