@@ -22,6 +22,43 @@ MAX_VOLUME_CHANGE = 0.05          # |V/V_DFT - 1|
 MAX_DISPLACEMENT_RMS = 0.30       # Angstrom, after removing the cell change
 COORDINATION_CUTOFF = 2.6         # Angstrom, metal-ligand contact
 
+# Bonded pairs tracked in the scorecard (pair -> cutoff in Angstrom)
+BOND_PAIRS = {("Zn", "O"): 2.6, ("Zn", "N"): 2.6, ("C", "O"): 1.6, ("C", "N"): 1.6,
+              ("C", "C"): 1.7, ("C", "H"): 1.2, ("N", "H"): 1.2, ("O", "H"): 1.2}
+
+
+def bond_lengths(atoms: Atoms, pairs=BOND_PAIRS) -> dict[str, list[float]]:
+    """All bond lengths per element pair, using the reference bonding list.
+
+    Returns {"A-B": [d, ...]} for pairs within their cutoff.
+    """
+    out = {}
+    sym = np.array(atoms.get_chemical_symbols())
+    for (a, b), cut in pairs.items():
+        i, j, d = neighbor_list("ijd", atoms, cut)
+        m = (sym[i] == a) & (sym[j] == b) & ((a != b) | (i < j))
+        if m.any():
+            out[f"{a}-{b}"] = d[m].tolist()
+    return out
+
+
+def _bond_changes(relaxed: Atoms, reference: Atoms, pairs=BOND_PAIRS) -> dict[str, dict]:
+    """Mean length of the *same* bonds (reference bonding list) before and after."""
+    sym = np.array(reference.get_chemical_symbols())
+    out = {}
+    for (a, b), cut in pairs.items():
+        i, j, d0, D = neighbor_list("ijdD", reference, cut)
+        m = (sym[i] == a) & (sym[j] == b) & ((a != b) | (i < j))
+        if not m.any():
+            continue
+        # same atom pairs in the relaxed structure, minimum image
+        v = relaxed.positions[j[m]] - relaxed.positions[i[m]]
+        from ase.geometry import find_mic
+        d1 = np.linalg.norm(find_mic(v, relaxed.cell, relaxed.pbc)[0], axis=1)
+        out[f"{a}-{b}"] = {"n": int(m.sum()), "ref": float(d0[m].mean()),
+                           "relaxed": float(d1.mean())}
+    return out
+
 
 def coordination(atoms: Atoms, metals=("Zn",), ligands=("O", "N"),
                  cutoff: float = COORDINATION_CUTOFF) -> dict[int, list[int]]:
@@ -48,6 +85,7 @@ class Scorecard:
     metal_coordination: float          # after relaxation
     ligands_lost: int                  # metal-ligand contacts present in DFT, absent after
     passed: bool
+    bonds: dict                        # pair -> {n, ref, relaxed}: mean length of DFT bonds
 
     def as_dict(self):
         return asdict(self)
@@ -76,4 +114,5 @@ def compare(relaxed: Atoms, reference: Atoms, metals=("Zn",), ligands=("O", "N")
         metal_coordination=float(np.mean([len(v) for v in c1.values()])) if c1 else 0.0,
         ligands_lost=int(lost),
         passed=bool(abs(dv) < MAX_VOLUME_CHANGE and rms < MAX_DISPLACEMENT_RMS and lost == 0),
+        bonds=_bond_changes(relaxed, reference),
     )

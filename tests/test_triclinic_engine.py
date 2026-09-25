@@ -150,3 +150,12 @@ def test_scorecard_detects_expansion_and_lost_ligands():
     bigger = a.copy()
     bigger.set_cell(a.cell * 1.4, scale_atoms=True)   # Zn-O ~2.8 A > cutoff
     assert compare(bigger, a, ligands=("O",)).ligands_lost > 0
+
+
+def test_scorecard_bond_changes_follow_scaling():
+    from ga_reaxff.validate import compare
+    a = bulk("ZnO", "wurtzite", a=3.25, c=5.2) * (2, 2, 2)
+    b = a.copy()
+    b.set_cell(a.cell * 1.02, scale_atoms=True)
+    zno = compare(b, a, ligands=("O",)).bonds["Zn-O"]
+    assert zno["n"] > 0 and zno["relaxed"] == pytest.approx(1.02 * zno["ref"], rel=1e-9)

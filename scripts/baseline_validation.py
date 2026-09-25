@@ -29,7 +29,7 @@ from ga_reaxff.engine import relax
 from ga_reaxff.ffield import ForceField, add_placeholder_pairs
 from ga_reaxff.teacher import sample_indices
 from ga_reaxff.validate import (COORDINATION_CUTOFF, MAX_DISPLACEMENT_RMS, MAX_VOLUME_CHANGE,
-                                compare)
+                                compare, coordination)
 
 STRUCTURES = "data/qmof/structures_Zn-CHNO.extxyz.gz"
 BASE = "data/ffields/base/ffield.Zn-FC"
@@ -52,10 +52,12 @@ def _one(atoms):
         rec = compare(r, atoms).as_dict()
         rec["error"] = None
     except Exception as e:   # LAMMPS failure = the force field cannot hold this MOF
+        r = None
         rec = {"identifier": atoms.info.get("identifier"), "natoms": len(atoms),
                "passed": False, "error": str(e)[:200]}
     rec["seconds"] = time.time() - t
-    return rec
+    rec["zn_n_bonded"] = any(len(v) for v in coordination(atoms, ligands=("N",)).values())
+    return rec, r
 
 
 def build_initial_ff() -> tuple[Path, list]:
@@ -89,8 +91,14 @@ def main(argv=None):
 
     t = time.time()
     with Pool(a.procs, initializer=_init_worker, initargs=(str(init_path),)) as pool:
-        cards = pool.map(_one, sample, chunksize=1)
+        results = pool.map(_one, sample, chunksize=1)
     wall = time.time() - t
+    cards = [c for c, _ in results]
+    # relaxed structures kept for re-analysis (runs/ is not versioned)
+    from ase.io import write
+    run_dir = Path("runs/baseline_validation")
+    run_dir.mkdir(parents=True, exist_ok=True)
+    write(run_dir / "relaxed.extxyz", [r for _, r in results if r is not None], format="extxyz")
     for c in cards:
         c["in_teacher_sample"] = c["identifier"] in teacher_ids
     (out / "scorecards.jsonl").write_text("".join(json.dumps(c, sort_keys=True) + "\n"
@@ -112,9 +120,22 @@ def main(argv=None):
         "volume_change_abs_median": float(np.median(np.abs(v))),
         "volume_change_p10_p90": [float(np.percentile(v, 10)), float(np.percentile(v, 90))],
         "displacement_rms_median": float(np.median([c["displacement_rms"] for c in ok])),
+        "by_group": {},
         "wall_time_s": wall, "procs": a.procs,
         "cpu_seconds_per_mof_median": float(np.median([c["seconds"] for c in cards])),
     }
+    for name, grp in (("Zn-N bonded", [c for c in ok if c["zn_n_bonded"]]),
+                      ("Zn-O only", [c for c in ok if not c["zn_n_bonded"]])):
+        g = {"n": len(grp), "n_passed": sum(c["passed"] for c in grp),
+             "volume_change_median": float(np.median([c["volume_change"] for c in grp])),
+             "bond_change_median": {}}
+        for pair in sorted({k for c in grp for k in c["bonds"]}):
+            rel = [c["bonds"][pair]["relaxed"] / c["bonds"][pair]["ref"] - 1
+                   for c in grp if pair in c["bonds"]]
+            ref = [c["bonds"][pair]["ref"] for c in grp if pair in c["bonds"]]
+            g["bond_change_median"][pair] = {"n_mofs": len(rel), "ref_median_A": float(np.median(ref)),
+                                             "relative_change_median": float(np.median(rel))}
+        summary["by_group"][name] = g
     (out / "summary.json").write_text(json.dumps(summary, indent=1) + "\n")
     print(json.dumps(summary, indent=1))
 
