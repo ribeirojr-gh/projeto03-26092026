@@ -93,3 +93,9 @@ to the training geometries.
 4. Multiple independent GA seeds (distribution of solutions) and a
    process-pool parallel objective.
 5. Replace the synthetic reference by DFT (methodology.md, section 8).
+
+## Note on the committed run files
+`training_set.extxyz` / `validation_set.extxyz` (~220 kB) are not versioned.
+They are regenerated deterministically by the pipeline; their SHA-256
+hashes are stored in `runs/go_recovery/manifest.json`, so a regenerated copy
+can be verified byte-for-byte.

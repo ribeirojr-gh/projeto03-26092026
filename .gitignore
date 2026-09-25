@@ -6,3 +6,6 @@ runs/*
 !runs/.gitkeep
 *.log.lammps
 log.lammps
+
+# large regenerable datasets (SHA-256 recorded in each run manifest)
+runs/**/*.extxyz
