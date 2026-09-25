@@ -9,7 +9,7 @@ the stage-by-stage audit trail is in [`docs/development_log.md`](docs/developmen
 ### Changed
 - CI runs automatically again on every push and pull request (GitHub Pro);
   actions updated to Node 24 versions (checkout v5, setup-python v6,
-  upload-artifact v5).
+  upload-artifact v7).
 - `main` and `develop` protected: pull request with a passing `pytest`
   check required.
 
