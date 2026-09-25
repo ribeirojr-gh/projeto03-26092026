@@ -7,6 +7,14 @@ the stage-by-stage audit trail is in [`docs/development_log.md`](docs/developmen
 
 ## [Unreleased]
 ### Added
+- Relaxed structures of the Zn + C/H/N/O family (2 958 MOFs) with per-atom
+  DDEC6/CM5 charges and bond-order sums (`qmof.fetch_structures`,
+  `data/qmof/structures_Zn-CHNO.extxyz.gz`).
+- `teacher.py` and `scripts/teacher_check.py`: four MACE foundation models
+  checked against QMOF DFT (force error at the DFT minima, energy
+  consistency, cell relaxation); `docs/results_teacher_check.md`.
+- Optional dependency group `mlip` (mace-torch, torch-dftd).
+### Added
 - `ffield.merge_elements` and `ffield.missing_interactions`: add element
   blocks from a donor force field to a base one, with an audit report of
   copied terms, differing general/shared-element parameters and missing
