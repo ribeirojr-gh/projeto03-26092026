@@ -146,3 +146,43 @@ scientific code or to the committed results. Tests: 59 passed (cumulative).
 * Environment note: without root access, the MPI runtime required by the
   LAMMPS wheel can be installed from PyPI (`pip install mpich`, then
   `LD_LIBRARY_PATH=$VIRTUAL_ENV/lib`).
+
+## Stage 10 - `chore/10-github-pro-ci`
+Account moved to GitHub Pro. Tests: 59 passed (cumulative; no code change).
+* First automatic CI run on this branch succeeded (all steps green), which
+  confirms that the stage-9 failures were only the free-plan spending limit.
+* GitHub warned that checkout v4, setup-python v5 and upload-artifact v4
+  target the deprecated Node 20 runtime; updated to checkout v5 and
+  setup-python v6. upload-artifact v5 still triggered the warning (Node 20);
+  v7 runs on Node 24.
+* Branch protection enabled on `main` and `develop` (pull request with a
+  passing `pytest` check required), now available on private repositories.
+* Actions runners are used for CI and light batch jobs only: private
+  repositories get 2-vCPU Linux runners without GPU; heavy LAMMPS and GPU
+  work stays on the local workstation.
+
+## Stage 11 - `feature/11-qmof-survey`
+Change of target: from the graphene-oxide benchmark to ReaxFF force fields for
+the MOFs of the QMOF database. Tests: 71 passed (cumulative; 12 new).
+* **Data source identified.** The Materials Project "MOF Explorer" app is
+  backed by the MPContribs project `mofexplorer` (Rosen, Jablonka), built on
+  QMOF: 20 375 MOFs. The metadata table (no structures) downloads in ~40 s;
+  GCMC and hybrid-functional columns are dropped. Snapshot committed (3.9 MB
+  gzip) with the SHA-256 of the uncompressed JSON lines, so the hash does not
+  depend on gzip headers; the gzip itself is written with mtime 0 and is
+  byte-identical across runs. The API key is read from the pymatgen settings
+  and never written to the repository.
+* **Unit of work changed from "one force field per MOF" to "one force field
+  per chemical family".** ReaxFF parameters belong to elements, so a force
+  field with element set E covers every MOF whose elements are a subset of E.
+  Coverage is computed with greedy maximum coverage.
+* **Non-determinism found and fixed.** The first two runs of the survey
+  produced different `summary.json` files: tied counts (`Counter.most_common`)
+  were ordered by string-hash iteration order, which Python randomizes per
+  process. All rankings now break ties by key; outputs verified byte-identical
+  for PYTHONHASHSEED 1, 2, 3, and a test covers the tie case.
+* **A claim corrected before commit.** The draft said the Zn family contains
+  MOF-74 and ZIF-8; checking the data showed the QMOF MOF-74 set is Mg only,
+  and ZIF-8 refcodes are not in the Zn + C/H/N/O family. The text now
+  reports the verified topology counts.
+* Results and pilot-family choice: `docs/results_qmof_survey.md`.

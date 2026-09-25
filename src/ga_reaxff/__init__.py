@@ -9,5 +9,7 @@ Pipeline (one module per stage):
     fitness     -> objective function comparing ReaxFF vs reference
     ga          -> real-coded genetic algorithm + local refinement
     audit       -> provenance records (hashes, seeds, versions, history)
+    qmof        -> QMOF database snapshot (Materials Project MOF Explorer)
+    families    -> MOF chemical families and force-field coverage
 """
-__version__ = "0.1.2"
+__version__ = "0.2.0"
