@@ -186,3 +186,31 @@ the MOFs of the QMOF database. Tests: 71 passed (cumulative; 12 new).
   and ZIF-8 refcodes are not in the Zn + C/H/N/O family. The text now
   reports the verified topology counts.
 * Results and pilot-family choice: `docs/results_qmof_survey.md`.
+
+## Stage 12 - `feature/12-base-forcefield`
+Base force field for the pilot family Zn + C/H/N/O. Tests: 80 passed
+(cumulative; 9 new). Target applications fixed by the project owner: water
+splitting (H2 production) and CO2 capture/selectivity/splitting in CH4/CO2
+mixtures.
+* **Sources.** Only files distributed with LAMMPS were used (hashes and
+  references in `data/ffields/sources/`); none contains Zn-N or Zn-C terms.
+  `ffield.reax.lg` and `.rdx` are not readable by `ffield.py` (different
+  format); the HNS example file has no citation and was not used.
+* **`merge_elements`** copies the donor's atom block and every term that
+  involves the new element and only elements of the merged file; general
+  and shared-element parameters stay those of the base, and all differences
+  are reported rather than resolved silently.
+* **Found: dummy atom type "X".** ZnOH and FC contain an atom type literally
+  named X, the same label `ffield.py` uses for the torsion wildcard. It only
+  appears in torsions in these files, so reading and writing are correct;
+  `write` now raises if the label appears elsewhere, the merge report skips
+  it, and `missing_interactions` ignores it.
+* **Found: masses were hard-coded for C/H/O/N/S** in `engine.py`, so Zn and F
+  failed with a KeyError on the first screening run. Masses now come from
+  ASE for other elements (values for C/H/O/N/S unchanged).
+* **Screening result** (`docs/results_base_ffield.md`): FC + Zn keeps the Zn
+  cluster four-coordinated, describes H2 and H2O best, and differs from the
+  Zn donor in only 2 of 39 general parameters (18 for budzien, 12 for
+  mattsson). CO2 is too long in every candidate (FC: C=O 1.253 A vs 1.160 A),
+  so the C-O terms join the Zn terms in the first fit.
+* Build outputs verified identical across two runs.

@@ -6,6 +6,21 @@ All notable changes to this project are documented here. The format follows
 the stage-by-stage audit trail is in [`docs/development_log.md`](docs/development_log.md).
 
 ## [Unreleased]
+### Added
+- `ffield.merge_elements` and `ffield.missing_interactions`: add element
+  blocks from a donor force field to a base one, with an audit report of
+  copied terms, differing general/shared-element parameters and missing
+  interactions.
+- `data/ffields/sources/`: four ReaxFF files from the LAMMPS distribution
+  (ZnOH, FC, budzien, mattsson) with hashes and references.
+- `scripts/build_base_ffields.py` and `docs/results_base_ffield.md`: three
+  candidate Zn + C/H/N/O bases, screened on gas molecules (H2O, CO2, CH4,
+  H2, ...) and a Zn aqua-hydroxo cluster; FC + Zn selected.
+
+### Changed
+- `engine`: masses for any element (ASE table), dummy atom types get mass 1.
+- `ffield.write` refuses a literal "X" label outside torsions (ambiguous with
+  the torsion wildcard).
 
 ## [0.2.0] - 2026-09-25
 First step toward ReaxFF force fields for the MOFs of the QMOF database;
