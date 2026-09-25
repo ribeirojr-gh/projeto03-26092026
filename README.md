@@ -1,5 +1,7 @@
 # ga-reaxff
 
+[![tests](https://github.com/ribeirojr-gh/ga-reaxff/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ribeirojr-gh/ga-reaxff/actions/workflows/ci.yml)
+
 **Genetic-algorithm parametrization of ReaxFF force fields, with LAMMPS as the evaluation engine.**
 
 First test case: graphene oxide (C/H/O) with the Chenoweth–van Duin–Goddard (2008)
@@ -32,7 +34,7 @@ structures.py (GO model) ──► dataset.py (strain / scans / rattle families,
 ```bash
 sudo apt-get install -y libmpich12          # MPI runtime needed by the LAMMPS wheel
 pip install -e ".[dev,lammps]"
-pytest -v                                   # 56 tests, ~30 s
+pytest -v                                   # 59 tests, ~30 s
 ga-reaxff run configs/go_recovery.toml --out runs/go_recovery
 ga-reaxff report runs/go_recovery
 ```
@@ -49,8 +51,11 @@ run (manifest, per-generation history, final force field) is committed in
 
 * **Branches**: every development stage lives on its own `feature/*` branch,
   merged into `develop` with `--no-ff` only after the tests passed; `main`
-  holds the tagged release (`v0.1.0`). Inspect with
-  `git log --graph --oneline --all`.
+  holds the tagged releases (see [`CHANGELOG.md`](CHANGELOG.md)). Inspect with
+  `git log --graph --oneline --all`. The rules are in
+  [`CONTRIBUTING.md`](CONTRIBUTING.md).
+* **Continuous integration**: every push and pull request runs the full suite;
+  the `pytest -v` log and `pip freeze` of each run are kept as build artifacts.
 * **Test logs**: the full `pytest -v` output of every stage is committed in
   `docs/test_logs/` together with the code it tested.
 * **Development log**: [`docs/development_log.md`](docs/development_log.md)
@@ -74,13 +79,16 @@ configs/            TOML run configurations
 data/               reference force field + provenance/hash
 docs/               methodology, development log, results, test logs
 runs/               committed benchmark run(s)
-scripts/            operator tuning, GitHub publishing helper
+scripts/            figures, operator tuning, GitHub publishing helper
 src/ga_reaxff/      package (one module per pipeline stage)
 tests/              pytest suite (one file per stage)
-.github/workflows/  CI (pytest on every push)
+.github/            CI (pytest on every push), PR/issue templates, CODEOWNERS
 ```
 
-## Citation of the reference force field
+## Citation
+
+To cite this software, see [`CITATION.cff`](CITATION.cff). Reference force field:
+
 
 K. Chenoweth, A. C. T. van Duin, W. A. Goddard III, *J. Phys. Chem. A* **112**, 1040–1053 (2008).
 
