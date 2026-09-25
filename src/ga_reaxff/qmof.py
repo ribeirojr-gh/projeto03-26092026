@@ -142,3 +142,105 @@ def load_snapshot(directory: str | Path, verify: bool = True) -> list[dict]:
         if actual != expected:
             raise ValueError(f"QMOF snapshot hash mismatch: {actual} != {expected}")
     return [json.loads(line) for line in text.splitlines()]
+
+
+# ---------------------------------------------------------------------------
+# Structures
+# ---------------------------------------------------------------------------
+# Per-atom PBE properties kept with each structure (DDEC6 and CM5 charges,
+# DDEC6 bond-order sums, magnetic moments). Hybrid-functional data dropped.
+SITE_PROPERTIES = ("pbe_ddec_charge", "pbe_cm5_charge", "pbe_ddec_sum_bond_order",
+                   "pbe_magmom")
+
+
+def structure_to_atoms(structure, identifier: str, row: dict | None = None):
+    """pymatgen Structure (with QMOF site properties) -> ase.Atoms.
+
+    Site properties become per-atom arrays; the identifier and, if `row` is
+    given, the PBE-D3(BJ) energies of the snapshot become `atoms.info`.
+    """
+    from pymatgen.io.ase import AseAtomsAdaptor
+    atoms = AseAtomsAdaptor.get_atoms(structure.remove_site_property("dummy")
+                                      if "dummy" in structure.site_properties else structure)
+    for k in list(atoms.arrays):
+        if k not in ("numbers", "positions") and k not in SITE_PROPERTIES:
+            del atoms.arrays[k]
+    for k in SITE_PROPERTIES:
+        if k in structure.site_properties and k not in atoms.arrays:
+            import numpy as np
+            atoms.arrays[k] = np.array(structure.site_properties[k], dtype=float)
+    atoms.info = {"identifier": identifier}
+    if row:
+        for key, name in (("outputsDFT.PBE.energy.total", "energy_pbe_d3_eV"),
+                          ("outputsDFT.PBE.energy.electronic", "energy_pbe_eV"),
+                          ("outputsDFT.PBE.energy.vdw", "energy_d3_eV")):
+            if row.get(key) is not None:
+                atoms.info[name] = float(row[key])
+        atoms.info["qmof_name"] = row.get("filename")
+    return atoms
+
+
+def fetch_structures(rows: list[dict], workers: int = 8,
+                     retries: int = 3) -> list:  # pragma: no cover - network
+    """Download the relaxed structures of `rows` (snapshot records); returns ase.Atoms
+    in the order of `rows`."""
+    import threading
+    from concurrent.futures import ThreadPoolExecutor
+
+    from mpcontribs.client import Client
+
+    local = threading.local()
+
+    def client():
+        if not hasattr(local, "c"):
+            local.c = Client(apikey=api_key(), project=PROJECT)
+        return local.c
+
+    def one(row):
+        for attempt in range(retries):
+            try:
+                c = client()
+                r = c.query_contributions(query={"identifier": row["identifier"]},
+                                          fields=["identifier", "structures"])
+                sid = r["data"][0]["structures"][0]["id"]
+                return structure_to_atoms(c.get_structure(sid), row["identifier"], row)
+            except Exception:
+                if attempt == retries - 1:
+                    raise
+                time.sleep(2 * (attempt + 1))
+
+    with ThreadPoolExecutor(max_workers=workers) as ex:
+        return list(ex.map(one, rows))
+
+
+def save_structures(atoms_list, path: str | Path) -> str:
+    """Write structures as gzipped extxyz sorted by identifier; return the SHA-256
+    of the uncompressed text (deterministic, like the metadata snapshot)."""
+    import io
+
+    from ase.io import write
+    buf = io.StringIO()
+    for a in sorted(atoms_list, key=lambda a: a.info["identifier"]):
+        write(buf, a, format="extxyz")
+    text = buf.getvalue()
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    with open(p, "wb") as fh, gzip.GzipFile(filename="", mode="wb", fileobj=fh, mtime=0) as gz:
+        gz.write(text.encode())
+    digest = hashlib.sha256(text.encode()).hexdigest()
+    Path(str(p) + ".sha256").write_text(f"{digest}  {p.name} (uncompressed extxyz)\n")
+    return digest
+
+
+def load_structures(path: str | Path, verify: bool = True) -> list:
+    """Read a structure file written by `save_structures` (hash-verified)."""
+    import io
+
+    from ase.io import read
+    p = Path(path)
+    text = gzip.decompress(p.read_bytes()).decode()
+    if verify:
+        expected = Path(str(p) + ".sha256").read_text().split()[0]
+        if hashlib.sha256(text.encode()).hexdigest() != expected:
+            raise ValueError(f"structure file hash mismatch: {p}")
+    return read(io.StringIO(text), index=":", format="extxyz")

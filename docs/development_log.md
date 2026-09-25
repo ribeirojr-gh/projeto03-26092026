@@ -214,3 +214,33 @@ mixtures.
   mattsson). CO2 is too long in every candidate (FC: C=O 1.253 A vs 1.160 A),
   so the C-O terms join the Zn terms in the first fit.
 * Build outputs verified identical across two runs.
+
+## Stage 13 - `feature/13-structures-mlip-teacher`
+Structures of the Zn family and check of MLIP teachers. Tests: 88 passed
+(cumulative; 8 new).
+* **Structures.** 2 958 MOFs downloaded in 167 s with 8 threads; each carries
+  per-atom DDEC6/CM5 charges, DDEC6 bond-order sums and magnetic moments.
+  All neutral in DDEC6. Stored as deterministic gzipped extxyz with hash.
+* **A test was wrong, not the data.** The first composition check compared
+  `get_chemical_formula(mode="reduce")` strings; in ASE that mode only merges
+  repeated symbols and does not divide by the greatest common divisor, so
+  Zn2C24... did not match ZnC12... . The test now compares reduced counts.
+* **GPU memory.** The first teacher run crashed with CUDA out-of-memory on a
+  500-atom MOF (float64 + D3 on 8 GB). TorchScript wraps the CUDA error in a
+  plain RuntimeError, so catching `torch.OutOfMemoryError` did not work;
+  the script now catches the wrapped error and falls back to the CPU, and
+  sets `expandable_segments`. In the final run no structure needed the
+  fallback (1 260 of 1 260 evaluations on the GPU).
+* **Environment.** `OMP_NUM_THREADS=1` is set in the shell, so the CPU
+  fallback first ran on one thread; it now sets 16 threads itself.
+* **Measurement bug fixed before the final run.** The atomic displacement
+  after relaxation did not remove a rigid translation of the whole crystal
+  (a zero mode of periodic relaxations). Fixed in `teacher.py` (and in the
+  stage-14 scorecard) and the relaxations re-run; relaxed structures are
+  now written to `runs/teacher_check/` for re-analysis.
+* **Result** (`docs/results_teacher_check.md`): best model medium-mpa-0 -
+  force rms 0.152 eV/A at the DFT minima (worst on C and N), energy spread
+  13 meV/atom after per-element offsets, cell volume within 0.65 % (median)
+  after relaxation. Good for cells and energy differences, not accurate
+  enough as the only force reference: own DFT is needed for fine-tuning and
+  for reaction paths.

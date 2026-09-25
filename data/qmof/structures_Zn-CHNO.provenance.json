@@ -1,0 +1,14 @@
+{
+  "family": "Zn|C-H-N-O (metal Zn, elements subset of Zn,C,H,N,O)",
+  "n_structures": 2958,
+  "retrieved_utc": "2026-09-25T20:46:48Z",
+  "sha256_uncompressed": "9c0d017144ac95407a29227473343e4c5cf706b2e17569836f601f64912c2685",
+  "site_properties": [
+    "pbe_ddec_charge",
+    "pbe_cm5_charge",
+    "pbe_ddec_sum_bond_order",
+    "pbe_magmom"
+  ],
+  "snapshot_sha256": "d29024dc5ff6692c4ee2e792efd6cbd707b5fc5eee1e2dece56a19dae06fd387",
+  "source": "MPContribs project 'mofexplorer' structures (QMOF, PBE-D3(BJ) relaxed)"
+}

@@ -71,6 +71,15 @@ applications (water splitting, CO2/CH4). Zn-N and Zn-C terms do not exist in
 any source and are the first fit targets, with the C-O terms for CO2. See
 [`docs/results_base_ffield.md`](docs/results_base_ffield.md).
 
+## Machine-learning teacher (stage 13)
+
+Structures of the 2 958 Zn MOFs, with DDEC6 charges and bond orders, and a
+check of four MACE foundation models against QMOF DFT: MOF cells within 1 %
+and energy differences within 13 meV/atom, but forces at the DFT minima off
+by 0.15 eV/A (mostly on C and N). The teacher labels far-from-equilibrium
+configurations; a small set of own DFT calculations fine-tunes it and covers
+the reaction paths. See [`docs/results_teacher_check.md`](docs/results_teacher_check.md).
+
 ## Auditability
 
 * **Branches**: every development stage lives on its own `feature/*` branch,

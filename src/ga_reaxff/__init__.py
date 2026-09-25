@@ -11,5 +11,6 @@ Pipeline (one module per stage):
     audit       -> provenance records (hashes, seeds, versions, history)
     qmof        -> QMOF database snapshot (Materials Project MOF Explorer)
     families    -> MOF chemical families and force-field coverage
+    teacher     -> machine-learning teacher potentials checked against QMOF DFT
 """
 __version__ = "0.2.0"
