@@ -120,3 +120,24 @@ Figure script (`scripts/make_figures.py`) and four figures in `docs/figures/`.
   truth until generation ~29 and then drifts to 37 % error, and `offdiag D`
   moves from ~2 % to 12 % during Nelder-Mead, while the loss keeps decreasing:
   flat directions of the loss in parameter space.
+
+## Stage 9 - `chore/09-repository-infrastructure`
+Repository infrastructure for publication on GitHub; no change to the
+scientific code or to the committed results. Tests: 59 passed (cumulative).
+* Restored from `ga-reaxff-v0.1.1.bundle` (SHA-256
+  `fe67300fdc685f5f611084367bcbce46641b2606d48cd9c376acb7bed2f244ff`, matches
+  the value recorded at the end of stage 8). All 56 existing tests passed on
+  the new machine before any change.
+* **Branch invariant repaired.** `develop` did not contain the three release
+  commits on `main` (44dad77, 552f726, 7138daf). Back-merged `main` into
+  `develop`; the release procedure in `CONTRIBUTING.md` now includes this step.
+* **Version mismatch fixed.** `pyproject.toml` and `__init__.py` still said
+  `0.1.0` after the `v0.1.1` tag. New `tests/test_metadata.py` fails whenever
+  the package, `CHANGELOG.md` and `CITATION.cff` disagree on the version.
+* Added `CONTRIBUTING.md` (branching model, per-stage protocol, releases,
+  provenance rules), `CHANGELOG.md`, `CITATION.cff`, `CODEOWNERS`, PR and
+  issue templates. CI now covers all branch types and keeps the `pytest -v`
+  log and `pip freeze` of every run as artifacts.
+* Environment note: without root access, the MPI runtime required by the
+  LAMMPS wheel can be installed from PyPI (`pip install mpich`, then
+  `LD_LIBRARY_PATH=$VIRTUAL_ENV/lib`).
