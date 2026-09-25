@@ -71,4 +71,16 @@ pytest -v
 Without root access, the MPI runtime can come from PyPI instead:
 `pip install mpich` and `export LD_LIBRARY_PATH=$VIRTUAL_ENV/lib`.
 
+To use a locally compiled LAMMPS (shared library, `PKG_PYTHON` and
+`PKG_REAXFF` on) instead of the PyPI wheel, install without the `lammps`
+extra and point Python at the build:
+
+```bash
+pip install -e ".[dev]"
+ln -sfn "$LAMMPS_DIR/build/liblammps.so" "$LAMMPS_DIR/python/lammps/liblammps.so"
+echo "$LAMMPS_DIR/python" > "$(python -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')/lammps-local-build.pth"
+```
+
+The LAMMPS version actually used is recorded in each run's `manifest.json`.
+
 Code, comments and documentation are written in English.
