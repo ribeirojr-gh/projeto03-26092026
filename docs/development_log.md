@@ -136,8 +136,13 @@ scientific code or to the committed results. Tests: 59 passed (cumulative).
   the package, `CHANGELOG.md` and `CITATION.cff` disagree on the version.
 * Added `CONTRIBUTING.md` (branching model, per-stage protocol, releases,
   provenance rules), `CHANGELOG.md`, `CITATION.cff`, `CODEOWNERS`, PR and
-  issue templates. CI now covers all branch types and keeps the `pytest -v`
-  log and `pip freeze` of every run as artifacts.
+  issue templates.
+* **CI set to manual trigger.** On the GitHub free plan the jobs were refused
+  before starting (account spending limit). GitHub is used for storage and
+  structure only; the committed pytest logs are the test evidence. The
+  workflow keeps the `pytest -v` log and `pip freeze` as artifacts if run.
+* Tests now run against the locally compiled LAMMPS (22 Jul 2025 update 6,
+  KOKKOS/CUDA build) instead of the PyPI wheel; same 59 tests pass.
 * Environment note: without root access, the MPI runtime required by the
   LAMMPS wheel can be installed from PyPI (`pip install mpich`, then
   `LD_LIBRARY_PATH=$VIRTUAL_ENV/lib`).
