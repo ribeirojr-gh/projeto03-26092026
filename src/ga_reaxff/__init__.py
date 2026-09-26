@@ -12,5 +12,7 @@ Pipeline (one module per stage):
     qmof        -> QMOF database snapshot (Materials Project MOF Explorer)
     families    -> MOF chemical families and force-field coverage
     teacher     -> machine-learning teacher potentials checked against QMOF DFT
+    validate    -> per-MOF scorecard against the DFT-relaxed structure
+    resources   -> free cores / memory / GPU before local runs
 """
 __version__ = "0.2.0"
