@@ -270,3 +270,20 @@ while the stage-13 teacher check occupied the GPU; rebased on stage 13.
   carboxylate C-O +6.2 %, Zn-O +3-4 %, N-H +13 %, consistent with the gas
   molecules of stage 12 (CO2 C=O +8 %, NH3 N-H +13 %). Zn-O-only frameworks
   expand most (+11 %, 2 of 46 pass).
+
+## Stage 15 - `chore/15-rename-and-run-policy`
+Repository renamed and run policy fixed by the project owner. Tests: 102
+passed (cumulative; 4 new).
+* Repository renamed on GitHub to `projeto03-26092026` (now public). Local
+  remote, README badge, changelog links, citation and publishing script
+  updated. A scan of the full history found no API key or personal e-mail.
+* Run policy (CONTRIBUTING.md): DFT only locally (SIESTA by default, GPAW as
+  alternative, GPAW on Actions only as a last resort); local runs are sized
+  to the free resources; local fallback when Actions credits run out.
+* `resources.py` measures free cores (1-min load and a measured busy
+  fraction), available memory and GPU use, and sizes runs with a reserve of
+  4 cores and 4 GB. First test expectation was wrong (it ignored the measured
+  busy fraction); corrected.
+* SIESTA 5.4.2 checked: MPI, DFT-D3 (s-dftd3), libxc, ELPA, NetCDF. PBE
+  PseudoDojo PSML pseudopotentials available for Zn, C, H, N, O. GPAW is
+  not installed.

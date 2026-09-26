@@ -4,7 +4,7 @@ title: "ga-reaxff: genetic-algorithm parametrization of ReaxFF force fields"
 version: "0.2.0"
 date-released: "2026-09-25"
 license: MIT
-repository-code: "https://github.com/ribeirojr-gh/ga-reaxff"
+repository-code: "https://github.com/ribeirojr-gh/projeto03-26092026"
 authors:
   - given-names: Luiz
     affiliation: Spectrum.Lab3D
