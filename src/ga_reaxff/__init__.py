@@ -14,5 +14,6 @@ Pipeline (one module per stage):
     teacher     -> machine-learning teacher potentials checked against QMOF DFT
     validate    -> per-MOF scorecard against the DFT-relaxed structure
     resources   -> free cores / memory / GPU before local runs
+    siesta      -> local DFT reference (SIESTA, PBE-D3(BJ)) runs and parsing
 """
 __version__ = "0.2.0"
