@@ -1,0 +1,135 @@
+{
+ "initial_ffield": "runs/zn_fit_03/ffield.best",
+ "initial_ffield_sha256": "7a79c778c84df6e0746f7390e975a40dfb5758d57a5ac4beaf85009c44e59e89",
+ "placeholders": [],
+ "structures_sha256": "9c0d017144ac95407a29227473343e4c5cf706b2e17569836f601f64912c2685",
+ "thresholds": {
+  "max_volume_change": 0.05,
+  "max_displacement_rms_A": 0.3,
+  "coordination_cutoff_A": 2.6
+ },
+ "n": 228,
+ "n_failed_lammps": 0,
+ "n_passed": 128,
+ "n_ligands_lost_any": 4,
+ "volume_change_median": -0.037756168009512925,
+ "volume_change_abs_median": 0.04051717930005683,
+ "volume_change_p10_p90": [
+  -0.14983005394541873,
+  0.004014912714965304
+ ],
+ "displacement_rms_median": 0.0408642117442785,
+ "by_group": {
+  "Zn-N bonded": {
+   "n": 182,
+   "n_passed": 105,
+   "volume_change_median": -0.037151323630086885,
+   "bond_change_median": {
+    "C-C": {
+     "n_mofs": 181,
+     "ref_median_A": 1.4243149919231424,
+     "relative_change_median": 0.010734503988508726
+    },
+    "C-H": {
+     "n_mofs": 179,
+     "ref_median_A": 1.0913448993283017,
+     "relative_change_median": -0.027771034698072516
+    },
+    "C-N": {
+     "n_mofs": 181,
+     "ref_median_A": 1.349949887925582,
+     "relative_change_median": 0.008557593312028544
+    },
+    "C-O": {
+     "n_mofs": 161,
+     "ref_median_A": 1.2757182082618432,
+     "relative_change_median": 0.00871041200536804
+    },
+    "N-H": {
+     "n_mofs": 42,
+     "ref_median_A": 1.0264421739555503,
+     "relative_change_median": 0.014895222208447634
+    },
+    "O-H": {
+     "n_mofs": 52,
+     "ref_median_A": 0.9970322283188563,
+     "relative_change_median": 0.022167272440361097
+    },
+    "Zn-N": {
+     "n_mofs": 182,
+     "ref_median_A": 2.056668842482868,
+     "relative_change_median": -0.04448517795339879
+    },
+    "Zn-O": {
+     "n_mofs": 166,
+     "ref_median_A": 2.065597823429178,
+     "relative_change_median": -0.015510020095337085
+    }
+   }
+  },
+  "Zn-O only": {
+   "n": 46,
+   "n_passed": 23,
+   "volume_change_median": -0.04796618014991255,
+   "bond_change_median": {
+    "C-C": {
+     "n_mofs": 46,
+     "ref_median_A": 1.4294404885686651,
+     "relative_change_median": 0.005145737761931279
+    },
+    "C-H": {
+     "n_mofs": 42,
+     "ref_median_A": 1.0917636186010502,
+     "relative_change_median": -0.02801207772458536
+    },
+    "C-N": {
+     "n_mofs": 19,
+     "ref_median_A": 1.40195381270346,
+     "relative_change_median": 0.010289456103896866
+    },
+    "C-O": {
+     "n_mofs": 46,
+     "ref_median_A": 1.2787715402108324,
+     "relative_change_median": 0.00668873190869379
+    },
+    "N-H": {
+     "n_mofs": 3,
+     "ref_median_A": 1.0269195894490195,
+     "relative_change_median": -0.016124691280724024
+    },
+    "O-H": {
+     "n_mofs": 22,
+     "ref_median_A": 0.9962452507671515,
+     "relative_change_median": 0.03472576553132467
+    },
+    "Zn-O": {
+     "n_mofs": 46,
+     "ref_median_A": 2.0019613101839306,
+     "relative_change_median": -0.01693038137335351
+    }
+   }
+  }
+ },
+ "wall_time_s": 785.669281244278,
+ "procs": 12,
+ "resource_plan": {
+  "processes": 12,
+  "free_cores": 19,
+  "usable_mem_gb": 21.98,
+  "reason": "12 processes: 19 free cores (reserve 4), 22.0 GB usable (reserve 4.0 GB, 0.5 GB each); limited by max_processes",
+  "snapshot": {
+   "time_utc": "2026-09-26T21:42:03Z",
+   "cores_logical": 32,
+   "load_1min": 8.0263671875,
+   "load_5min": 9.41748046875,
+   "cpu_busy_fraction": 0.021,
+   "mem_total_gb": 31.03,
+   "mem_available_gb": 25.98,
+   "gpu_name": "NVIDIA GeForce RTX 4070 Laptop GPU",
+   "gpu_mem_total_gb": 7.99609375,
+   "gpu_mem_used_gb": 0.0224609375,
+   "gpu_util_percent": 0.0
+  }
+ },
+ "cpu_seconds_per_mof_median": 5.72524631023407
+}

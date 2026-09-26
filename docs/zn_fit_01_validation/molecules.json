@@ -1,0 +1,60 @@
+{
+ "ffield": "runs/zn_fit_01/ffield.best",
+ "molecules": [
+  {
+   "molecule": "CO2",
+   "bond": "C-O",
+   "reaxff": 1.0791211806777952,
+   "siesta": 1.1832220699999996,
+   "exp": 1.16,
+   "error_vs_siesta": -0.08798085495667307,
+   "error_vs_exp": -0.06972312010534898
+  },
+  {
+   "molecule": "H2O",
+   "bond": "O-H",
+   "reaxff": 0.968718429650625,
+   "siesta": 0.9750241972139408,
+   "exp": 0.958,
+   "error_vs_siesta": -0.006467293408034425,
+   "error_vs_exp": 0.011188339927583613,
+   "angle_reaxff": 105.04114300450647
+  },
+  {
+   "molecule": "CH4",
+   "bond": "C-H",
+   "reaxff": 1.0694200635808415,
+   "siesta": 1.1057500516905803,
+   "exp": 1.087,
+   "error_vs_siesta": -0.032855515633206545,
+   "error_vs_exp": -0.01617289458984217
+  },
+  {
+   "molecule": "CO",
+   "bond": "O-C",
+   "reaxff": 0.9052728819145361,
+   "siesta": 1.1502283999999996,
+   "exp": 1.128,
+   "error_vs_siesta": -0.2129625021304148,
+   "error_vs_exp": -0.19745311887009198
+  },
+  {
+   "molecule": "H2",
+   "bond": "H-H",
+   "reaxff": 0.7379479034726169,
+   "siesta": 0.7705839799999996,
+   "exp": 0.741,
+   "error_vs_siesta": -0.042352394254786874,
+   "error_vs_exp": -0.004118888700921919
+  },
+  {
+   "molecule": "NH3",
+   "bond": "N-H",
+   "reaxff": 0.9933418770548591,
+   "siesta": 1.0281546946492635,
+   "exp": 1.012,
+   "error_vs_siesta": -0.033859513335471436,
+   "error_vs_exp": -0.018436880380574006
+  }
+ ]
+}

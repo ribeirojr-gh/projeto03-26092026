@@ -1,0 +1,55 @@
+# First fit of the Zn + C/H/N/O force field (stage 17).
+# Targets: QMOF equilibrium (forces = 0, stress = 0) + teacher strain energies.
+# Validation: per-MOF scorecard on the 228 MOFs of the stage-14 baseline
+# (disjoint from the training MOFs).
+
+name = "zn_fit_01"
+seed = 2026
+start_ffield = "data/ffields/init/ffield.Zn-FC.init"
+structures = "data/qmof/structures_Zn-CHNO.extxyz.gz"
+exclude_scorecards = "docs/baseline_validation/scorecards.jsonl"   # validation MOFs
+
+[training]
+max_atoms = 60
+n_zn_n = 20            # MOFs with Zn-N contacts
+n_zn_o_only = 10       # carboxylate-only MOFs (the worst in the baseline)
+n_strain = 10          # of the training MOFs, how many get a teacher strain series
+strains = [-0.03, -0.015, 0.0, 0.015, 0.03]
+teacher_model = "medium-mpa-0"
+
+[loss]
+sigma_e = 1.0          # kcal/mol
+sigma_f = 2.0          # kcal/mol/A  (~0.09 eV/A)
+sigma_s = 1.0          # GPa
+force_weight = 1.0
+stress_weight = 0.5
+energy_weight = 1.0
+
+[parameters]
+rel = 0.3              # bounds: start value +/- 30 % (min half-width 0.05)
+keys = [
+  # C-O (carboxylate, CO2): sigma/pi radii and bond energies
+  "offdiag:C-O:r_s", "offdiag:C-O:r_p", "bond:C-O:De_sigma", "bond:C-O:De_pi", "bond:C-O:p_be1",
+  # Zn-O
+  "offdiag:O-Zn:r_s", "offdiag:O-Zn:D", "offdiag:O-Zn:r_vdw", "offdiag:O-Zn:alpha",
+  "bond:O-Zn:De_sigma", "bond:O-Zn:p_be1", "bond:O-Zn:p_bo1", "bond:O-Zn:p_bo2",
+  # Zn-N (placeholder copied from Zn-O)
+  "offdiag:N-Zn:r_s", "offdiag:N-Zn:D", "offdiag:N-Zn:r_vdw", "offdiag:N-Zn:alpha",
+  "bond:N-Zn:De_sigma", "bond:N-Zn:p_be1", "bond:N-Zn:p_bo1", "bond:N-Zn:p_bo2",
+  # C-Zn (placeholder) and N-H
+  "offdiag:C-Zn:r_s", "bond:C-Zn:De_sigma",
+  "offdiag:H-N:r_s",
+]
+
+[ga]
+pop_size = 40
+n_generations = 60
+patience = 15
+eta_m = 5.0
+
+[refine]
+maxiter = 400
+
+[run]
+mem_per_worker_gb = 1.0
+max_workers = 12

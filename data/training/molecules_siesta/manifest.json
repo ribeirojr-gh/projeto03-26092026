@@ -1,0 +1,375 @@
+{
+ "settings": {
+  "xc_functional": "GGA",
+  "xc_authors": "PBE",
+  "d3": true,
+  "basis": "DZP",
+  "energy_shift_ry": 0.01,
+  "mesh_cutoff_ry": 300.0,
+  "kgrid_cutoff_ang": 0.0,
+  "electronic_temperature_k": 300.0,
+  "dm_tolerance": 1e-05,
+  "max_scf": 300,
+  "mixing_weight": 0.1,
+  "mixing_history": 8,
+  "spin": "non-polarized",
+  "pseudo_families": {
+   "default": "ATOM-TABLE",
+   "Zn": "DOJO-PSML"
+  },
+  "extra": {}
+ },
+ "vacuum_A": 8.0,
+ "n_configs": 49,
+ "pseudopotentials": {
+  "C": "ad5e3a6652a9c10e416a1abcd25d63ce8527d2fb758f6dbc729e00bd18f4ec22",
+  "H": "fbca0680a0242db2f0c4ecd74a23b53919c30f505ce79d523da78a227780e174",
+  "N": "0605dc8b4bb0ddfdfbafdb4752d9089c020dc0593913b3147cc658f14743d04b",
+  "O": "d1e63484df47bc650d48798a69a6252cc42dc6fc55d0227423ea6ff30ff5fcc6"
+ },
+ "runs": [
+  {
+   "molecule": "CO2",
+   "config": "eq",
+   "energy_eV": -1055.403729,
+   "force_max_eV_A": 0.00140529144,
+   "wall_time_s": 4.415142297744751
+  },
+  {
+   "molecule": "CO2",
+   "config": "sym-0.08",
+   "energy_eV": -1054.653705,
+   "force_max_eV_A": 10.3648938,
+   "wall_time_s": 6.799984931945801
+  },
+  {
+   "molecule": "CO2",
+   "config": "sym-0.04",
+   "energy_eV": -1055.23269,
+   "force_max_eV_A": 4.43303994,
+   "wall_time_s": 4.403185844421387
+  },
+  {
+   "molecule": "CO2",
+   "config": "sym+0.04",
+   "energy_eV": -1055.254071,
+   "force_max_eV_A": 3.57482577,
+   "wall_time_s": 4.442702531814575
+  },
+  {
+   "molecule": "CO2",
+   "config": "sym+0.08",
+   "energy_eV": -1054.863101,
+   "force_max_eV_A": 6.05247255,
+   "wall_time_s": 4.177068471908569
+  },
+  {
+   "molecule": "CO2",
+   "config": "sym+0.16",
+   "energy_eV": -1053.59783,
+   "force_max_eV_A": 9.35661774,
+   "wall_time_s": 7.028693437576294
+  },
+  {
+   "molecule": "CO2",
+   "config": "one+0.10",
+   "energy_eV": -1055.022151,
+   "force_max_eV_A": 6.71698025,
+   "wall_time_s": 5.106920957565308
+  },
+  {
+   "molecule": "CO2",
+   "config": "one+0.20",
+   "energy_eV": -1054.173864,
+   "force_max_eV_A": 9.71544564,
+   "wall_time_s": 4.883926153182983
+  },
+  {
+   "molecule": "CO2",
+   "config": "one+0.40",
+   "energy_eV": -1052.083297,
+   "force_max_eV_A": 10.4007352,
+   "wall_time_s": 5.271418571472168
+  },
+  {
+   "molecule": "CO2",
+   "config": "one+0.60",
+   "energy_eV": -1050.178915,
+   "force_max_eV_A": 8.46356832,
+   "wall_time_s": 7.102845191955566
+  },
+  {
+   "molecule": "CO2",
+   "config": "bend170",
+   "energy_eV": -1055.334688,
+   "force_max_eV_A": 1.317459932959582,
+   "wall_time_s": 4.608761548995972
+  },
+  {
+   "molecule": "CO2",
+   "config": "bend160",
+   "energy_eV": -1055.127797,
+   "force_max_eV_A": 2.57620271109192,
+   "wall_time_s": 4.6057047843933105
+  },
+  {
+   "molecule": "CO2",
+   "config": "bend150",
+   "energy_eV": -1054.76529,
+   "force_max_eV_A": 3.726774729726889,
+   "wall_time_s": 4.586645603179932
+  },
+  {
+   "molecule": "CO2",
+   "config": "bend140",
+   "energy_eV": -1054.224955,
+   "force_max_eV_A": 4.7380836109445115,
+   "wall_time_s": 6.418789625167847
+  },
+  {
+   "molecule": "H2O",
+   "config": "eq",
+   "energy_eV": -478.64187,
+   "force_max_eV_A": 0.004987860809512316,
+   "wall_time_s": 5.79336404800415
+  },
+  {
+   "molecule": "H2O",
+   "config": "oh-0.08",
+   "energy_eV": -478.461257,
+   "force_max_eV_A": 4.943255458306925,
+   "wall_time_s": 4.2872772216796875
+  },
+  {
+   "molecule": "H2O",
+   "config": "oh+0.08",
+   "energy_eV": -478.513938,
+   "force_max_eV_A": 2.9338440544122135,
+   "wall_time_s": 4.421907663345337
+  },
+  {
+   "molecule": "H2O",
+   "config": "oh+0.20",
+   "energy_eV": -478.012833,
+   "force_max_eV_A": 5.0871526499665665,
+   "wall_time_s": 4.45977783203125
+  },
+  {
+   "molecule": "H2O",
+   "config": "oh+0.40",
+   "energy_eV": -476.887553,
+   "force_max_eV_A": 5.841847996443113,
+   "wall_time_s": 7.155304193496704
+  },
+  {
+   "molecule": "H2O",
+   "config": "oh+0.70",
+   "energy_eV": -475.251438,
+   "force_max_eV_A": 4.906597556161094,
+   "wall_time_s": 4.420305013656616
+  },
+  {
+   "molecule": "H2O",
+   "config": "bend89",
+   "energy_eV": -478.483709,
+   "force_max_eV_A": 1.4018370473689767,
+   "wall_time_s": 4.456692457199097
+  },
+  {
+   "molecule": "H2O",
+   "config": "bend97",
+   "energy_eV": -478.609329,
+   "force_max_eV_A": 0.5998719916966041,
+   "wall_time_s": 4.496137380599976
+  },
+  {
+   "molecule": "H2O",
+   "config": "bend111",
+   "energy_eV": -478.612358,
+   "force_max_eV_A": 0.5656401810351758,
+   "wall_time_s": 6.9277026653289795
+  },
+  {
+   "molecule": "H2O",
+   "config": "bend119",
+   "energy_eV": -478.515012,
+   "force_max_eV_A": 1.182533055184947,
+   "wall_time_s": 4.089218378067017
+  },
+  {
+   "molecule": "CH4",
+   "config": "eq",
+   "energy_eV": -226.736738,
+   "force_max_eV_A": 0.0029632711336018036,
+   "wall_time_s": 5.47698450088501
+  },
+  {
+   "molecule": "CH4",
+   "config": "b01-0.06",
+   "energy_eV": -226.670153,
+   "force_max_eV_A": 2.344631423197156,
+   "wall_time_s": 4.518864393234253
+  },
+  {
+   "molecule": "CH4",
+   "config": "b01+0.06",
+   "energy_eV": -226.683853,
+   "force_max_eV_A": 1.670107267269045,
+   "wall_time_s": 4.1429901123046875
+  },
+  {
+   "molecule": "CH4",
+   "config": "b01+0.15",
+   "energy_eV": -226.453846,
+   "force_max_eV_A": 3.2902108501071665,
+   "wall_time_s": 4.6235997676849365
+  },
+  {
+   "molecule": "CH4",
+   "config": "b01+0.30",
+   "energy_eV": -225.853545,
+   "force_max_eV_A": 4.4734634031177976,
+   "wall_time_s": 6.810169219970703
+  },
+  {
+   "molecule": "H2",
+   "config": "eq",
+   "energy_eV": -31.436368,
+   "force_max_eV_A": 0.00395609064,
+   "wall_time_s": 5.35113263130188
+  },
+  {
+   "molecule": "H2",
+   "config": "b01-0.06",
+   "energy_eV": -31.368085,
+   "force_max_eV_A": 2.43238326,
+   "wall_time_s": 3.1742825508117676
+  },
+  {
+   "molecule": "H2",
+   "config": "b01+0.06",
+   "energy_eV": -31.382902,
+   "force_max_eV_A": 1.6709807,
+   "wall_time_s": 2.7588136196136475
+  },
+  {
+   "molecule": "H2",
+   "config": "b01+0.15",
+   "energy_eV": -31.154183,
+   "force_max_eV_A": 3.27556059,
+   "wall_time_s": 2.759277820587158
+  },
+  {
+   "molecule": "H2",
+   "config": "b01+0.30",
+   "energy_eV": -30.555707,
+   "force_max_eV_A": 4.46961426,
+   "wall_time_s": 2.823991060256958
+  },
+  {
+   "molecule": "CO",
+   "config": "eq",
+   "energy_eV": -607.210766,
+   "force_max_eV_A": 0.0041113534,
+   "wall_time_s": 4.302596807479858
+  },
+  {
+   "molecule": "CO",
+   "config": "b01-0.06",
+   "energy_eV": -606.987498,
+   "force_max_eV_A": 7.9975631,
+   "wall_time_s": 6.8923304080963135
+  },
+  {
+   "molecule": "CO",
+   "config": "b01+0.06",
+   "energy_eV": -607.040845,
+   "force_max_eV_A": 5.28263195,
+   "wall_time_s": 4.4186015129089355
+  },
+  {
+   "molecule": "CO",
+   "config": "b01+0.15",
+   "energy_eV": -606.337292,
+   "force_max_eV_A": 9.81069511,
+   "wall_time_s": 4.500766038894653
+  },
+  {
+   "molecule": "CO",
+   "config": "b01+0.30",
+   "energy_eV": -604.626534,
+   "force_max_eV_A": 12.2792462,
+   "wall_time_s": 4.73656964302063
+  },
+  {
+   "molecule": "NH3",
+   "config": "eq",
+   "energy_eV": -328.305349,
+   "force_max_eV_A": 0.003288463663893358,
+   "wall_time_s": 6.140325546264648
+  },
+  {
+   "molecule": "NH3",
+   "config": "b01-0.06",
+   "energy_eV": -328.220726,
+   "force_max_eV_A": 3.0067730042955856,
+   "wall_time_s": 5.385870695114136
+  },
+  {
+   "molecule": "NH3",
+   "config": "b01+0.06",
+   "energy_eV": -328.238995,
+   "force_max_eV_A": 2.0812668011114086,
+   "wall_time_s": 5.362138032913208
+  },
+  {
+   "molecule": "NH3",
+   "config": "b01+0.15",
+   "energy_eV": -327.957,
+   "force_max_eV_A": 3.995466200862776,
+   "wall_time_s": 6.966552972793579
+  },
+  {
+   "molecule": "NH3",
+   "config": "b01+0.30",
+   "energy_eV": -327.24259,
+   "force_max_eV_A": 5.245143221565226,
+   "wall_time_s": 5.2739012241363525
+  },
+  {
+   "molecule": "HCOOH",
+   "config": "eq",
+   "energy_eV": -1087.247067,
+   "force_max_eV_A": 0.004189600915790289,
+   "wall_time_s": 7.418550968170166
+  },
+  {
+   "molecule": "HCOOH",
+   "config": "b01-0.06",
+   "energy_eV": -1087.121505,
+   "force_max_eV_A": 4.385248160532651,
+   "wall_time_s": 6.689329147338867
+  },
+  {
+   "molecule": "HCOOH",
+   "config": "b01+0.06",
+   "energy_eV": -1087.136021,
+   "force_max_eV_A": 3.781815416419853,
+   "wall_time_s": 6.689097166061401
+  },
+  {
+   "molecule": "HCOOH",
+   "config": "b01+0.15",
+   "energy_eV": -1086.609187,
+   "force_max_eV_A": 8.869751849513648,
+   "wall_time_s": 7.677654266357422
+  },
+  {
+   "molecule": "HCOOH",
+   "config": "b01+0.30",
+   "energy_eV": -1085.029797,
+   "force_max_eV_A": 17.092374607284423,
+   "wall_time_s": 6.069592475891113
+  }
+ ]
+}

@@ -1,6 +1,7 @@
 """Per-MOF validation of the *initial* Zn + C/H/N/O force field (before any fit).
 
     python scripts/baseline_validation.py [--n 200] [--max-atoms 150] [--procs 12]
+    python scripts/baseline_validation.py --ffield runs/<fit>/ffield.best --out docs/<fit>_validation
 
 Initial force field = data/ffields/base/ffield.Zn-FC + placeholder C-Zn and
 N-Zn entries copied from O-Zn (ffield.add_placeholder_pairs). Every MOF of a
@@ -75,11 +76,22 @@ def main(argv=None):
     ap.add_argument("--max-atoms", type=int, default=150)
     ap.add_argument("--procs", type=int, default=12)
     ap.add_argument("--out", default="docs/baseline_validation")
+    ap.add_argument("--ffield", default=None,
+                    help="force field to validate (default: build and use the initial one)")
+    ap.add_argument("--label", default="Initial Zn force field")
     a = ap.parse_args(argv)
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
 
-    init_path, added = build_initial_ff()
+    from ga_reaxff.resources import plan
+    p = plan(mem_per_process_gb=0.5, max_processes=a.procs)
+    if p.processes < 1:
+        raise SystemExit(f"machine busy, not starting: {p.reason}")
+    a.procs = p.processes
+    if a.ffield:
+        init_path, added = Path(a.ffield), []
+    else:
+        init_path, added = build_initial_ff()
     structures = qmof.load_structures(STRUCTURES)
     # the teacher-check relaxation sample (same selection as scripts/teacher_check.py)
     sp = [structures[i] for i in sample_indices(len(structures), 300, SEED)]
@@ -96,7 +108,7 @@ def main(argv=None):
     cards = [c for c, _ in results]
     # relaxed structures kept for re-analysis (runs/ is not versioned)
     from ase.io import write
-    run_dir = Path("runs/baseline_validation")
+    run_dir = Path("runs") / Path(a.out).name
     run_dir.mkdir(parents=True, exist_ok=True)
     write(run_dir / "relaxed.extxyz", [r for _, r in results if r is not None], format="extxyz")
     for c in cards:
@@ -121,7 +133,7 @@ def main(argv=None):
         "volume_change_p10_p90": [float(np.percentile(v, 10)), float(np.percentile(v, 90))],
         "displacement_rms_median": float(np.median([c["displacement_rms"] for c in ok])),
         "by_group": {},
-        "wall_time_s": wall, "procs": a.procs,
+        "wall_time_s": wall, "procs": a.procs, "resource_plan": p.as_dict(),
         "cpu_seconds_per_mof_median": float(np.median([c["seconds"] for c in cards])),
     }
     for name, grp in (("Zn-N bonded", [c for c in ok if c["zn_n_bonded"]]),
@@ -149,7 +161,7 @@ def main(argv=None):
                label=f"acceptance band (|dV| < {100 * MAX_VOLUME_CHANGE:.0f} %)")
     ax.set_xlabel("volume change after ReaxFF relaxation (%)", color=INK)
     ax.set_ylabel("MOFs", color=INK)
-    ax.set_title(f"Initial Zn force field on {len(ok)} Zn MOFs (before fitting)",
+    ax.set_title(f"{a.label} on {len(ok)} Zn MOFs",
                  loc="left", fontsize=10, color=INK)
     ax.spines[["top", "right"]].set_visible(False)
     ax.legend(frameon=False, fontsize=8)

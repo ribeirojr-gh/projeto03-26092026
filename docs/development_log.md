@@ -318,3 +318,30 @@ passed (cumulative; 7 new). All runs sized with `resources.plan` (8 ranks,
   "SCF convergence failure", which also appears in SIESTA's echo of the
   options; it now looks for "SCF Convergence by".
 * GPAW (alternative code) is not installed; not needed so far.
+
+## Stage 17 - `feature/17-first-fit`
+First GA fits of the Zn + C/H/N/O force field. Tests: 116 passed
+(cumulative; 7 new). All runs local, sized with `resources.plan` (12 LAMMPS
+workers; teacher labels on the GPU; SIESTA molecules on 4 ranks).
+* **Stress** added to the engine and checked against finite-difference
+  strain derivatives on a triclinic MOF (six components within 0.1 %). At the
+  QMOF geometries the initial force field gives stresses up to -160 GPa and
+  forces up to 1300 kcal/mol/A on carboxylate O.
+* **`ShardedEngine`** (spawned workers, configurations dealt round-robin)
+  reproduces the serial engine to 1e-6; 12 workers.
+* **Fit 01 failed on validation (45/228 vs 96).** Equilibrium forces alone
+  let the GA shorten all C-O and Zn-N bonds (CO2 -7 %, CO -20 %, Zn-N -35 %).
+* **Fit 02** added Zn-ligand bond scans (teacher), SIESTA molecules and
+  bond-level over-coordination terms: 85/228, Zn-N still -22 %.
+* **Diagnosis by energy-term decomposition:** finite differences of each
+  ReaxFF energy component on the atom with the largest force showed the atom
+  over/under-coordination term at 55 % (initial) and 30 % (fit 02) of the
+  total; it is controlled by atom-level parameters of O/N (FC) and Zn (ZnOH).
+* **Fit 03** (atom-level terms, bond scans in all 30 training MOFs, fresh
+  start): **128/228 (56 %)**, Zn-N -4 %, carboxylate C-O +0.9 %; CO2 +5 % and
+  CO +10 % remain, frameworks contract 3.8 %, 24 of 38 parameters moved by
+  more than 15 % (bounds +/-30 % limit the search).
+* **Found along the way:** ASE's `set_angle` cannot bend a linear molecule
+  (CO2); `molecule_refs._bend` rotates about an explicit perpendicular axis.
+  Molecule-check outputs of fits 01-02 were first written to misnamed
+  folders (`zn_fit01_validation`) and moved to the right ones before commit.
