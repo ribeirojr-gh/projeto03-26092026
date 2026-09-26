@@ -1,0 +1,9 @@
+{"bond": 1.1058070438094239, "molecule": "CH4", "pseudos": "mixed (ATOM-TABLE + Zn DOJO)"}
+{"bond": 1.1127897652071788, "molecule": "CH4", "pseudos": "DOJO-PSML"}
+{"bond": 1.1058074247936183, "molecule": "CH4", "pseudos": "ATOM-TABLE"}
+{"angle": 104.12760274082868, "bond": 0.9750319134563392, "molecule": "H2O", "pseudos": "mixed (ATOM-TABLE + Zn DOJO)"}
+{"angle": 104.28650406785741, "bond": 0.9759099163049034, "molecule": "H2O", "pseudos": "DOJO-PSML"}
+{"angle": 104.12759964058152, "bond": 0.9750319407283313, "molecule": "H2O", "pseudos": "ATOM-TABLE"}
+{"bond": 1.183235167182123, "molecule": "CO2", "pseudos": "mixed (ATOM-TABLE + Zn DOJO)"}
+{"bond": 1.186100358031445, "molecule": "CO2", "pseudos": "DOJO-PSML"}
+{"bond": 1.1832351423107959, "molecule": "CO2", "pseudos": "ATOM-TABLE"}

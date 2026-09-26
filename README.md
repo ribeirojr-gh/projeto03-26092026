@@ -90,6 +90,13 @@ because carboxylate C-O bonds are 6 % too long - the first fit target. See
 
 ![baseline](docs/baseline_validation/fig_baseline.png)
 
+## Local DFT reference: SIESTA (stage 16)
+
+DFT runs only on the local workstation. SIESTA 5.4.2 reproduces the QMOF
+level of theory (PBE-D3(BJ)): the D3 energy matches QMOF to 0.4 meV after two
+configuration fixes, cells agree, and bonds are 0.4-1.2 % longer than in
+VASP. See [`docs/results_siesta_calibration.md`](docs/results_siesta_calibration.md).
+
 ## Auditability
 
 * **Branches**: every development stage lives on its own `feature/*` branch,

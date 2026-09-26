@@ -287,3 +287,34 @@ passed (cumulative; 4 new).
 * SIESTA 5.4.2 checked: MPI, DFT-D3 (s-dftd3), libxc, ELPA, NetCDF. PBE
   PseudoDojo PSML pseudopotentials available for Zn, C, H, N, O. GPAW is
   not installed.
+
+## Stage 16 - `feature/16-siesta-setup`
+Local DFT reference with SIESTA (project rule: DFT only locally). Tests: 109
+passed (cumulative; 7 new). All runs sized with `resources.plan` (8 ranks,
+18-26 free cores and 17-22 GB available at the time).
+* **D3 was not what it claimed to be.** `DFTD3.UseXCDefaults true` left the
+  generic parameters in place (E_D3 -1.768 eV vs -2.143 eV in QMOF on the
+  test MOF). An independent implementation (torch-dftd) reproduced QMOF
+  exactly without the three-body term (-2.1433 eV) and SIESTA's value with
+  it (-2.0215 vs -2.0211 eV). Explicit PBE D3(BJ) parameters and a vanishing
+  three-body cutoff give -2.1429 eV. The sweep and check made before the fix
+  are kept as `*_d3-generic.jsonl` and were redone.
+* **Convergence:** mesh (200-500 Ry) and k-grid (10-15 A) converged; TZP
+  gains little; the generic TZ2P basis stops ("split norm too small").
+  Smaller PAO energy shifts *increase* the disagreement with QMOF, which
+  pointed to the pseudopotentials.
+* **Pseudopotentials decide.** Fixed-cell relaxations from the QMOF
+  structure: PseudoDojo for all elements gives C-H +1.8 %; SIESTA's
+  ATOM-TABLE gives better organic bonds but Zn-O +2.4 % (its Zn has no
+  semicore states). Final choice: ATOM-TABLE for H/C/N/O and PseudoDojo for
+  Zn (Zn-O +0.38 %, C-O +0.66 %, C-C +0.67 %, C-H +1.23 %). `siesta.py` now
+  takes per-element pseudopotential families (recorded with each run).
+* **Result:** at the QMOF geometries SIESTA shows 0.2 eV/A residual forces
+  and +0.5 to +4.4 GPa, almost all removed by relaxing the positions (cell
+  unchanged). Consistency rule for the fit: SIESTA labels only on
+  SIESTA-relaxed structures. Cost: 0.6-0.9 s per atom per single point on
+  8 ranks.
+* **Parser fix:** SCF convergence was first detected by the absence of
+  "SCF convergence failure", which also appears in SIESTA's echo of the
+  options; it now looks for "SCF Convergence by".
+* GPAW (alternative code) is not installed; not needed so far.
