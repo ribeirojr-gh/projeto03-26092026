@@ -1,6 +1,6 @@
 # ga-reaxff
 
-[![tests](https://github.com/ribeirojr-gh/ga-reaxff/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ribeirojr-gh/ga-reaxff/actions/workflows/ci.yml)
+[![tests](https://github.com/ribeirojr-gh/projeto03-26092026/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ribeirojr-gh/projeto03-26092026/actions/workflows/ci.yml)
 
 **Genetic-algorithm parametrization of ReaxFF force fields, with LAMMPS as the evaluation engine.**
 

@@ -7,6 +7,8 @@ the stage-by-stage audit trail is in [`docs/development_log.md`](docs/developmen
 
 ## [Unreleased]
 ### Added
+- `resources.py`: snapshot of free cores, memory and GPU, and sizing of
+  local runs with a reserve for other users of the workstation.
 - LAMMPS engine: triclinic cells (rotation to LAMMPS's restricted form and
   back) and cell relaxation (`relax(cell=True)`).
 - `ffield.add_placeholder_pairs`: starting entries for element pairs that
@@ -34,6 +36,11 @@ the stage-by-stage audit trail is in [`docs/development_log.md`](docs/developmen
   H2, ...) and a Zn aqua-hydroxo cluster; FC + Zn selected.
 
 ### Changed
+- Repository renamed to `ribeirojr-gh/projeto03-26092026` (links, citation,
+  publishing script).
+- Run policy in `CONTRIBUTING.md`: DFT (SIESTA, GPAW) runs locally only;
+  local runs are sized to the free resources; fall back to local runs when
+  Actions credits run out.
 - `engine.single_point` raises on non-finite energies or forces.
 - `engine`: masses for any element (ASE table), dummy atom types get mass 1.
 - `ffield.write` refuses a literal "X" label outside torsions (ambiguous with
@@ -103,8 +110,8 @@ Repository infrastructure; no change to the scientific code or results.
 - Real-coded GA with bounded Nelder-Mead refinement (stage 6).
 - End-to-end pipeline, audit records, CLI and GO recovery benchmark (stage 7).
 
-[Unreleased]: https://github.com/ribeirojr-gh/ga-reaxff/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/ribeirojr-gh/ga-reaxff/compare/v0.1.2...v0.2.0
-[0.1.2]: https://github.com/ribeirojr-gh/ga-reaxff/compare/v0.1.1...v0.1.2
-[0.1.1]: https://github.com/ribeirojr-gh/ga-reaxff/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/ribeirojr-gh/ga-reaxff/releases/tag/v0.1.0
+[Unreleased]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.1.2...v0.2.0
+[0.1.2]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/ribeirojr-gh/projeto03-26092026/releases/tag/v0.1.0
