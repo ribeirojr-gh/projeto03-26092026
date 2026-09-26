@@ -97,6 +97,13 @@ level of theory (PBE-D3(BJ)): the D3 energy matches QMOF to 0.4 meV after two
 configuration fixes, cells agree, and bonds are 0.4-1.2 % longer than in
 VASP. See [`docs/results_siesta_calibration.md`](docs/results_siesta_calibration.md).
 
+## First fits (stage 17)
+
+GA fits against QMOF equilibrium structures (zero force and stress), MACE
+strain and Zn-ligand scans, and SIESTA molecules. The third fit raises the
+per-MOF pass rate on 228 unseen Zn MOFs from 42 % to 56 %; CO2 and CO are
+still too long. See [`docs/results_first_fit.md`](docs/results_first_fit.md).
+
 ## Auditability
 
 * **Branches**: every development stage lives on its own `feature/*` branch,

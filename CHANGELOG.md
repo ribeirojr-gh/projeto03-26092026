@@ -7,6 +7,13 @@ the stage-by-stage audit trail is in [`docs/development_log.md`](docs/developmen
 
 ## [Unreleased]
 ### Added
+- First GA fits of the Zn + C/H/N/O force field (`scripts/fit_zn.py`,
+  `configs/zn_fit_0[1-3].toml`, `docs/results_first_fit.md`): fit 03 passes
+  128 of 228 validation MOFs (initial force field: 96).
+- LAMMPS stress tensor, `ShardedEngine` (parallel evaluation), stress term in
+  the loss; `mofdata.py` (equilibrium, strain and metal-ligand bond-scan
+  targets); SIESTA molecule references (`scripts/molecule_refs.py`,
+  `data/training/molecules_siesta/`); `scripts/check_molecules.py`.
 - `siesta.py`: local SIESTA runs (PBE-D3(BJ) with explicit PBE parameters and
   no three-body term, per-element pseudopotential families, DZP), fdf
   writer, output parser (energies, forces, stress, Hirshfeld charges).
