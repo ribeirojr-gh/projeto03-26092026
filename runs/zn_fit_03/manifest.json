@@ -1,0 +1,390 @@
+{
+  "created": "2026-09-26T17:21:25-0300",
+  "git_commit": "3a20f1fd18b687d900a76e2e617dc830a8068c3c-dirty",
+  "software": {
+    "ga_reaxff": "0.2.0",
+    "python": "3.12.3",
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "ase": "3.29.0",
+    "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+    "lammps": "20250722"
+  },
+  "config": {
+    "name": "zn_fit_03",
+    "seed": 2026,
+    "start_ffield": "data/ffields/init/ffield.Zn-FC.init",
+    "structures": "data/qmof/structures_Zn-CHNO.extxyz.gz",
+    "exclude_scorecards": "docs/baseline_validation/scorecards.jsonl",
+    "training": {
+      "max_atoms": 60,
+      "n_zn_n": 20,
+      "n_zn_o_only": 10,
+      "n_strain": 10,
+      "strains": [
+        -0.03,
+        -0.015,
+        0.0,
+        0.015,
+        0.03
+      ],
+      "teacher_model": "medium-mpa-0",
+      "bond_scans": [
+        -0.15,
+        -0.075,
+        0.0,
+        0.075,
+        0.15,
+        0.3
+      ],
+      "bond_scan_mofs": "all",
+      "bond_scan_w_e": 3.0,
+      "molecules": "data/training/molecules_siesta/molecules.extxyz",
+      "molecule_w_e": 2.0,
+      "molecule_w_f": 1.0
+    },
+    "loss": {
+      "sigma_e": 1.0,
+      "sigma_f": 2.0,
+      "sigma_s": 1.0,
+      "force_weight": 1.0,
+      "stress_weight": 0.5,
+      "energy_weight": 1.0
+    },
+    "parameters": {
+      "rel": 0.3,
+      "keys": [
+        "offdiag:C-O:r_s",
+        "offdiag:C-O:r_p",
+        "bond:C-O:De_sigma",
+        "bond:C-O:De_pi",
+        "bond:C-O:p_be1",
+        "offdiag:O-Zn:r_s",
+        "offdiag:O-Zn:D",
+        "offdiag:O-Zn:r_vdw",
+        "offdiag:O-Zn:alpha",
+        "bond:O-Zn:De_sigma",
+        "bond:O-Zn:p_be1",
+        "bond:O-Zn:p_bo1",
+        "bond:O-Zn:p_bo2",
+        "offdiag:N-Zn:r_s",
+        "offdiag:N-Zn:D",
+        "offdiag:N-Zn:r_vdw",
+        "offdiag:N-Zn:alpha",
+        "bond:N-Zn:De_sigma",
+        "bond:N-Zn:p_be1",
+        "bond:N-Zn:p_bo1",
+        "bond:N-Zn:p_bo2",
+        "offdiag:C-Zn:r_s",
+        "bond:C-Zn:De_sigma",
+        "offdiag:H-N:r_s",
+        "bond:C-O:p_bo3",
+        "bond:C-O:p_bo4",
+        "bond:C-O:p_ovun1",
+        "bond:O-Zn:p_ovun1",
+        "bond:N-Zn:p_ovun1",
+        "angle:O-Zn-O:theta_00",
+        "angle:O-Zn-O:p_val1",
+        "angle:O-Zn-O:p_val2",
+        "atom:O:p_ovun2",
+        "atom:N:p_ovun2",
+        "atom:Zn:p_ovun2",
+        "atom:O:p_lp2",
+        "atom:Zn:valency_val",
+        "atom:Zn:p_val3"
+      ]
+    },
+    "ga": {
+      "pop_size": 60,
+      "n_generations": 80,
+      "patience": 20,
+      "eta_m": 5.0
+    },
+    "refine": {
+      "maxiter": 400
+    },
+    "run": {
+      "mem_per_worker_gb": 1.0,
+      "max_workers": 12
+    },
+    "_path": "configs/zn_fit_03.toml"
+  },
+  "inputs": {
+    "start_ffield": {
+      "path": "data/ffields/init/ffield.Zn-FC.init",
+      "sha256": "35669cb738ecb7046f6a9d43526f6d9d8e9201c17cdfcfb9c88dabeeef692d14"
+    },
+    "training_set": {
+      "path": "data/training/zn_fit_03/train.extxyz",
+      "sha256": "a304fc8f0d3e5d9a4c9c7877cc3dd45a3c8f0cad3f71919712c040111f9cba68"
+    }
+  },
+  "parameter_space": [
+    {
+      "key": "offdiag:C-O:r_s",
+      "lower": 0.89978,
+      "upper": 1.6710200000000002
+    },
+    {
+      "key": "offdiag:C-O:r_p",
+      "lower": 0.79464,
+      "upper": 1.47576
+    },
+    {
+      "key": "bond:C-O:De_sigma",
+      "lower": 111.08622,
+      "upper": 206.30298000000002
+    },
+    {
+      "key": "bond:C-O:De_pi",
+      "lower": 75.22081,
+      "upper": 139.69579
+    },
+    {
+      "key": "bond:C-O:p_be1",
+      "lower": -0.5511999999999999,
+      "upper": -0.2968
+    },
+    {
+      "key": "offdiag:O-Zn:r_s",
+      "lower": 1.38628,
+      "upper": 2.5745199999999997
+    },
+    {
+      "key": "offdiag:O-Zn:D",
+      "lower": 0.19207999999999997,
+      "upper": 0.35672
+    },
+    {
+      "key": "offdiag:O-Zn:r_vdw",
+      "lower": 1.49898,
+      "upper": 2.78382
+    },
+    {
+      "key": "offdiag:O-Zn:alpha",
+      "lower": 6.8392100000000005,
+      "upper": 12.70139
+    },
+    {
+      "key": "bond:O-Zn:De_sigma",
+      "lower": 111.98285000000001,
+      "upper": 207.96815
+    },
+    {
+      "key": "bond:O-Zn:p_be1",
+      "lower": -0.59124,
+      "upper": -0.31836
+    },
+    {
+      "key": "bond:O-Zn:p_bo1",
+      "lower": -0.62231,
+      "upper": -0.33509
+    },
+    {
+      "key": "bond:O-Zn:p_bo2",
+      "lower": 3.2701900000000004,
+      "upper": 6.07321
+    },
+    {
+      "key": "offdiag:N-Zn:r_s",
+      "lower": 1.38628,
+      "upper": 2.5745199999999997
+    },
+    {
+      "key": "offdiag:N-Zn:D",
+      "lower": 0.19207999999999997,
+      "upper": 0.35672
+    },
+    {
+      "key": "offdiag:N-Zn:r_vdw",
+      "lower": 1.49898,
+      "upper": 2.78382
+    },
+    {
+      "key": "offdiag:N-Zn:alpha",
+      "lower": 6.8392100000000005,
+      "upper": 12.70139
+    },
+    {
+      "key": "bond:N-Zn:De_sigma",
+      "lower": 111.98285000000001,
+      "upper": 207.96815
+    },
+    {
+      "key": "bond:N-Zn:p_be1",
+      "lower": -0.59124,
+      "upper": -0.31836
+    },
+    {
+      "key": "bond:N-Zn:p_bo1",
+      "lower": -0.62231,
+      "upper": -0.33509
+    },
+    {
+      "key": "bond:N-Zn:p_bo2",
+      "lower": 3.2701900000000004,
+      "upper": 6.07321
+    },
+    {
+      "key": "offdiag:C-Zn:r_s",
+      "lower": 1.38628,
+      "upper": 2.5745199999999997
+    },
+    {
+      "key": "bond:C-Zn:De_sigma",
+      "lower": 111.98285000000001,
+      "upper": 207.96815
+    },
+    {
+      "key": "offdiag:H-N:r_s",
+      "lower": 0.67186,
+      "upper": 1.2477399999999998
+    },
+    {
+      "key": "bond:C-O:p_bo3",
+      "lower": -0.40469,
+      "upper": -0.21791000000000002
+    },
+    {
+      "key": "bond:C-O:p_bo4",
+      "lower": 4.9,
+      "upper": 9.1
+    },
+    {
+      "key": "bond:C-O:p_ovun1",
+      "lower": 0.7,
+      "upper": 1.3
+    },
+    {
+      "key": "bond:O-Zn:p_ovun1",
+      "lower": -0.012500000000000004,
+      "upper": 0.0875
+    },
+    {
+      "key": "bond:N-Zn:p_ovun1",
+      "lower": -0.012500000000000004,
+      "upper": 0.0875
+    },
+    {
+      "key": "angle:O-Zn-O:theta_00",
+      "lower": 7.6152999999999995,
+      "upper": 14.1427
+    },
+    {
+      "key": "angle:O-Zn-O:p_val1",
+      "lower": 27.294050000000002,
+      "upper": 50.688950000000006
+    },
+    {
+      "key": "angle:O-Zn-O:p_val2",
+      "lower": 0.49504000000000004,
+      "upper": 0.9193600000000001
+    },
+    {
+      "key": "atom:O:p_ovun2",
+      "lower": -4.69833,
+      "upper": -2.52987
+    },
+    {
+      "key": "atom:N:p_ovun2",
+      "lower": -5.70375,
+      "upper": -3.07125
+    },
+    {
+      "key": "atom:Zn:p_ovun2",
+      "lower": -3.9798199999999997,
+      "upper": -2.14298
+    },
+    {
+      "key": "atom:O:p_lp2",
+      "lower": -1.313,
+      "upper": -0.7070000000000001
+    },
+    {
+      "key": "atom:Zn:valency_val",
+      "lower": 4.40986,
+      "upper": 8.18974
+    },
+    {
+      "key": "atom:Zn:p_val3",
+      "lower": 1.4810600000000003,
+      "upper": 2.75054
+    }
+  ],
+  "ga_config": {
+    "pop_size": 60,
+    "n_generations": 80,
+    "tournament_k": 3,
+    "p_crossover": 0.9,
+    "eta_c": 15.0,
+    "p_mutation": null,
+    "eta_m": 5.0,
+    "n_elite": 2,
+    "seed": 2026,
+    "init": "lhs",
+    "inject": [
+      [
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.4999999999999999,
+        0.5000000000000001,
+        0.5,
+        0.5,
+        0.5000000000000001,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5000000000000001,
+        0.5,
+        0.5,
+        0.5000000000000001,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5000000000000001,
+        0.5,
+        0.5000000000000001,
+        0.49999999999999994,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.49999999999999994,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ]
+    ],
+    "patience": 20,
+    "tol": 1e-12
+  },
+  "n_configs": 405,
+  "resource_plan": {
+    "processes": 12,
+    "free_cores": 26,
+    "usable_mem_gb": 22.0,
+    "reason": "12 processes: 26 free cores (reserve 4), 22.0 GB usable (reserve 4.0 GB, 1.0 GB each); limited by max_processes",
+    "snapshot": {
+      "time_utc": "2026-09-26T20:21:21Z",
+      "cores_logical": 32,
+      "load_1min": 1.154296875,
+      "load_5min": 2.03466796875,
+      "cpu_busy_fraction": 0.004,
+      "mem_total_gb": 31.03,
+      "mem_available_gb": 26.0,
+      "gpu_name": "NVIDIA GeForce RTX 4070 Laptop GPU",
+      "gpu_mem_total_gb": 7.99609375,
+      "gpu_mem_used_gb": 0.0224609375,
+      "gpu_util_percent": 0.0
+    }
+  }
+}
