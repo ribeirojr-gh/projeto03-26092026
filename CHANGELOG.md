@@ -7,6 +7,12 @@ the stage-by-stage audit trail is in [`docs/development_log.md`](docs/developmen
 
 ## [Unreleased]
 ### Added
+- `siesta.py`: local SIESTA runs (PBE-D3(BJ) with explicit PBE parameters and
+  no three-body term, per-element pseudopotential families, DZP), fdf
+  writer, output parser (energies, forces, stress, Hirshfeld charges).
+- `scripts/siesta_calibration.py`, `docs/results_siesta_calibration.md`:
+  SIESTA calibrated against QMOF (convergence, pseudopotentials, bond
+  lengths, six Zn MOFs).
 - `resources.py`: snapshot of free cores, memory and GPU, and sizing of
   local runs with a reserve for other users of the workstation.
 - LAMMPS engine: triclinic cells (rotation to LAMMPS's restricted form and
