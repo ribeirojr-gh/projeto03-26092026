@@ -2,7 +2,9 @@
 # instance (MPICH singleton init) fail intermittently with SIGTERM on the runner?
 name: mpi-init-probe
 on:
-  workflow_dispatch:
+  push:
+    branches: [chore/18-ci-flake]
+    paths: [.github/workflows/mpi-init-probe.yml]
 jobs:
   probe:
     runs-on: ubuntu-24.04
