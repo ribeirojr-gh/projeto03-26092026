@@ -20,6 +20,28 @@ Both are converted into EvaluationError; the instance is rebuilt so the next
 candidate starts from a clean state. The fitness layer turns the error into a
 penalty, so the GA simply discards such individuals.
 
+Cells
+-----
+Any cell is accepted. LAMMPS needs a *restricted* triclinic box (a along x,
+b in the xy plane), so the structure is rotated into ASE's standard form,
+rcell = cell @ Q.T, before it is handed to LAMMPS; positions follow the same
+rotation and forces (and relaxed positions and cells) are rotated back with Q.
+Energies are rotation invariant. Orthogonal cells give Q = identity.
+
+Stress
+------
+`compute(..., stress=True)` also returns the stress tensor (Voigt order
+xx, yy, zz, yz, xz, xy; GPa, positive = tensile, i.e. minus the LAMMPS
+pressure), rotated back to the original frame. Atoms carry no velocities, so
+the LAMMPS pressure is the pure virial.
+
+Parallel evaluation
+-------------------
+`ShardedEngine` splits the configurations over worker processes, each with
+its own LAMMPS instances; one force field is evaluated by all workers at
+once. Memory stays that of one copy of every configuration, whatever the
+number of workers.
+
 Units: LAMMPS "real" -> energies kcal/mol, forces kcal/mol/Angstrom.
 """
 from __future__ import annotations
@@ -33,7 +55,20 @@ from ase import Atoms
 
 from .ffield import ForceField
 
+ATM_TO_GPA = 1.01325e-4
 MASSES = {"C": 12.011, "H": 1.008, "O": 15.999, "N": 14.007, "S": 32.06}
+
+
+def _mass(el: str) -> float:
+    """Atomic mass (amu); ASE's table for elements not listed in MASSES.
+
+    Dummy atom types of some published force fields (e.g. "X") never occur in
+    a structure; they get mass 1 so that LAMMPS accepts the type.
+    """
+    if el in MASSES:
+        return MASSES[el]
+    from ase.data import atomic_masses, chemical_symbols
+    return float(atomic_masses[chemical_symbols.index(el)]) if el in chemical_symbols else 1.0
 
 
 class EvaluationError(RuntimeError):
@@ -52,9 +87,12 @@ class _Instance:
     """One LAMMPS instance bound to one fixed geometry."""
 
     def __init__(self, atoms: Atoms, elements: list[str], ffield_path: str, qeq_tol: float):
-        cell = atoms.cell.array
-        if not np.allclose(cell, np.diag(np.diag(cell))):
-            raise ValueError("only orthogonal cells are supported")
+        if not all(atoms.pbc):
+            raise ValueError("fully periodic cells are required")
+        rcell, Q = atoms.cell.standard_form()
+        # standard_form is lower triangular; snap round-off in the zero entries
+        self.rcell = np.tril(rcell)
+        self.Q = np.asarray(Q)
         self.atoms = atoms
         self.elements = elements
         self.qeq_tol = qeq_tol
@@ -64,31 +102,57 @@ class _Instance:
         lammps = _import_lammps()
         L = lammps.lammps(cmdargs=["-log", "none", "-screen", "none", "-nocite"])
         a = self.atoms
-        lx, ly, lz = (float(v) for v in np.diag(a.cell.array))
+        r = self.rcell
+        lx, ly, lz = float(r[0, 0]), float(r[1, 1]), float(r[2, 2])
+        xy, xz, yz = float(r[1, 0]), float(r[2, 0]), float(r[2, 1])
+        if max(abs(xy), abs(xz), abs(yz)) < 1e-10:
+            region = f"region box block 0 {lx!r} 0 {ly!r} 0 {lz!r}"
+        else:
+            region = f"region box prism 0 {lx!r} 0 {ly!r} 0 {lz!r} {xy!r} {xz!r} {yz!r}"
         cmds = ["units real", "atom_style charge", "atom_modify map array sort 0 0",
-                "boundary p p p", f"region box block 0 {lx!r} 0 {ly!r} 0 {lz!r}",
-                f"create_box {len(self.elements)} box"]
-        cmds += [f"mass {i + 1} {MASSES[el]}" for i, el in enumerate(self.elements)]
+                "boundary p p p", region, f"create_box {len(self.elements)} box"]
+        cmds += [f"mass {i + 1} {_mass(el)}" for i, el in enumerate(self.elements)]
         L.commands_list(cmds)
         types = [self.elements.index(s) + 1 for s in a.get_chemical_symbols()]
         wrapped = a.copy()
         wrapped.wrap()   # LAMMPS needs atoms inside the periodic box; forces are unaffected
-        L.create_atoms(len(a), None, types, wrapped.positions.flatten().tolist())
+        x = wrapped.positions @ self.Q.T
+        L.create_atoms(len(a), None, types, x.flatten().tolist())
         if L.get_natoms() != len(a):
             raise RuntimeError("LAMMPS dropped atoms during creation")
         L.commands_list(["pair_style reaxff NULL checkqeq yes safezone 3.0 mincap 200",
                          f"pair_coeff * * {ffield_path} {' '.join(self.elements)}",
                          f"fix qeq all qeq/reaxff 1 0.0 10.0 {self.qeq_tol} reaxff",
-                         "thermo_style custom step pe"])
+                         "thermo_style custom step pe pxx pyy pzz pyz pxz pxy"])
         self.L = L
 
-    def compute(self, ffield_path: str) -> tuple[float, np.ndarray]:
+    def compute(self, ffield_path: str, stress: bool = False):
         L = self.L
         L.command(f"pair_coeff * * {ffield_path} {' '.join(self.elements)}")
         L.command("run 0 post no")
         e = float(L.get_thermo("pe"))
         f = np.array(L.gather_atoms("f", 1, 3), dtype=float).reshape(-1, 3)
-        return e, f
+        if not stress:
+            return e, f @ self.Q
+        p = {k: float(L.get_thermo(k)) for k in ("pxx", "pyy", "pzz", "pyz", "pxz", "pxy")}
+        P = np.array([[p["pxx"], p["pxy"], p["pxz"]],
+                      [p["pxy"], p["pyy"], p["pyz"]],
+                      [p["pxz"], p["pyz"], p["pzz"]]])
+        sig = -(self.Q.T @ P @ self.Q) * ATM_TO_GPA      # stress in the original frame
+        voigt = np.array([sig[0, 0], sig[1, 1], sig[2, 2], sig[1, 2], sig[0, 2], sig[0, 1]])
+        return e, f @ self.Q, voigt
+
+    def positions(self) -> np.ndarray:
+        """Current LAMMPS positions in the original (unrotated) frame."""
+        x = np.array(self.L.gather_atoms("x", 1, 3), dtype=float).reshape(-1, 3)
+        return x @ self.Q
+
+    def cell(self) -> np.ndarray:
+        """Current LAMMPS box as cell vectors in the original frame."""
+        lo, hi, xy, yz, xz, _, _ = self.L.extract_box()
+        lx, ly, lz = (h - l for h, l in zip(hi, lo))
+        rcell = np.array([[lx, 0, 0], [xy, ly, 0], [xz, yz, lz]])
+        return rcell @ self.Q
 
     def close(self):
         try:
@@ -113,21 +177,24 @@ class LammpsEngine:
         self.n_evaluations = 0
         self.n_failures = 0
 
-    def evaluate(self, ff: ForceField) -> list[tuple[float, np.ndarray]]:
-        """Energies and forces of every configuration with force field `ff`."""
+    def evaluate(self, ff: ForceField, stress: bool = False) -> list[tuple]:
+        """Energies and forces (and stresses) of every configuration with force field `ff`."""
         ff.write(self._ff_path)
+        return self.evaluate_path(self._ff_path, stress)
+
+    def evaluate_path(self, ffield_path: str, stress: bool = False) -> list[tuple]:
         self.n_evaluations += 1
         results = []
         for k, inst in enumerate(self._inst):
             try:
-                e, f = inst.compute(self._ff_path)
+                r = inst.compute(ffield_path, stress=stress)
             except Exception as exc:
                 self._rebuild(k)
                 raise EvaluationError(f"LAMMPS error on config {k}: {exc}") from exc
-            if not (np.isfinite(e) and np.all(np.isfinite(f))):
+            if not all(np.all(np.isfinite(x)) for x in r):
                 self._rebuild(k)
                 raise EvaluationError(f"non-finite energy/forces on config {k}")
-            results.append((e, f))
+            results.append(r)
         return results
 
     def _rebuild(self, k: int):
@@ -149,21 +216,122 @@ class LammpsEngine:
         self.close()
 
 
+def _shard_worker(conn, configs, elements_ff_path, qeq_tol):
+    """Worker loop: owns LAMMPS instances for its configurations."""
+    from .ffield import ForceField
+    try:
+        eng = LammpsEngine(configs, ForceField.read(elements_ff_path), qeq_tol=qeq_tol)
+        conn.send(("ready", None))
+    except Exception as exc:  # pragma: no cover
+        conn.send(("error", repr(exc)))
+        return
+    while True:
+        msg = conn.recv()
+        if msg is None:
+            break
+        path, stress = msg
+        try:
+            conn.send(("ok", eng.evaluate_path(path, stress)))
+        except EvaluationError as exc:
+            conn.send(("fail", str(exc)))
+    eng.close()
+
+
+class ShardedEngine:
+    """LammpsEngine split over `n_workers` processes (same interface).
+
+    Configurations are dealt round-robin to the workers; results come back in
+    the original order. Workers are started with the "spawn" method so that
+    no MPI/LAMMPS state of the parent is inherited.
+    """
+
+    def __init__(self, configs: list[Atoms], ff_template: ForceField, n_workers: int,
+                 qeq_tol: float = 1e-6, workdir: str | None = None):
+        import multiprocessing as mp
+        ctx = mp.get_context("spawn")
+        self.n = len(configs)
+        self.n_workers = max(1, min(n_workers, len(configs)))
+        self._tmp = tempfile.TemporaryDirectory(prefix="ga_reaxff_shard_", dir=workdir)
+        self._ff_path = os.path.join(self._tmp.name, "ffield.current")
+        tmpl = os.path.join(self._tmp.name, "ffield.template")
+        ff_template.write(tmpl)
+        self._index = [list(range(w, self.n, self.n_workers)) for w in range(self.n_workers)]
+        self._conns, self._procs = [], []
+        for idx in self._index:
+            a, b = ctx.Pipe()
+            proc = ctx.Process(target=_shard_worker, args=(b, [configs[i] for i in idx], tmpl, qeq_tol),
+                               daemon=True)
+            proc.start()
+            self._conns.append(a)
+            self._procs.append(proc)
+        for c in self._conns:
+            status, info = c.recv()
+            if status != "ready":  # pragma: no cover
+                raise RuntimeError(f"worker failed to start: {info}")
+        self.n_evaluations = 0
+        self.n_failures = 0
+
+    def evaluate(self, ff: ForceField, stress: bool = False) -> list[tuple]:
+        ff.write(self._ff_path)
+        self.n_evaluations += 1
+        for c in self._conns:
+            c.send((self._ff_path, stress))
+        out, error = [None] * self.n, None
+        for idx, c in zip(self._index, self._conns):
+            status, payload = c.recv()
+            if status == "ok":
+                for i, r in zip(idx, payload):
+                    out[i] = r
+            else:
+                error = payload
+        if error is not None:
+            self.n_failures += 1
+            raise EvaluationError(error)
+        return out
+
+    def close(self):
+        for c in self._conns:
+            try:
+                c.send(None)
+            except Exception:  # pragma: no cover
+                pass
+        for p in self._procs:
+            p.join(timeout=10)
+        self._tmp.cleanup()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        self.close()
+
+
 # ---------------------------------------------------------------- utilities
 def single_point(atoms: Atoms, ff: ForceField, qeq_tol: float = 1e-6) -> tuple[float, np.ndarray]:
-    """Energy/forces with a fresh LAMMPS instance (slow, used for cross-checks)."""
+    """Energy/forces with a fresh LAMMPS instance (slow, used for cross-checks).
+
+    Raises EvaluationError on non-finite results: LAMMPS can return a finite
+    energy with NaN forces (e.g. an element pair without a bond entry).
+    """
     with tempfile.TemporaryDirectory() as d:
         p = ff.write(Path(d) / "ffield")
         inst = _Instance(atoms, list(ff.elements), str(p), qeq_tol)
         try:
-            return inst.compute(str(p))
+            e, f = inst.compute(str(p))
         finally:
             inst.close()
+    if not (np.isfinite(e) and np.all(np.isfinite(f))):
+        raise EvaluationError("non-finite energy/forces")
+    return e, f
 
 
 def relax(atoms: Atoms, ff: ForceField, ftol: float = 1e-3, maxiter: int = 2000,
-          qeq_tol: float = 1e-8) -> Atoms:
-    """Fixed-cell conjugate-gradient minimization; returns a relaxed copy.
+          qeq_tol: float = 1e-8, cell: bool = False, pressure: float = 0.0) -> Atoms:
+    """Conjugate-gradient minimization; returns a relaxed copy.
+
+    With `cell=True` the cell relaxes too (``fix box/relax``, all six
+    components for triclinic boxes, target `pressure` in atm), so the result
+    can be compared with a DFT-relaxed structure.
 
     Notes
     -----
@@ -176,12 +344,20 @@ def relax(atoms: Atoms, ff: ForceField, ftol: float = 1e-3, maxiter: int = 2000,
         p = ff.write(Path(d) / "ffield")
         inst = _Instance(atoms, list(ff.elements), str(p), qeq_tol)
         try:
-            inst.L.commands_list(["min_style cg", "min_modify line quadratic",
-                                  f"minimize 0.0 {ftol} {maxiter} {10 * maxiter}"])
-            x = np.array(inst.L.gather_atoms("x", 1, 3), dtype=float).reshape(-1, 3)
+            cmds = []
+            if cell:
+                tri = np.any(np.abs(inst.rcell[np.tril_indices(3, -1)]) > 1e-10)
+                cmds.append(f"fix relax all box/relax {'tri' if tri else 'aniso'} {pressure} "
+                            "vmax 0.001")
+            cmds += ["min_style cg", "min_modify line quadratic",
+                     f"minimize 0.0 {ftol} {maxiter} {10 * maxiter}"]
+            inst.L.commands_list(cmds)
+            x = inst.positions()
+            new_cell = inst.cell() if cell else atoms.cell.array
         finally:
             inst.close()
     out = atoms.copy()
+    out.set_cell(new_cell, scale_atoms=False)
     out.positions = x
     return out
 

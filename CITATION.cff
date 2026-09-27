@@ -1,10 +1,10 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
 title: "ga-reaxff: genetic-algorithm parametrization of ReaxFF force fields"
-version: "0.2.0"
-date-released: "2026-09-25"
+version: "0.3.0"
+date-released: "2026-09-27"
 license: MIT
-repository-code: "https://github.com/ribeirojr-gh/ga-reaxff"
+repository-code: "https://github.com/ribeirojr-gh/projeto03-26092026"
 authors:
   - given-names: Luiz
     affiliation: Spectrum.Lab3D

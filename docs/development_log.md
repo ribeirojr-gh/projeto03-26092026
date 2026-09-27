@@ -186,3 +186,183 @@ the MOFs of the QMOF database. Tests: 71 passed (cumulative; 12 new).
   and ZIF-8 refcodes are not in the Zn + C/H/N/O family. The text now
   reports the verified topology counts.
 * Results and pilot-family choice: `docs/results_qmof_survey.md`.
+
+## Stage 12 - `feature/12-base-forcefield`
+Base force field for the pilot family Zn + C/H/N/O. Tests: 80 passed
+(cumulative; 9 new). Target applications fixed by the project owner: water
+splitting (H2 production) and CO2 capture/selectivity/splitting in CH4/CO2
+mixtures.
+* **Sources.** Only files distributed with LAMMPS were used (hashes and
+  references in `data/ffields/sources/`); none contains Zn-N or Zn-C terms.
+  `ffield.reax.lg` and `.rdx` are not readable by `ffield.py` (different
+  format); the HNS example file has no citation and was not used.
+* **`merge_elements`** copies the donor's atom block and every term that
+  involves the new element and only elements of the merged file; general
+  and shared-element parameters stay those of the base, and all differences
+  are reported rather than resolved silently.
+* **Found: dummy atom type "X".** ZnOH and FC contain an atom type literally
+  named X, the same label `ffield.py` uses for the torsion wildcard. It only
+  appears in torsions in these files, so reading and writing are correct;
+  `write` now raises if the label appears elsewhere, the merge report skips
+  it, and `missing_interactions` ignores it.
+* **Found: masses were hard-coded for C/H/O/N/S** in `engine.py`, so Zn and F
+  failed with a KeyError on the first screening run. Masses now come from
+  ASE for other elements (values for C/H/O/N/S unchanged).
+* **Screening result** (`docs/results_base_ffield.md`): FC + Zn keeps the Zn
+  cluster four-coordinated, describes H2 and H2O best, and differs from the
+  Zn donor in only 2 of 39 general parameters (18 for budzien, 12 for
+  mattsson). CO2 is too long in every candidate (FC: C=O 1.253 A vs 1.160 A),
+  so the C-O terms join the Zn terms in the first fit.
+* Build outputs verified identical across two runs.
+
+## Stage 13 - `feature/13-structures-mlip-teacher`
+Structures of the Zn family and check of MLIP teachers. Tests: 88 passed
+(cumulative; 8 new).
+* **Structures.** 2 958 MOFs downloaded in 167 s with 8 threads; each carries
+  per-atom DDEC6/CM5 charges, DDEC6 bond-order sums and magnetic moments.
+  All neutral in DDEC6. Stored as deterministic gzipped extxyz with hash.
+* **A test was wrong, not the data.** The first composition check compared
+  `get_chemical_formula(mode="reduce")` strings; in ASE that mode only merges
+  repeated symbols and does not divide by the greatest common divisor, so
+  Zn2C24... did not match ZnC12... . The test now compares reduced counts.
+* **GPU memory.** The first teacher run crashed with CUDA out-of-memory on a
+  500-atom MOF (float64 + D3 on 8 GB). TorchScript wraps the CUDA error in a
+  plain RuntimeError, so catching `torch.OutOfMemoryError` did not work;
+  the script now catches the wrapped error and falls back to the CPU, and
+  sets `expandable_segments`. In the final run no structure needed the
+  fallback (1 260 of 1 260 evaluations on the GPU).
+* **Environment.** `OMP_NUM_THREADS=1` is set in the shell, so the CPU
+  fallback first ran on one thread; it now sets 16 threads itself.
+* **Measurement bug fixed before the final run.** The atomic displacement
+  after relaxation did not remove a rigid translation of the whole crystal
+  (a zero mode of periodic relaxations). Fixed in `teacher.py` (and in the
+  stage-14 scorecard) and the relaxations re-run; relaxed structures are
+  now written to `runs/teacher_check/` for re-analysis.
+* **Result** (`docs/results_teacher_check.md`): best model medium-mpa-0 -
+  force rms 0.152 eV/A at the DFT minima (worst on C and N), energy spread
+  13 meV/atom after per-element offsets, cell volume within 0.65 % (median)
+  after relaxation. Good for cells and energy differences, not accurate
+  enough as the only force reference: own DFT is needed for fine-tuning and
+  for reaction paths.
+
+## Stage 14 - `feature/14-triclinic-engine`
+ReaxFF on real MOF cells and per-MOF validation of the initial force field.
+Tests: 98 passed (cumulative; 10 new). Developed in a separate git worktree
+while the stage-13 teacher check occupied the GPU; rebased on stage 13.
+* **Triclinic cells.** 94 % of the Zn MOFs are triclinic and the engine only
+  accepted orthogonal boxes. Structures are rotated into ASE's standard
+  (lower-triangular) form for LAMMPS and forces, positions and cells rotated
+  back. Verified: rigid rotation of a MOF (same energy, rotated forces to
+  1e-5) and an equivalent sheared basis (identical energy and forces). The
+  80 earlier tests, including the graphene-oxide pipeline, pass unchanged.
+* **Found: NaN forces with a finite energy.** The stage-12 base (no C-Zn
+  bond entry) gives a finite energy (+77 kcal/mol) but NaN forces on a Zn
+  carboxylate MOF. An isolated Zn...CH4 pair at 1.8-3.6 A does not trigger
+  it, so the bonded environment does. Adding a C-Zn bond entry fixes it
+  (off-diagonal alone does not). `single_point` returned the NaN silently;
+  it now raises EvaluationError. `add_placeholder_pairs` copies O-Zn
+  entries to C-Zn and N-Zn as starting values.
+* **Measurement fix.** The displacement metric now removes a rigid
+  translation of the crystal (same fix as in stage 13).
+* **Result** (`docs/results_baseline_validation.md`): 228 MOFs relaxed in
+  10 min on 12 cores, no LAMMPS failure; 96 pass (42 %). Failures are volume
+  expansions (129 of 132) caused by bond lengths, not by missing dispersion:
+  carboxylate C-O +6.2 %, Zn-O +3-4 %, N-H +13 %, consistent with the gas
+  molecules of stage 12 (CO2 C=O +8 %, NH3 N-H +13 %). Zn-O-only frameworks
+  expand most (+11 %, 2 of 46 pass).
+
+## Stage 15 - `chore/15-rename-and-run-policy`
+Repository renamed and run policy fixed by the project owner. Tests: 102
+passed (cumulative; 4 new).
+* Repository renamed on GitHub to `projeto03-26092026` (now public). Local
+  remote, README badge, changelog links, citation and publishing script
+  updated. A scan of the full history found no API key or personal e-mail.
+* Run policy (CONTRIBUTING.md): DFT only locally (SIESTA by default, GPAW as
+  alternative, GPAW on Actions only as a last resort); local runs are sized
+  to the free resources; local fallback when Actions credits run out.
+* `resources.py` measures free cores (1-min load and a measured busy
+  fraction), available memory and GPU use, and sizes runs with a reserve of
+  4 cores and 4 GB. First test expectation was wrong (it ignored the measured
+  busy fraction); corrected.
+* SIESTA 5.4.2 checked: MPI, DFT-D3 (s-dftd3), libxc, ELPA, NetCDF. PBE
+  PseudoDojo PSML pseudopotentials available for Zn, C, H, N, O. GPAW is
+  not installed.
+
+## Stage 16 - `feature/16-siesta-setup`
+Local DFT reference with SIESTA (project rule: DFT only locally). Tests: 109
+passed (cumulative; 7 new). All runs sized with `resources.plan` (8 ranks,
+18-26 free cores and 17-22 GB available at the time).
+* **D3 was not what it claimed to be.** `DFTD3.UseXCDefaults true` left the
+  generic parameters in place (E_D3 -1.768 eV vs -2.143 eV in QMOF on the
+  test MOF). An independent implementation (torch-dftd) reproduced QMOF
+  exactly without the three-body term (-2.1433 eV) and SIESTA's value with
+  it (-2.0215 vs -2.0211 eV). Explicit PBE D3(BJ) parameters and a vanishing
+  three-body cutoff give -2.1429 eV. The sweep and check made before the fix
+  are kept as `*_d3-generic.jsonl` and were redone.
+* **Convergence:** mesh (200-500 Ry) and k-grid (10-15 A) converged; TZP
+  gains little; the generic TZ2P basis stops ("split norm too small").
+  Smaller PAO energy shifts *increase* the disagreement with QMOF, which
+  pointed to the pseudopotentials.
+* **Pseudopotentials decide.** Fixed-cell relaxations from the QMOF
+  structure: PseudoDojo for all elements gives C-H +1.8 %; SIESTA's
+  ATOM-TABLE gives better organic bonds but Zn-O +2.4 % (its Zn has no
+  semicore states). Final choice: ATOM-TABLE for H/C/N/O and PseudoDojo for
+  Zn (Zn-O +0.38 %, C-O +0.66 %, C-C +0.67 %, C-H +1.23 %). `siesta.py` now
+  takes per-element pseudopotential families (recorded with each run).
+* **Result:** at the QMOF geometries SIESTA shows 0.2 eV/A residual forces
+  and +0.5 to +4.4 GPa, almost all removed by relaxing the positions (cell
+  unchanged). Consistency rule for the fit: SIESTA labels only on
+  SIESTA-relaxed structures. Cost: 0.6-0.9 s per atom per single point on
+  8 ranks.
+* **Parser fix:** SCF convergence was first detected by the absence of
+  "SCF convergence failure", which also appears in SIESTA's echo of the
+  options; it now looks for "SCF Convergence by".
+* GPAW (alternative code) is not installed; not needed so far.
+
+## Stage 17 - `feature/17-first-fit`
+First GA fits of the Zn + C/H/N/O force field. Tests: 116 passed
+(cumulative; 7 new). All runs local, sized with `resources.plan` (12 LAMMPS
+workers; teacher labels on the GPU; SIESTA molecules on 4 ranks).
+* **Stress** added to the engine and checked against finite-difference
+  strain derivatives on a triclinic MOF (six components within 0.1 %). At the
+  QMOF geometries the initial force field gives stresses up to -160 GPa and
+  forces up to 1300 kcal/mol/A on carboxylate O.
+* **`ShardedEngine`** (spawned workers, configurations dealt round-robin)
+  reproduces the serial engine to 1e-6; 12 workers.
+* **Fit 01 failed on validation (45/228 vs 96).** Equilibrium forces alone
+  let the GA shorten all C-O and Zn-N bonds (CO2 -7 %, CO -20 %, Zn-N -35 %).
+* **Fit 02** added Zn-ligand bond scans (teacher), SIESTA molecules and
+  bond-level over-coordination terms: 85/228, Zn-N still -22 %.
+* **Diagnosis by energy-term decomposition:** finite differences of each
+  ReaxFF energy component on the atom with the largest force showed the atom
+  over/under-coordination term at 55 % (initial) and 30 % (fit 02) of the
+  total; it is controlled by atom-level parameters of O/N (FC) and Zn (ZnOH).
+* **Fit 03** (atom-level terms, bond scans in all 30 training MOFs, fresh
+  start): **128/228 (56 %)**, Zn-N -4 %, carboxylate C-O +0.9 %; CO2 +5 % and
+  CO +10 % remain, frameworks contract 3.8 %, 24 of 38 parameters moved by
+  more than 15 % (bounds +/-30 % limit the search).
+* **Found along the way:** ASE's `set_angle` cannot bend a linear molecule
+  (CO2); `molecule_refs._bend` rotates about an explicit perpendicular axis.
+  Molecule-check outputs of fits 01-02 were first written to misnamed
+  folders (`zn_fit01_validation`) and moved to the right ones before commit.
+
+## Stage 18 - `chore/18-ci-flake`
+Pending items before the paper. Tests: 116 passed (no code change).
+* **Repository visibility.** Public, confirmed by the project owner;
+  recorded in CONTRIBUTING.md with the rule of never committing secrets.
+* **Intermittent CI failure explained and fixed.** Three runs (PR #6, PR #10
+  and a push to develop) died with exit code 15 at the first test that
+  creates a LAMMPS instance; re-runs passed. A temporary probe workflow on
+  this branch (history kept in its commits) created LAMMPS instances in
+  fresh processes on many runners:
+  - run 36333300706: 2 of 6 jobs died, message
+    `ucx_init.c 38 init_worker Input/output error` (MPICH's UCX layer),
+    with and without `mpiexec`;
+  - run 36333433684: failures are per runner: one runner 200/200, the other
+    four 0/200;
+  - run 36333572250: both variants on the same 12 runners: default MPICH
+    failed 20/20 on 2 runners and 0/20 on 10; `UCX_TLS=self,sm` 0/20 on all
+    12, including the two bad runners.
+  A re-run "fixed" the failure only because it landed on another machine.
+  CI now sets `UCX_TLS=self,sm`; LAMMPS runs as a single process there, so
+  only local transports are needed. The probe workflow was removed.

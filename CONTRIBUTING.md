@@ -32,20 +32,42 @@ Stage branches are kept after merging; they are part of the audit trail.
 
 ## Where things run
 
-- **GitHub** (Pro plan): storage and structure (branches, pull requests,
-  tags, releases), CI on every push and pull request, and light batch jobs
-  on Actions runners (Linux, 2 vCPU for private repositories, no GPU,
-  6 h per job, monthly minutes quota). Suited to many small independent
-  runs, e.g. relaxations split with a job matrix.
-- **Cloud sandbox** (Claude): development, tests and light runs.
-- **Local workstation** (32 threads, RTX 4070 8 GB): heavy simulations
-  (LAMMPS with MPI/KOKKOS-CUDA) and GPU inference.
+Rules set by the project owner (2026-09-26):
+
+| kind of work | where |
+|---|---|
+| CI (pytest on every push / pull request) | GitHub Actions |
+| Light batch simulations (ReaxFF/LAMMPS, analysis) | GitHub Actions or locally |
+| **DFT (SIESTA, GPAW)** | **locally only** - DFT is slow and would consume Actions credits quickly |
+| GPU work (MLIP teachers) | locally (RTX 4070 8 GB) |
+
+- **Before any local run**, measure the free cores and memory and size the
+  run to what is free (the workstation is shared with other projects):
+  `python -m ga_reaxff.resources --mem-per-process <GB> --max-processes <N>`.
+  The plan keeps 4 cores and 4 GB in reserve and is recorded with the run.
+- **If the GitHub Actions credits run out**, simulations run locally by
+  default.
+- **DFT code:** SIESTA 5.4.2 (MPI, DFT-D3, libxc; `/usr/local/bin/siesta`)
+  with the PseudoDojo PBE scalar-relativistic pseudopotentials in PSML
+  (`~/Pacotes/PSEUDOS/DOJO-PSML`). Alternative: GPAW. Only as a last resort,
+  when the local machine is busy and short of memory, GPAW may run on GitHub
+  Actions.
+- GitHub (Pro) is also the storage and structure of the project (branches,
+  pull requests, tags, releases). The repository is
+  `ribeirojr-gh/projeto03-26092026` (renamed from `ga-reaxff` on 2026-09-26;
+  GitHub redirects the old URL).
+
+Every run's `manifest.json` records software versions and input hashes, so
+results from different machines stay comparable.
 
 `main` and `develop` are protected: changes arrive only through pull
 requests with a passing `pytest` check.
 
-Every run's `manifest.json` records software versions and input hashes, so
-results from different machines stay comparable.
+The repository is **public** (confirmed by the project owner, 2026-09-27):
+never commit credentials, API keys or personal data; keep them in local
+configuration files (e.g. `~/.config/.pmgrc.yaml`). Standard GitHub-hosted
+runners are free for public repositories, but the DFT rule above still
+applies.
 
 ## Commit messages
 

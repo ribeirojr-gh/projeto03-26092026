@@ -7,6 +7,69 @@ the stage-by-stage audit trail is in [`docs/development_log.md`](docs/developmen
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-09-27
+Zn + C/H/N/O force field: base, MOF structures, MLIP teacher, local DFT
+(SIESTA), per-MOF validation and first GA fits (fit 03: 128 of 228 validation
+MOFs pass, initial force field 96).
+
+### Added
+- First GA fits of the Zn + C/H/N/O force field (`scripts/fit_zn.py`,
+  `configs/zn_fit_0[1-3].toml`, `docs/results_first_fit.md`): fit 03 passes
+  128 of 228 validation MOFs (initial force field: 96).
+- LAMMPS stress tensor, `ShardedEngine` (parallel evaluation), stress term in
+  the loss; `mofdata.py` (equilibrium, strain and metal-ligand bond-scan
+  targets); SIESTA molecule references (`scripts/molecule_refs.py`,
+  `data/training/molecules_siesta/`); `scripts/check_molecules.py`.
+- `siesta.py`: local SIESTA runs (PBE-D3(BJ) with explicit PBE parameters and
+  no three-body term, per-element pseudopotential families, DZP), fdf
+  writer, output parser (energies, forces, stress, Hirshfeld charges).
+- `scripts/siesta_calibration.py`, `docs/results_siesta_calibration.md`:
+  SIESTA calibrated against QMOF (convergence, pseudopotentials, bond
+  lengths, six Zn MOFs).
+- `resources.py`: snapshot of free cores, memory and GPU, and sizing of
+  local runs with a reserve for other users of the workstation.
+- LAMMPS engine: triclinic cells (rotation to LAMMPS's restricted form and
+  back) and cell relaxation (`relax(cell=True)`).
+- `ffield.add_placeholder_pairs`: starting entries for element pairs that
+  have none (a missing bond entry gives NaN forces in LAMMPS).
+- `validate.py`: per-MOF scorecard against the DFT structure (volume, cell,
+  displacements, metal coordination, bond lengths per element pair).
+- `scripts/baseline_validation.py`, `docs/results_baseline_validation.md`:
+  the initial Zn force field on 228 Zn MOFs (42 % pass).
+- Relaxed structures of the Zn + C/H/N/O family (2 958 MOFs) with per-atom
+  DDEC6/CM5 charges and bond-order sums (`qmof.fetch_structures`,
+  `data/qmof/structures_Zn-CHNO.extxyz.gz`).
+- `teacher.py` and `scripts/teacher_check.py`: four MACE foundation models
+  checked against QMOF DFT (force error at the DFT minima, energy
+  consistency, cell relaxation); `docs/results_teacher_check.md`.
+- Optional dependency group `mlip` (mace-torch, torch-dftd).
+### Added
+- `ffield.merge_elements` and `ffield.missing_interactions`: add element
+  blocks from a donor force field to a base one, with an audit report of
+  copied terms, differing general/shared-element parameters and missing
+  interactions.
+- `data/ffields/sources/`: four ReaxFF files from the LAMMPS distribution
+  (ZnOH, FC, budzien, mattsson) with hashes and references.
+- `scripts/build_base_ffields.py` and `docs/results_base_ffield.md`: three
+  candidate Zn + C/H/N/O bases, screened on gas molecules (H2O, CO2, CH4,
+  H2, ...) and a Zn aqua-hydroxo cluster; FC + Zn selected.
+
+### Fixed
+- Intermittent CI failures (exit code 15 at the first LAMMPS test): MPICH's
+  UCX layer fails to initialise on some GitHub runners; CI now sets
+  `UCX_TLS=self,sm`.
+
+### Changed
+- Repository renamed to `ribeirojr-gh/projeto03-26092026` (links, citation,
+  publishing script).
+- Run policy in `CONTRIBUTING.md`: DFT (SIESTA, GPAW) runs locally only;
+  local runs are sized to the free resources; fall back to local runs when
+  Actions credits run out.
+- `engine.single_point` raises on non-finite energies or forces.
+- `engine`: masses for any element (ASE table), dummy atom types get mass 1.
+- `ffield.write` refuses a literal "X" label outside torsions (ambiguous with
+  the torsion wildcard).
+
 ## [0.2.0] - 2026-09-25
 First step toward ReaxFF force fields for the MOFs of the QMOF database;
 GitHub Pro CI and branch protection.
@@ -71,8 +134,9 @@ Repository infrastructure; no change to the scientific code or results.
 - Real-coded GA with bounded Nelder-Mead refinement (stage 6).
 - End-to-end pipeline, audit records, CLI and GO recovery benchmark (stage 7).
 
-[Unreleased]: https://github.com/ribeirojr-gh/ga-reaxff/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/ribeirojr-gh/ga-reaxff/compare/v0.1.2...v0.2.0
-[0.1.2]: https://github.com/ribeirojr-gh/ga-reaxff/compare/v0.1.1...v0.1.2
-[0.1.1]: https://github.com/ribeirojr-gh/ga-reaxff/compare/v0.1.0...v0.1.1
-[0.1.0]: https://github.com/ribeirojr-gh/ga-reaxff/releases/tag/v0.1.0
+[Unreleased]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.2.0...v0.3.0
+[0.2.0]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.1.2...v0.2.0
+[0.1.2]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.1.1...v0.1.2
+[0.1.1]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.1.0...v0.1.1
+[0.1.0]: https://github.com/ribeirojr-gh/projeto03-26092026/releases/tag/v0.1.0

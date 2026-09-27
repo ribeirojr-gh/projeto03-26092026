@@ -1,0 +1,368 @@
+{
+  "parameters": [
+    {
+      "key": "offdiag:C-O:r_s",
+      "lower": 0.89978,
+      "upper": 1.6710200000000002,
+      "start": 1.2854,
+      "final": 1.1229442010118023,
+      "at_bound": false
+    },
+    {
+      "key": "offdiag:C-O:r_p",
+      "lower": 0.79464,
+      "upper": 1.47576,
+      "start": 1.1352,
+      "final": 0.9087543791507269,
+      "at_bound": false
+    },
+    {
+      "key": "bond:C-O:De_sigma",
+      "lower": 111.08622,
+      "upper": 206.30298000000002,
+      "start": 158.6946,
+      "final": 111.70171809497141,
+      "at_bound": true
+    },
+    {
+      "key": "bond:C-O:De_pi",
+      "lower": 75.22081,
+      "upper": 139.69579,
+      "start": 107.4583,
+      "final": 78.53151019371714,
+      "at_bound": false
+    },
+    {
+      "key": "bond:C-O:p_be1",
+      "lower": -0.5511999999999999,
+      "upper": -0.2968,
+      "start": -0.424,
+      "final": -0.3089748095564413,
+      "at_bound": false
+    },
+    {
+      "key": "offdiag:O-Zn:r_s",
+      "lower": 1.38628,
+      "upper": 2.5745199999999997,
+      "start": 1.9804,
+      "final": 2.365167798072847,
+      "at_bound": false
+    },
+    {
+      "key": "offdiag:O-Zn:D",
+      "lower": 0.19207999999999997,
+      "upper": 0.35672,
+      "start": 0.2744,
+      "final": 0.24240002600475496,
+      "at_bound": false
+    },
+    {
+      "key": "offdiag:O-Zn:r_vdw",
+      "lower": 1.49898,
+      "upper": 2.78382,
+      "start": 2.1414,
+      "final": 1.6709179144011042,
+      "at_bound": false
+    },
+    {
+      "key": "offdiag:O-Zn:alpha",
+      "lower": 6.8392100000000005,
+      "upper": 12.70139,
+      "start": 9.7703,
+      "final": 10.950374937764138,
+      "at_bound": false
+    },
+    {
+      "key": "bond:O-Zn:De_sigma",
+      "lower": 111.98285000000001,
+      "upper": 207.96815,
+      "start": 159.9755,
+      "final": 207.96815,
+      "at_bound": true
+    },
+    {
+      "key": "bond:O-Zn:p_be1",
+      "lower": -0.59124,
+      "upper": -0.31836,
+      "start": -0.4548,
+      "final": -0.5496136495574265,
+      "at_bound": false
+    },
+    {
+      "key": "bond:O-Zn:p_bo1",
+      "lower": -0.62231,
+      "upper": -0.33509,
+      "start": -0.4787,
+      "final": -0.3527691647864253,
+      "at_bound": false
+    },
+    {
+      "key": "bond:O-Zn:p_bo2",
+      "lower": 3.2701900000000004,
+      "upper": 6.07321,
+      "start": 4.6717,
+      "final": 4.859767465766212,
+      "at_bound": false
+    },
+    {
+      "key": "offdiag:N-Zn:r_s",
+      "lower": 1.38628,
+      "upper": 2.5745199999999997,
+      "start": 1.9804,
+      "final": 1.6616945442703304,
+      "at_bound": false
+    },
+    {
+      "key": "offdiag:N-Zn:D",
+      "lower": 0.19207999999999997,
+      "upper": 0.35672,
+      "start": 0.2744,
+      "final": 0.2021185244308058,
+      "at_bound": false
+    },
+    {
+      "key": "offdiag:N-Zn:r_vdw",
+      "lower": 1.49898,
+      "upper": 2.78382,
+      "start": 2.1414,
+      "final": 1.9446201406534975,
+      "at_bound": false
+    },
+    {
+      "key": "offdiag:N-Zn:alpha",
+      "lower": 6.8392100000000005,
+      "upper": 12.70139,
+      "start": 9.7703,
+      "final": 7.303362840398787,
+      "at_bound": false
+    },
+    {
+      "key": "bond:N-Zn:De_sigma",
+      "lower": 111.98285000000001,
+      "upper": 207.96815,
+      "start": 159.9755,
+      "final": 177.9968145870044,
+      "at_bound": false
+    },
+    {
+      "key": "bond:N-Zn:p_be1",
+      "lower": -0.59124,
+      "upper": -0.31836,
+      "start": -0.4548,
+      "final": -0.3288023450416867,
+      "at_bound": false
+    },
+    {
+      "key": "bond:N-Zn:p_bo1",
+      "lower": -0.62231,
+      "upper": -0.33509,
+      "start": -0.4787,
+      "final": -0.5356432874310755,
+      "at_bound": false
+    },
+    {
+      "key": "bond:N-Zn:p_bo2",
+      "lower": 3.2701900000000004,
+      "upper": 6.07321,
+      "start": 4.6717,
+      "final": 6.07321,
+      "at_bound": true
+    },
+    {
+      "key": "offdiag:C-Zn:r_s",
+      "lower": 1.38628,
+      "upper": 2.5745199999999997,
+      "start": 1.9804,
+      "final": 1.8546498401696039,
+      "at_bound": false
+    },
+    {
+      "key": "bond:C-Zn:De_sigma",
+      "lower": 111.98285000000001,
+      "upper": 207.96815,
+      "start": 159.9755,
+      "final": 194.54107222304344,
+      "at_bound": false
+    },
+    {
+      "key": "offdiag:H-N:r_s",
+      "lower": 0.67186,
+      "upper": 1.2477399999999998,
+      "start": 0.9598,
+      "final": 0.6990123240164976,
+      "at_bound": false
+    },
+    {
+      "key": "bond:C-O:p_bo3",
+      "lower": -0.40469,
+      "upper": -0.21791000000000002,
+      "start": -0.3113,
+      "final": -0.32281178907967917,
+      "at_bound": false
+    },
+    {
+      "key": "bond:C-O:p_bo4",
+      "lower": 4.9,
+      "upper": 9.1,
+      "start": 7.0,
+      "final": 9.086977767442574,
+      "at_bound": true
+    },
+    {
+      "key": "bond:C-O:p_ovun1",
+      "lower": 0.7,
+      "upper": 1.3,
+      "start": 1.0,
+      "final": 0.7114598171379561,
+      "at_bound": false
+    },
+    {
+      "key": "bond:O-Zn:p_ovun1",
+      "lower": -0.012500000000000004,
+      "upper": 0.0875,
+      "start": 0.0375,
+      "final": 0.03879581101599445,
+      "at_bound": false
+    },
+    {
+      "key": "bond:N-Zn:p_ovun1",
+      "lower": -0.012500000000000004,
+      "upper": 0.0875,
+      "start": 0.0375,
+      "final": 0.02199524632731522,
+      "at_bound": false
+    },
+    {
+      "key": "angle:O-Zn-O:theta_00",
+      "lower": 7.6152999999999995,
+      "upper": 14.1427,
+      "start": 10.879,
+      "final": 14.1427,
+      "at_bound": true
+    },
+    {
+      "key": "angle:O-Zn-O:p_val1",
+      "lower": 27.294050000000002,
+      "upper": 50.688950000000006,
+      "start": 38.9915,
+      "final": 44.707352683587786,
+      "at_bound": false
+    },
+    {
+      "key": "angle:O-Zn-O:p_val2",
+      "lower": 0.49504000000000004,
+      "upper": 0.9193600000000001,
+      "start": 0.7072,
+      "final": 0.5396265220824139,
+      "at_bound": false
+    }
+  ],
+  "start": {
+    "loss": 96315.06057707053,
+    "energy_rmse": 253.1613412063535,
+    "force_rmse": 345.1158253055418,
+    "stress_rmse": 48.98909992282597,
+    "loss_terms": {
+      "energy": 65338.8614023649,
+      "force": 29776.23321908131,
+      "stress": 1199.965955624314
+    },
+    "family_energy_rmse": {
+      "qmof-04972fd_strain": 574.0973243554952,
+      "qmof-0ee8b01_strain": 163.82572071071817,
+      "qmof-16f859b_strain": 498.2418858137572,
+      "qmof-21a8cfa_strain": 464.5628645616401,
+      "qmof-24d3ed5_strain": 386.0805780684091,
+      "qmof-08c1883_strain": 542.1319120713268,
+      "qmof-2851cc5_strain": 268.41110495659706,
+      "qmof-31e37cb_strain": 539.3006341525639,
+      "qmof-4a4cead_strain": 472.8460547347564,
+      "qmof-63e7ce0_strain": 732.1495364876915,
+      "qmof-04972fd_scan_Zn0-N37": 26.08789884854062,
+      "qmof-04972fd_scan_Zn0-O44": 2.6394374682072654,
+      "qmof-0ee8b01_scan_Zn2-N33": 3.8549141501047894,
+      "qmof-16f859b_scan_Zn0-N49": 19.016886862301394,
+      "qmof-16f859b_scan_Zn1-O52": 1.8304751754264028,
+      "qmof-21a8cfa_scan_Zn1-N31": 5.721251930262471,
+      "qmof-21a8cfa_scan_Zn0-O37": 5.585422240883754,
+      "qmof-24d3ed5_scan_Zn1-N33": 20.350667340184295,
+      "qmof-24d3ed5_scan_Zn0-O39": 1.5500517949033805,
+      "qmof-08c1883_scan_Zn0-O45": 0.8561347625159788,
+      "qmof-2851cc5_scan_Zn0-O34": 1.0162030648497498,
+      "qmof-31e37cb_scan_Zn1-O46": 6.705152964907498,
+      "qmof-4a4cead_scan_Zn1-O41": 5.888089064957125,
+      "qmof-63e7ce0_scan_Zn3-O37": 2.135350463092029,
+      "mol_CO2": 115.90857904082839,
+      "mol_H2O": 1.5781156010268138,
+      "mol_CH4": 1.7471890275514848,
+      "mol_H2": 6.353223862510585,
+      "mol_CO": 43.98679452900039,
+      "mol_NH3": 15.910778071557342,
+      "mol_HCOOH": 39.13271077284509
+    },
+    "failed": false
+  },
+  "final": {
+    "loss": 2207.03056065838,
+    "energy_rmse": 29.99087597988896,
+    "force_rmse": 65.55269029255402,
+    "stress_rmse": 9.090447824351136,
+    "loss_terms": {
+      "energy": 1091.423638686879,
+      "force": 1074.2888011478763,
+      "stress": 41.318120823625144
+    },
+    "family_energy_rmse": {
+      "qmof-04972fd_strain": 44.159653795669904,
+      "qmof-0ee8b01_strain": 58.9479758679495,
+      "qmof-16f859b_strain": 93.78058651194074,
+      "qmof-21a8cfa_strain": 30.46272963824057,
+      "qmof-24d3ed5_strain": 20.11205587527369,
+      "qmof-08c1883_strain": 24.422616642537353,
+      "qmof-2851cc5_strain": 7.479970237353909,
+      "qmof-31e37cb_strain": 35.02845961642693,
+      "qmof-4a4cead_strain": 91.0269174483959,
+      "qmof-63e7ce0_strain": 24.89331763452739,
+      "qmof-04972fd_scan_Zn0-N37": 7.833163921058488,
+      "qmof-04972fd_scan_Zn0-O44": 0.5560080403067512,
+      "qmof-0ee8b01_scan_Zn2-N33": 12.665497619554333,
+      "qmof-16f859b_scan_Zn0-N49": 3.4172457304128887,
+      "qmof-16f859b_scan_Zn1-O52": 1.8152443276835903,
+      "qmof-21a8cfa_scan_Zn1-N31": 5.417618681022292,
+      "qmof-21a8cfa_scan_Zn0-O37": 4.930676758375967,
+      "qmof-24d3ed5_scan_Zn1-N33": 7.29745257517048,
+      "qmof-24d3ed5_scan_Zn0-O39": 1.3455897584814227,
+      "qmof-08c1883_scan_Zn0-O45": 3.5769198565432525,
+      "qmof-2851cc5_scan_Zn0-O34": 1.5710137901922476,
+      "qmof-31e37cb_scan_Zn1-O46": 4.913250761883602,
+      "qmof-4a4cead_scan_Zn1-O41": 7.209240721456099,
+      "qmof-63e7ce0_scan_Zn3-O37": 0.7283035665285437,
+      "mol_CO2": 46.17109009980679,
+      "mol_H2O": 1.578115192998984,
+      "mol_CH4": 1.7471887010555993,
+      "mol_H2": 6.353223862510585,
+      "mol_CO": 14.411151717972443,
+      "mol_NH3": 2.873919087914578,
+      "mol_HCOOH": 10.083970730515018
+    },
+    "failed": false
+  },
+  "ga": {
+    "best_loss": 2412.827222067832,
+    "generations": 80,
+    "time_s": 1525.2394833564758
+  },
+  "local_refinement": {
+    "nit": 400,
+    "nfev": 481,
+    "success": false,
+    "message": "Maximum number of iterations has been exceeded.",
+    "f_start": 2412.827222067832,
+    "f_end": 2207.03056065838,
+    "time_s": 253.31743693351746
+  },
+  "objective_calls": 3411,
+  "failed_evaluations": 18,
+  "workers": 12,
+  "total_time_s": 1783.6563873291016
+}

@@ -1,6 +1,6 @@
 # ga-reaxff
 
-[![tests](https://github.com/ribeirojr-gh/ga-reaxff/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ribeirojr-gh/ga-reaxff/actions/workflows/ci.yml)
+[![tests](https://github.com/ribeirojr-gh/projeto03-26092026/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/ribeirojr-gh/projeto03-26092026/actions/workflows/ci.yml)
 
 **Genetic-algorithm parametrization of ReaxFF force fields, with LAMMPS as the evaluation engine.**
 
@@ -62,6 +62,47 @@ Zn + C/H/N/O (2 958 MOFs, closed shell). See
 pip install -e ".[dev,lammps,mof]"
 python scripts/survey_qmof.py            # uses the committed, hash-verified snapshot
 ```
+
+## Base force field for Zn MOFs (stage 12)
+
+Zn + C/H/N/O base built from published ReaxFF sets (FC organic base + Zn
+block of the ZnOH force field), screened on the molecules of the target
+applications (water splitting, CO2/CH4). Zn-N and Zn-C terms do not exist in
+any source and are the first fit targets, with the C-O terms for CO2. See
+[`docs/results_base_ffield.md`](docs/results_base_ffield.md).
+
+## Machine-learning teacher (stage 13)
+
+Structures of the 2 958 Zn MOFs, with DDEC6 charges and bond orders, and a
+check of four MACE foundation models against QMOF DFT: MOF cells within 1 %
+and energy differences within 13 meV/atom, but forces at the DFT minima off
+by 0.15 eV/A (mostly on C and N). The teacher labels far-from-equilibrium
+configurations; a small set of own DFT calculations fine-tunes it and covers
+the reaction paths. See [`docs/results_teacher_check.md`](docs/results_teacher_check.md).
+
+## Per-MOF validation (stage 14)
+
+ReaxFF now runs on triclinic MOF cells with cell relaxation. Every force
+field is scored MOF by MOF against the DFT structure. The initial Zn force
+field keeps 42 % of 228 Zn MOFs within 5 % of the DFT volume; the rest expand
+because carboxylate C-O bonds are 6 % too long - the first fit target. See
+[`docs/results_baseline_validation.md`](docs/results_baseline_validation.md).
+
+![baseline](docs/baseline_validation/fig_baseline.png)
+
+## Local DFT reference: SIESTA (stage 16)
+
+DFT runs only on the local workstation. SIESTA 5.4.2 reproduces the QMOF
+level of theory (PBE-D3(BJ)): the D3 energy matches QMOF to 0.4 meV after two
+configuration fixes, cells agree, and bonds are 0.4-1.2 % longer than in
+VASP. See [`docs/results_siesta_calibration.md`](docs/results_siesta_calibration.md).
+
+## First fits (stage 17)
+
+GA fits against QMOF equilibrium structures (zero force and stress), MACE
+strain and Zn-ligand scans, and SIESTA molecules. The third fit raises the
+per-MOF pass rate on 228 unseen Zn MOFs from 42 % to 56 %; CO2 and CO are
+still too long. See [`docs/results_first_fit.md`](docs/results_first_fit.md).
 
 ## Auditability
 

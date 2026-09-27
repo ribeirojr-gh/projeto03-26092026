@@ -11,5 +11,9 @@ Pipeline (one module per stage):
     audit       -> provenance records (hashes, seeds, versions, history)
     qmof        -> QMOF database snapshot (Materials Project MOF Explorer)
     families    -> MOF chemical families and force-field coverage
+    teacher     -> machine-learning teacher potentials checked against QMOF DFT
+    validate    -> per-MOF scorecard against the DFT-relaxed structure
+    resources   -> free cores / memory / GPU before local runs
+    siesta      -> local DFT reference (SIESTA, PBE-D3(BJ)) runs and parsing
 """
-__version__ = "0.2.0"
+__version__ = "0.3.0"
