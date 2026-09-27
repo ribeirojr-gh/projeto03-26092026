@@ -1,8 +1,9 @@
-# Temporary diagnostic (branch chore/18-ci-flake only): does creating a LAMMPS
-# instance (MPICH singleton init) fail intermittently on the runner, and does
-# restricting UCX to local transports prevent it?
-# Run 1 (36333300706): 2 of 6 jobs died with exit code 15 after
-# "ucx_init.c 38 init_worker Input/output error" (singleton and mpiexec alike).
+# Temporary diagnostic (branch chore/18-ci-flake only).
+# Run 1 (36333300706): 2 of 6 jobs died with exit 15 after
+#   "ucx_init.c 38 init_worker Input/output error".
+# Run 2 (36333433684): failures are per runner - one runner 200/200, the other
+#   four 0/200; UCX_TLS=self,sm 0/1000 (but maybe never on a bad runner).
+# Run 3: both variants on the SAME runner, so a bad runner tests the fix.
 name: mpi-init-probe
 on:
   push:
@@ -14,8 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        variant: ["default", "ucx-local"]
-        replica: [1, 2, 3, 4, 5]
+        replica: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
     steps:
       - uses: actions/setup-python@v6
         with:
@@ -24,15 +24,20 @@ jobs:
         run: sudo apt-get update && sudo apt-get install -y libmpich12
       - name: LAMMPS wheel
         run: pip install "lammps>=2023.8.2"
-      - name: 200 fresh processes creating a LAMMPS instance
+      - name: default vs UCX_TLS=self,sm on this runner
         shell: bash
         run: |
           set +e
-          if [ "${{ matrix.variant }}" = "ucx-local" ]; then export UCX_TLS=self,sm; fi
-          fails=0
-          for i in $(seq 200); do
-            python -c "import lammps; lammps.lammps(cmdargs=['-log','none','-screen','none']).close()" > out.txt 2>&1
-            rc=$?
-            if [ $rc -ne 0 ]; then fails=$((fails+1)); echo "run $i exit $rc: $(grep -m1 -o 'ucx[^)]*' out.txt)"; fi
+          for variant in default ucx-local; do
+            fails=0
+            for i in $(seq 20); do
+              if [ "$variant" = "ucx-local" ]; then
+                UCX_TLS=self,sm python -c "import lammps; lammps.lammps(cmdargs=['-log','none','-screen','none']).close()" > /dev/null 2>&1
+              else
+                python -c "import lammps; lammps.lammps(cmdargs=['-log','none','-screen','none']).close()" > /dev/null 2>&1
+              fi
+              [ $? -ne 0 ] && fails=$((fails+1))
+            done
+            echo "RESULT replica ${{ matrix.replica }} $variant: $fails / 20"
           done
-          echo "FAILURES ${{ matrix.variant }} ${{ matrix.replica }}: $fails / 200"
+          ip -brief link || true
