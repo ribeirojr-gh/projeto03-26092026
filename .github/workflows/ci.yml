@@ -14,6 +14,13 @@ concurrency:
 jobs:
   pytest:
     runs-on: ubuntu-24.04
+    env:
+      # MPICH's UCX network layer fails to initialise on some runner machines
+      # ("ucx_init.c init_worker Input/output error", exit code 15 at the first
+      # LAMMPS instance). LAMMPS runs as a single process here, so UCX only needs
+      # local transports. Measured on the same runners (chore/18-ci-flake): default
+      # 20/20 failures on 2 of 12 runners, UCX_TLS=self,sm 0/240.
+      UCX_TLS: self,sm
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-python@v6

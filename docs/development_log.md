@@ -345,3 +345,24 @@ workers; teacher labels on the GPU; SIESTA molecules on 4 ranks).
   (CO2); `molecule_refs._bend` rotates about an explicit perpendicular axis.
   Molecule-check outputs of fits 01-02 were first written to misnamed
   folders (`zn_fit01_validation`) and moved to the right ones before commit.
+
+## Stage 18 - `chore/18-ci-flake`
+Pending items before the paper. Tests: 116 passed (no code change).
+* **Repository visibility.** Public, confirmed by the project owner;
+  recorded in CONTRIBUTING.md with the rule of never committing secrets.
+* **Intermittent CI failure explained and fixed.** Three runs (PR #6, PR #10
+  and a push to develop) died with exit code 15 at the first test that
+  creates a LAMMPS instance; re-runs passed. A temporary probe workflow on
+  this branch (history kept in its commits) created LAMMPS instances in
+  fresh processes on many runners:
+  - run 36333300706: 2 of 6 jobs died, message
+    `ucx_init.c 38 init_worker Input/output error` (MPICH's UCX layer),
+    with and without `mpiexec`;
+  - run 36333433684: failures are per runner: one runner 200/200, the other
+    four 0/200;
+  - run 36333572250: both variants on the same 12 runners: default MPICH
+    failed 20/20 on 2 runners and 0/20 on 10; `UCX_TLS=self,sm` 0/20 on all
+    12, including the two bad runners.
+  A re-run "fixed" the failure only because it landed on another machine.
+  CI now sets `UCX_TLS=self,sm`; LAMMPS runs as a single process there, so
+  only local transports are needed. The probe workflow was removed.

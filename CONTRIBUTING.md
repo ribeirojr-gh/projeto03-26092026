@@ -63,6 +63,12 @@ results from different machines stay comparable.
 `main` and `develop` are protected: changes arrive only through pull
 requests with a passing `pytest` check.
 
+The repository is **public** (confirmed by the project owner, 2026-09-27):
+never commit credentials, API keys or personal data; keep them in local
+configuration files (e.g. `~/.config/.pmgrc.yaml`). Standard GitHub-hosted
+runners are free for public repositories, but the DFT rule above still
+applies.
+
 ## Commit messages
 
 [Conventional Commits](https://www.conventionalcommits.org/) with the module
