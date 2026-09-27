@@ -1,0 +1,34 @@
+# Temporary diagnostic (branch chore/18-ci-flake only): does creating a LAMMPS
+# instance (MPICH singleton init) fail intermittently with SIGTERM on the runner?
+name: mpi-init-probe
+on:
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        launcher: ["singleton", "mpiexec"]
+        replica: [1, 2, 3]
+    steps:
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+      - name: MPI runtime
+        run: sudo apt-get update && sudo apt-get install -y libmpich12 mpich
+      - name: LAMMPS wheel
+        run: pip install "lammps>=2023.8.2"
+      - name: 200 fresh processes creating a LAMMPS instance
+        run: |
+          fails=0
+          for i in $(seq 200); do
+            if [ "${{ matrix.launcher }}" = "mpiexec" ]; then
+              mpiexec -n 1 python -c "import lammps; lammps.lammps(cmdargs=['-log','none','-screen','none']).close()"
+            else
+              python -c "import lammps; lammps.lammps(cmdargs=['-log','none','-screen','none']).close()"
+            fi
+            rc=$?
+            if [ $rc -ne 0 ]; then fails=$((fails+1)); echo "run $i exit $rc"; fi
+          done
+          echo "FAILURES ${{ matrix.launcher }} ${{ matrix.replica }}: $fails / 200"
