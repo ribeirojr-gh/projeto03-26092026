@@ -48,6 +48,11 @@ the stage-by-stage audit trail is in [`docs/development_log.md`](docs/developmen
   candidate Zn + C/H/N/O bases, screened on gas molecules (H2O, CO2, CH4,
   H2, ...) and a Zn aqua-hydroxo cluster; FC + Zn selected.
 
+### Fixed
+- Intermittent CI failures (exit code 15 at the first LAMMPS test): MPICH's
+  UCX layer fails to initialise on some GitHub runners; CI now sets
+  `UCX_TLS=self,sm`.
+
 ### Changed
 - Repository renamed to `ribeirojr-gh/projeto03-26092026` (links, citation,
   publishing script).
