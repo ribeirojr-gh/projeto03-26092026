@@ -6,6 +6,12 @@ All notable changes to this project are documented here. The format follows
 the stage-by-stage audit trail is in [`docs/development_log.md`](docs/development_log.md).
 
 ## [Unreleased]
+
+## [0.3.0] - 2026-09-27
+Zn + C/H/N/O force field: base, MOF structures, MLIP teacher, local DFT
+(SIESTA), per-MOF validation and first GA fits (fit 03: 128 of 228 validation
+MOFs pass, initial force field 96).
+
 ### Added
 - First GA fits of the Zn + C/H/N/O force field (`scripts/fit_zn.py`,
   `configs/zn_fit_0[1-3].toml`, `docs/results_first_fit.md`): fit 03 passes
@@ -128,7 +134,8 @@ Repository infrastructure; no change to the scientific code or results.
 - Real-coded GA with bounded Nelder-Mead refinement (stage 6).
 - End-to-end pipeline, audit records, CLI and GO recovery benchmark (stage 7).
 
-[Unreleased]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.1.2...v0.2.0
 [0.1.2]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/ribeirojr-gh/projeto03-26092026/compare/v0.1.0...v0.1.1

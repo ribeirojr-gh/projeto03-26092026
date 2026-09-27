@@ -16,4 +16,4 @@ Pipeline (one module per stage):
     resources   -> free cores / memory / GPU before local runs
     siesta      -> local DFT reference (SIESTA, PBE-D3(BJ)) runs and parsing
 """
-__version__ = "0.2.0"
+__version__ = "0.3.0"
