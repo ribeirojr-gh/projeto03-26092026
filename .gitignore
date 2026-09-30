@@ -12,3 +12,4 @@ runs/**/*.extxyz
 
 # local environments
 .venv/
+figures/build/
