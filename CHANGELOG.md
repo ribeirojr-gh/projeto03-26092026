@@ -7,6 +7,11 @@ the stage-by-stage audit trail is in [`docs/development_log.md`](docs/developmen
 
 ## [Unreleased]
 
+### Added
+- `figures/`: scripts of the paper figures (`figures/scripts/paper/`) with a README that maps every
+  figure to its script and data; version 2 scripts with corrected figures 1, 2b, 4a, 5a and new figures 6b
+  and S2 (stage 19).
+
 ## [0.3.0] - 2026-09-27
 Zn + C/H/N/O force field: base, MOF structures, MLIP teacher, local DFT
 (SIESTA), per-MOF validation and first GA fits (fit 03: 128 of 228 validation
