@@ -366,3 +366,29 @@ Pending items before the paper. Tests: 116 passed (no code change).
   A re-run "fixed" the failure only because it landed on another machine.
   CI now sets `UCX_TLS=self,sm`; LAMMPS runs as a single process there, so
   only local transports are needed. The probe workflow was removed.
+
+## Stage 19 - `chore/19-figure-scripts`
+Every script used to generate a figure of the paper is now stored in the repository
+(`figures/scripts/paper/`, documented in `figures/README.md`). No scientific code, run record or
+result changed. Tests: 130 passed (cumulative; 14 new, no LaTeX needed).
+* **Origin.** The paper figures had been produced by scripts kept only in the Google Drive paper
+  folder. A quality-check round (2026-09-30, independent reviewer run) asked for them to be stored
+  with the code. The manuscript and the figure files stay in Drive; the test
+  `test_no_manuscript_or_figure_files_in_tree` guards this.
+* **Reproduction verified.** From a clean checkout of `develop`, `paper_data.py` reproduced the 14
+  data files of the manuscript byte for byte (the energy-term decomposition, which reruns LAMMPS,
+  included) and `make_paper_figures.py` reproduced the 7 figures pixel for pixel.
+* **Scripts.** `paper_data.py`, `make_paper_figures.py` and `paper_style.py` are the versions used
+  for the submitted manuscript (only a docstring and the default `--repo` path changed).
+  `paper_data_v2.py` and `make_paper_figures_v2.py` correct defects found on inspection: a clipped
+  histogram range in fig 4a (10 MOFs below -30 % were dropped without warning), a legend over a
+  curve in fig 2b, a label crossed by an arrow in fig 1, missing interquartile ranges in fig 5a; and
+  add fig 6b (signed contribution of each energy term, because the terms cancel and shares of the
+  summed absolute derivatives are not shares of the force) and fig S2 (pass fraction versus the
+  volume window).
+* **Findings that shape the paper text (not changed here).** The quality-check round also
+  recomputed the validation from the scorecards: 96/128/45/85 passes, Wilson intervals and McNemar
+  tests agree with `docs/results_first_fit.md`. Two additions: at a volume window of 10 % or more
+  fit 03 no longer beats the initial force field (its failures are contractions, 97 of 100), and on
+  60 fresh Zn MOFs that were neither in training nor in validation the pass count rose from 20 to
+  42 (exact McNemar p = 1e-4).
